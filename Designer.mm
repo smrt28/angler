@@ -32,23 +32,13 @@
     if (self) {
 		p1_valid = false;
 		p2_valid = false;
-		//board = [Board alloc];
 		_grid = 30;
 		margin.x = 5;
 		margin.y = 5;
 		width = 25;
 		height = 25;
 		_zoom = 0;
-
 		lines = [[NSMutableArray alloc] init];
-#if 0	
-		NSButton *button = [[NSButton alloc] initWithFrame:NSMakeRect(20, 20, 50, 20)];
-		[button setButtonType:NSMomentaryPushInButton];
-		[button setAction:@selector(click:)];
-		[button setTarget:self];
-		[self addSubview:button];
-		[button setNeedsDisplay:YES];
-#endif
     }
     return self;
 }
@@ -98,19 +88,11 @@
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent {
-	/*
-	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	NSLog(@"mouseMove %f %f", p.x, p.y);
-	[self setNeedsDisplay:YES];
-*/
-	NSLog(@"mouseMove");
+
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
-	
 	drag = [self convertPoint:[theEvent locationInWindow] fromView:nil];	
-	NSLog(@"mouseDragged");
 	[self setNeedsDisplay:YES];
 	drag_valid = true;
 	
