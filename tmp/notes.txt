@@ -1,0 +1,17 @@
+
+//How to add a button
+//-------------------
+- (id)initWithFrame:(NSRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+		NSButton *button = [[NSButton alloc] initWithFrame:NSMakeRect(20, 20, 50, 20)];
+		[button setButtonType:NSMomentaryPushInButton];
+		[button setAction:@selector(click:)];
+		[button setTarget:self];
+		[self addSubview:button];
+		[button setNeedsDisplay:YES];
+    }
+    return self;
+}
+
+
