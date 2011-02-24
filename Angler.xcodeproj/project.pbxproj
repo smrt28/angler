@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* AnglerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* AnglerAppDelegate.m */; };
+		5EE284B61316DAB900083292 /* AppCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EE284B31316DAB900083292 /* AppCtrl.m */; };
+		5EE284B71316DAB900083292 /* Designer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5EE284B51316DAB900083292 /* Designer.mm */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -25,6 +27,10 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		5EE284B21316DAB900083292 /* AppCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCtrl.h; sourceTree = "<group>"; };
+		5EE284B31316DAB900083292 /* AppCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppCtrl.m; sourceTree = "<group>"; };
+		5EE284B41316DAB900083292 /* Designer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Designer.h; sourceTree = "<group>"; };
+		5EE284B51316DAB900083292 /* Designer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Designer.mm; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Angler-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Angler-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Angler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Angler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -44,6 +50,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5EE284B01316DA1700083292 /* AnglerAPI */,
 				256AC3D80F4B6AC300CF3369 /* AnglerAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* AnglerAppDelegate.m */,
 			);
@@ -116,6 +123,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5EE284B01316DA1700083292 /* AnglerAPI */ = {
+			isa = PBXGroup;
+			children = (
+				5EE284B21316DAB900083292 /* AppCtrl.h */,
+				5EE284B31316DAB900083292 /* AppCtrl.m */,
+				5EE284B41316DAB900083292 /* Designer.h */,
+				5EE284B51316DAB900083292 /* Designer.mm */,
+			);
+			name = AnglerAPI;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -180,6 +198,8 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				256AC3DA0F4B6AC300CF3369 /* AnglerAppDelegate.m in Sources */,
+				5EE284B61316DAB900083292 /* AppCtrl.m in Sources */,
+				5EE284B71316DAB900083292 /* Designer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
