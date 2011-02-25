@@ -167,8 +167,20 @@
 }
 
 -(bool)stopAt:(NSPoint)p {
+	if (_dragState != 1)
+		return false;
+	FPoint fp;
+	if (![self makeFPoint:p fpoint:&fp])
+		return false;
+	
+	FLine fl;
+	fl.p1 = _startPoint;
+	fl.p2 = fp;
+	
+	[self pushLine:fl];
+
 	_dragState = 0;
-	return false;
+	return true;
 }
 
 
@@ -197,6 +209,12 @@
 			NSPoint p = [self makeNSPoint: FPoint(i, j)];
 			[self drawDot:p size:1.5];
 		}
+	}
+	
+	for(NSValue *v in _lines) {
+		FLine l;
+		[v getValue: &l];
+		[self drawLine: l];		
 	}
 	
 

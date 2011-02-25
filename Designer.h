@@ -58,9 +58,7 @@ typedef struct {
 -(bool) isValidPoint:(DPoint)p; 
 -(bool) isValidLine:(DLine)l;
 
--(void) drawLine:(DLine)l;
 
--(void) pushLine;
 
 -(float) grid;
 

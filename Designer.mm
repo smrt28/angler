@@ -97,44 +97,18 @@
 	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	[_field dragTo:p];
 	[self setNeedsDisplay:YES];
-	
-	/*
-	drag = [self convertPoint:[theEvent locationInWindow] fromView:nil];	
-	[self setNeedsDisplay:YES];
-	drag_valid = true;
-	*/
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
 	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	[_field startAt:p];
-	/*
-	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	p1 = [self p2dp:p];
-	p1_valid = true;
-	p2_valid = false;
-	
-	[self setNeedsDisplay:YES];
-	 */
 }
 
 
 - (void)mouseUp:(NSEvent *)theEvent {
 	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	[_field stopAt:p];
-	
-	/*
-	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	int x = (p.x -= margin.y) / [self grid] + 0.5;
-	int y = (p.y -= margin.x) / [self grid] + 0.5;
-	p2.x = x;
-	p2.y = y;
-	p2_valid = true;
-	drag_valid = false;
-	[self pushLine];
-	NSLog(@"mouseDragged %d %d", x, y);
 	[self setNeedsDisplay:YES];
-	*/
 }
 
 
@@ -150,27 +124,6 @@
 	[[NSColor blackColor] set];[path1 stroke];	
 }
 
--(void) pushLine {
-	if (!p1_valid || !p2_valid) return;
-	if (![self isValidPoint:p1] || ![self isValidPoint:p2])
-		return;
-	DLine l;
-	l.p1 = p1;
-	l.p2 = p2;
-	NSValue *nv = [NSValue valueWithBytes:&l objCType:@encode(DLine)];
-	[lines addObject: nv];
-}
-
--(void) drawLine:(DLine)l {
-	NSPoint pp1 = [self dp2p:l.p1];
-	NSPoint pp2 = [self dp2p:l.p2];
-	NSBezierPath* path2 = [NSBezierPath bezierPath];
-	[path2 moveToPoint:NSMakePoint(pp1.x, pp1.y)];
-	[path2 lineToPoint:NSMakePoint(pp2.x, pp2.y)];
-	[path2 setLineCapStyle:NSSquareLineCapStyle];
-	[path2 setLineWidth:[self zoom:1.8]];
-	[path2 stroke];
-}
 
 - (void) keyDown:(NSEvent *)event {
 	unsigned short code = [event keyCode];
@@ -182,62 +135,9 @@
 	
 }
 
-- (void)drawRect:(NSRect)dirtyRect {
-	
-	[_field setX:10 y:10];
+- (void)drawRect:(NSRect)dirtyRect {	
+	[_field setX:15 y:10];
 	[_field draw];
-	
-	
-	
-	/*
-	NSRect r = [self frame];
-	r.origin.y = r.origin.x = 0;
-	[[NSColor blueColor] set];
-	NSGraphicsContext* aContext = [NSGraphicsContext currentContext];
-	
-	aContext = 0;
-	
-	[[NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1] set];
-	[NSBezierPath fillRect: r];
-	float g = [self grid];
-	int i, j;
-	for (i = 0; i<width;i++) {
-		for (j = 0; j<height;j++) {
-			if ((p1.x == i && p1.y == j && p1_valid) ||
-				(p2.x == i && p2.y == j && p2_valid)) {
-				[self drawDot:NSMakePoint(margin.x + i*g, 
-										  margin.y + j*g) size:[self zoom:2.5]];
-				
-			} else {
-				[self drawDot:NSMakePoint(margin.x + i*g, 
-										  margin.y + j*g) size:[self zoom:1.5]];
-			}	
-		}
-	}
-	
-	
-	for(NSValue *v in lines) {
-		DLine l;
-		[v getValue: &l];
-		[self drawLine: l];		
-	}
-	
-	
-	if (p1_valid && drag_valid) {
-		NSPoint a, b;
-		a = [self dp2p:p1];
-		b = drag;
-		
-		
-		NSBezierPath* path2 = [NSBezierPath bezierPath];
-		[path2 moveToPoint:NSMakePoint(a.x, a.y)];
-		[path2 lineToPoint:NSMakePoint(b.x, b.y)];
-		[path2 setLineCapStyle:NSSquareLineCapStyle];
-		[path2 setLineWidth:[self zoom:1.8]];
-		[path2 stroke];		
-	}
-	*/
-	 
 }
 
 - (void)scrollWheel:(NSEvent *)theEvent {
