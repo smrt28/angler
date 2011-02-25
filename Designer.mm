@@ -7,6 +7,7 @@
 //
 
 #import "Designer.h"
+
 //#import "primitives.h"
 
 @implementation Designer
@@ -30,6 +31,7 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+		_field = [[Field alloc] initWithW:25 h:25 max_w:500 max_h:500];
 		p1_valid = false;
 		p2_valid = false;
 		_grid = 30;
@@ -92,23 +94,36 @@
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
+	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+	[_field dragTo:p];
+	[self setNeedsDisplay:YES];
+	
+	/*
 	drag = [self convertPoint:[theEvent locationInWindow] fromView:nil];	
 	[self setNeedsDisplay:YES];
 	drag_valid = true;
-	
+	*/
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
+	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+	[_field startAt:p];
+	/*
 	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	p1 = [self p2dp:p];
 	p1_valid = true;
 	p2_valid = false;
 	
 	[self setNeedsDisplay:YES];
+	 */
 }
 
 
 - (void)mouseUp:(NSEvent *)theEvent {
+	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+	[_field stopAt:p];
+	
+	/*
 	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	int x = (p.x -= margin.y) / [self grid] + 0.5;
 	int y = (p.y -= margin.x) / [self grid] + 0.5;
@@ -119,6 +134,7 @@
 	[self pushLine];
 	NSLog(@"mouseDragged %d %d", x, y);
 	[self setNeedsDisplay:YES];
+	*/
 }
 
 
@@ -167,6 +183,13 @@
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
+	
+	[_field setX:10 y:10];
+	[_field draw];
+	
+	
+	
+	/*
 	NSRect r = [self frame];
 	r.origin.y = r.origin.x = 0;
 	[[NSColor blueColor] set];
@@ -211,9 +234,9 @@
 		[path2 lineToPoint:NSMakePoint(b.x, b.y)];
 		[path2 setLineCapStyle:NSSquareLineCapStyle];
 		[path2 setLineWidth:[self zoom:1.8]];
-		[path2 stroke];
-		
+		[path2 stroke];		
 	}
+	*/
 	 
 }
 

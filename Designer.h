@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "Field.h"
 //#import "Board.h"
 //#import "DesignerProtocol.h"
 
@@ -45,6 +46,8 @@ typedef struct {
 	SEL action;
 	
 	float _zoom;
+	
+	Field *_field;
 }
 
 -(NSPoint) dp2p:(DPoint)point;
