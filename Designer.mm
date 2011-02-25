@@ -31,14 +31,14 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-		_field = [[Field alloc] initWithW:25 h:25 max_w:500 max_h:500];
+		_field = [[Field alloc] initWithW:18 h:18 max_w:500 max_h:500];
 		p1_valid = false;
 		p2_valid = false;
 		_grid = 30;
 		margin.x = 5;
 		margin.y = 5;
-		width = 25;
-		height = 25;
+		width = 28;
+		height = 28;
 		_zoom = 0;
 		lines = [[NSMutableArray alloc] init];
     }
@@ -135,18 +135,30 @@
 	
 }
 
-- (void)drawRect:(NSRect)dirtyRect {	
-	[_field setX:15 y:10];
+- (void)drawRect:(NSRect)dirtyRect {
+	int i, j;
+	for (j=0;j<6;j++) {
+	for (i=0;i<6;i++) {
+		[_field setX:30 + i*[_field width] 
+				   y:30 + j*[_field height]];
+		[_field draw];
+	}
+	}
+	/*
+	[_field setX:30+[_field width] y:30];
 	[_field draw];
+	*/
+	
+	[_field setX:30 y:30];
 }
 
 - (void)scrollWheel:(NSEvent *)theEvent {
+	CGFloat x = [theEvent deltaX];
+	CGFloat y = [theEvent deltaY];
+	CGFloat a = (x + y) / 2;
 	
-	_zoom += [theEvent deltaY];
-	
-	if (_zoom < [self minZoom]) _zoom = [self minZoom];
-	if (_zoom > 0) _zoom = 0;
-
+	[_field setWidth:[_field width] - a];
+	[_field setHeight:[_field height] - a];
 	NSLog(@"zoom :%f", _zoom);
 	[self setNeedsDisplay:YES];
 	

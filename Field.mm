@@ -16,7 +16,7 @@
 	_x = _y = 0;
 	_w = _h = _height = _width = 0;
 	_maxWidth = _maxHeight = 0;
-	_marginX = _marginY = 5;
+	_marginX = _marginY = 0;
 	_dragState = 0;
 	_lines = [[NSMutableArray alloc] init];
 	return self;
@@ -28,10 +28,12 @@
 }
 
 -(void)setWidth:(CGFloat)w {
+	if (w < 0) return;
 	_width = w;
 }
 
 -(void)setHeight:(CGFloat)h {
+	if (h < 0) return;
 	_height = h;
 }
 
@@ -61,6 +63,7 @@
 	
 	NSValue *nv = [NSValue valueWithBytes:&l objCType:@encode(FLine)];
 	[_lines addObject: nv];
+	NSLog(@"lines: %d", [_lines count]);
 }
 
 
@@ -90,11 +93,11 @@
 }
 
 -(CGFloat)gridX {
-	return (_width - 2*_marginX) / _w;
+	return (_width - 2*_marginX) / (_w - 1);
 }
 
 -(CGFloat)gridY {
-	return (_height - 2*_marginY) / _h;
+	return (_height - 2*_marginY) / (_h - 1);
 }
 
 
@@ -116,7 +119,9 @@
 	[path2 moveToPoint:NSMakePoint(p1.x, p1.y)];
 	[path2 lineToPoint:NSMakePoint(p2.x, p2.y)];
 	[path2 setLineCapStyle:NSSquareLineCapStyle];
-	[path2 setLineWidth: 1.8];
+	float ww = 2.3;
+	float w = ([self zoomX:ww] + [self zoomY:ww])/2;
+	[path2 setLineWidth: w];
 	[[NSColor blackColor] set];
 	[path2 stroke];	
 }
@@ -136,12 +141,19 @@
 }
 
 
--(void) drawDot:(NSPoint)point size:(float)size {
+-(void) drawDot:(NSPoint)point size:(float)size { return;
 	NSBezierPath *path1;
-	float dm = size * size;
-	float rd = dm * 0.50;
-	NSPoint origin  = { point.x - rd, point.y - rd };
-	NSRect mainOval = { origin.x, origin.y, dm, dm };
+	
+	float dmx = [self zoomX: size];
+	float dmy = [self zoomY: size];
+	
+	float rdx = dmx * 0.50;
+	float rdy = dmy * 0.50;
+	
+	NSPoint origin  = { point.x - rdx, point.y - rdy };
+	NSRect mainOval = { origin.x, origin.y, dmx, dmy };
+	
+	
 	path1 = [NSBezierPath bezierPathWithOvalInRect:mainOval];
 	[path1 setLineWidth:1.2];
 	[[NSColor blackColor] set];[path1 fill];	
@@ -160,8 +172,11 @@
 }
 
 -(bool)dragTo:(NSPoint)p {
-	if (_dragState == 1)
+	if (_dragState == 1) {
+		p.x -= _x;
+		p.y -= _y;
 		_endPoint = p;
+	}
 		
 	return false;
 }
@@ -187,7 +202,8 @@
 -(void) draw {
 	
 	NSRect r;
-	r.origin.y = r.origin.x = 0;
+	r.origin.y = _y;
+	r.origin.x = _x;
 	r.size.width = _width;
 	r.size.height = _height;
 
@@ -196,9 +212,13 @@
 	[[NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1] set];
 	[NSBezierPath fillRect: r];
 	
-	if (_dragState == 1)
-		[self drawLineFrom:_startPoint to:_endPoint];
-	
+	if (_dragState == 1) {
+		NSPoint p;
+		p.x = _endPoint.x + _x;
+		p.y = _endPoint.y + _y;
+		
+		[self drawLineFrom:_startPoint to:p];
+	}
 
 	int i, j;
 	
@@ -207,7 +227,7 @@
 		for(j=0;j<_h;j++)
 		{
 			NSPoint p = [self makeNSPoint: FPoint(i, j)];
-			[self drawDot:p size:1.5];
+			[self drawDot:p size:1.2];
 		}
 	}
 	
@@ -218,6 +238,16 @@
 	}
 	
 
+}
+
+
+
+-(CGFloat)width {
+	return _width;
+}
+
+-(CGFloat)height {
+	return _height;
 }
 
 @end

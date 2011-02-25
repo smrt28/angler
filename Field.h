@@ -55,6 +55,10 @@ struct NLine {
 	
 }
 
+-(CGFloat)width;
+-(CGFloat)height;
+
+
 -(Field *)initWithW:(int)w h:(int)h max_w:(CGFloat)mw max_h:(CGFloat)mh;
 -(void)setWidth:(CGFloat)w;
 -(void)setHeight:(CGFloat)h;
