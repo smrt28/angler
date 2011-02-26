@@ -1,0 +1,34 @@
+- (void)drawRect:(NSRect)dirtyRect {
+    NSRect offscreenRect = NSMakeRect(0.0, 0.0, 100, 100);
+    
+    NSBitmapImageRep *ledImageRep = [[NSBitmapImageRep alloc] 
+                                     initWithBitmapDataPlanes:nil
+                                     pixelsWide:offscreenRect.size.width 
+                                     pixelsHigh:offscreenRect.size.height 
+                                     bitsPerSample:8 
+                                     samplesPerPixel:4 
+                                     hasAlpha:YES 
+                                     isPlanar:NO 
+                                     colorSpaceName:NSCalibratedRGBColorSpace
+                                     bitmapFormat:0
+                                     bytesPerRow:(4 * offscreenRect.size.width) 
+                                     bitsPerPixel:32];
+    
+    [NSGraphicsContext saveGraphicsState];
+    [NSGraphicsContext setCurrentContext:[NSGraphicsContext
+                                          graphicsContextWithBitmapImageRep:ledImageRep]];
+    
+	
+	
+	NSBezierPath* path2 = [NSBezierPath bezierPath];
+	[path2 moveToPoint:NSMakePoint(0, 0)];
+	[path2 lineToPoint:NSMakePoint(100, 100)];
+	[path2 setLineCapStyle:NSSquareLineCapStyle];
+	[path2 setLineWidth: 3];
+	[[NSColor redColor] set];
+	[path2 stroke];	
+    [NSGraphicsContext restoreGraphicsState];
+    
+    NSPoint myPoint = {50,50};
+    [ledImageRep drawAtPoint:myPoint]; 
+}

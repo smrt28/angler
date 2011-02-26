@@ -1,5 +1,3 @@
-#if 0
-
 #define UHELNIK n_uhelnik
 
 int n_uhelnik;
@@ -64,7 +62,10 @@ typedef struct
     point_t p2;
 } line_t;
 
-
+typedef struct
+{
+    int r, g, b, a;
+} color_t;
 
 void run(void);
 void show_pg_list(void);
@@ -72,11 +73,50 @@ void show_ps(void);
 
 int sel_x = -1;
 int sel_y = -1;
+SDL_Surface * screen;
+color_t current_color = { 155, 155, 155, 255 };
 
 line_t * lstack;
 
 int lstack_top = 0;
 
+void print_point(point_t *p) { printf("[%f, %f]", p->x, p->y); }
+
+void emit(char *ch, ...)
+{
+    va_list va;
+    va_start(va, ch);
+    vfprintf(output, ch, va);
+    fprintf(output, "");
+}
+
+
+void set_color(int r, int g, int b)
+{
+    current_color.r = r;
+    current_color.g = g;
+    current_color.b = b;
+}
+
+void raw_line(int x1, int y1, int x2, int y2) 
+{
+    if (x1 == x2 && y1 == y2) return;
+    lineRGBA(screen, x1, y1, x2, y2, 
+            current_color.r, current_color.g, current_color.b, current_color.a);
+}
+
+
+void line(int x1, int y1, int x2, int y2) 
+{
+    if (x1 == x2 && y1 == y2) return;
+    lineRGBA(screen, tform_x(x1), tform_y(y1), tform_x(x2), tform_y(y2), 
+            current_color.r, current_color.g, current_color.b, current_color.a);
+}
+
+void sline(line_t *l) 
+{
+    line(l->p1.x, l->p1.y, l->p2.x, l->p2.y);
+}
 
 void push_line(int x1, int y1, int x2, int y2)
 {
@@ -98,7 +138,117 @@ void pop_line(void)
     lstack_top--;
 }
 
+void circle(int x, int y, int rad)
+{
+    filledCircleRGBA(screen, tform_x(x),  tform_y(y), rad, 
+            current_color.r, current_color.g, current_color.b, current_color.a);
+}
 
+void redraw(void)
+{
+    int i, j;
+    color_t co;
+    boxRGBA(screen, 0, 0, screen->w, screen->h, 0,0,0,255);
+    for (i=0;i<=MAXX;i++)
+        for (j=0;j<=MAXY;j++)
+            circle(i, j, RAD);
+    for (i=0;i<lstack_top;i++)
+        sline(&lstack[i]);
+    if (sel_x != -1 && sel_y != -1) 
+    {
+        co = current_color;
+        set_color(0, 0, 200);
+        circle(sel_x, sel_y, RAD);
+        current_color = co;
+    }
+    SDL_UpdateRect(screen, 0, 0, 0, 0);
+}
+
+void any_key(void)
+{
+    SDL_Event event;
+    do
+    {
+        SDL_WaitEvent(&event);
+    } while(event.type!=SDL_KEYDOWN);
+}
+
+int main_loop(void)
+{
+    color_t co;
+    int x, y;
+    SDL_MouseButtonEvent *me;
+    SDL_KeyboardEvent *kb;
+    SDL_Event event;
+    for (;;)
+    {
+        SDL_WaitEvent(&event);
+        switch(event.type)
+        {
+            case SDL_KEYDOWN:
+                kb = (SDL_KeyboardEvent *)&event;
+                if (kb->keysym.sym == SDLK_BACKSPACE)
+                {
+                    if (lstack_top != 0)
+                    {
+                        sel_x = LTOP->p1.x;
+                        sel_y = LTOP->p1.y;
+
+                    }
+                    pop_line();
+                    redraw();
+                    break;
+                }
+
+                if (kb->keysym.sym == SDLK_ESCAPE)
+                {
+                    exit(0);
+                    break;
+                }
+
+                if (kb->keysym.sym == SDLK_RETURN)
+                {
+                    lstack_top_bak = lstack_top;
+                    lstack_bak = xmalloc(sizeof(line_t[MAX_LINES]));
+                    memcpy(lstack_bak, lstack, sizeof(line_t[MAX_LINES]));
+                    run();
+                    memcpy(lstack, lstack_bak, sizeof(line_t[MAX_LINES]));
+                    lstack_top = lstack_top_bak;
+                    free(lstack_bak);
+                    break;
+                }
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                me = (SDL_MouseButtonEvent *)&event;
+                x = (me->x - POSX + (GRIDX / 2)) / GRIDX;
+                y =	(me->y - POSY + (GRIDY / 2)) / GRIDY;
+                if (x < 0 || y < 0 || x > MAXX || y > MAXY) break;
+
+                if (sel_x != -1 && sel_y != -1)
+                {
+                    if (me->button == SDL_BUTTON_LEFT)
+                    {
+                        line(sel_x, sel_y, x, y);
+                        push_line(sel_x, sel_y, x, y);
+                    }
+                    circle(sel_x, sel_y, RAD);					
+                }
+
+                co = current_color;
+                set_color(0, 0, 200);
+                circle(x, y, RAD);
+
+                current_color = co;
+
+                sel_x = x;
+                sel_y = y;
+                SDL_UpdateRect(screen, 0, 0, 0, 0);
+                break;
+
+        }
+    }
+    return 0;
+}
 
 int cmp_points(point_t *p1, point_t *p2)
 {
@@ -469,7 +619,7 @@ int intersection(line_t * l1, line_t * l2, point_t *p)
         p->x = (b2 - b1) / (a1 - a2);
         p->y = a1 * p->x + b1;
     }
-    if (	MIN(l1->p1.x, l1->p2.x) < p->x + SMALL &&
+    if (		MIN(l1->p1.x, l1->p2.x) < p->x + SMALL &&
             MAX(l1->p1.x, l1->p2.x) > p->x - SMALL &&
 
             MIN(l1->p1.y, l1->p2.y) < p->y + SMALL &&
@@ -543,7 +693,119 @@ void show_pg_list(void)
     }
 }
 
+void show_ps(void)
+{
+    double xmax = 0, ymax = 0, xx, yy;
+    double xmin = 9999999, ymin = 9999999;
+    double width, heigh;
+
+    int i, j, k;
+    double cur_x, cur_y, x, y;
+    int cur_set_flag = 0;
+    point_group_t * pg = pg_list;
+
+    if (pg == NULL)
+        return;
 
 
-#endif
+    output = fopen("out.ps", "w");
+
+    emit("/main_graph {\n");
+    emit("0 setlinewidth\n");
+    emit("0 setgray\n");
+
+    for (i=0;i<lstack_top;i++)
+    {
+        xmax = MAX(lstack[i].p1.x, xmax); xmin = MIN(lstack[i].p1.x, xmin);
+        ymax = MAX(lstack[i].p1.y, ymax); ymin = MIN(lstack[i].p1.y, ymin);
+        xmax = MAX(lstack[i].p2.x, xmax); xmin = MIN(lstack[i].p2.x, xmin);
+        ymax = MAX(lstack[i].p2.y, ymax); ymin = MIN(lstack[i].p2.y, ymin);
+    }
+
+    width = ymax - ymin; heigh = xmax - xmin;
+
+    for (i=0;i<lstack_top;i++)
+    {
+        x = lstack[i].p1.x;
+        y = lstack[i].p1.y;
+        if (!cur_set_flag || (cur_x!=x || cur_y!=y))
+            emit("%f %f moveto\n", x - xmin, y - ymin);
+        x = cur_x = lstack[i].p2.x;
+        y = cur_y = lstack[i].p2.y;
+        emit("%f %f lineto\n", cur_x - xmin, cur_y - ymin);
+        cur_set_flag = 1;
+    }
+
+    emit("closepath\n");
+    emit("stroke\n");
+    emit("} def\n");
+    emit("20 20 translate\n");
+    emit("4 4 scale\n");
+
+    for (k=0;k<25;k++)
+    {
+        xx = 0;
+        for (j=0;;j++)
+        {
+            if (xx + width + 40 > 150) break;
+            if (k == 0 && j == 0) 
+                emit("0 0 translate %\n", xmin); else
+
+                    emit("%f 0 translate\n", xmax-xmin + 1);
+
+            xx += xmax-xmin + 1;
+            emit("0.1 setlinewidth\n");
+            emit("0.7 setgray\n");
+            emit("%f %f moveto\n", pg->p[0].x - xmin, pg->p[0].y - ymin);
+            for (i=1;i<UHELNIK;i++)	emit("%f %f lineto\n", pg->p[i].x - xmin, pg->p[i].y - ymin);
+            emit("closepath\n");
+            emit("fill\n");
+            emit("stroke\n");
+            emit("main_graph\n");
+            pg = pg->next;
+            if (pg==NULL)
+            {
+                emit("showpage\n");
+                break;
+            }
+        }
+        if (pg == NULL)
+            break;
+        emit("-%f %f translate\n", xx, ymax - ymin + 1);
+    }
+    emit("showpage\n");
+    fclose(output);
+    //	output = stderr;
+    printf("width:%f  heigh:%f\n", width, heigh);
+}
+
+int main(int argc, char **argv)
+{
+
+    if (argc!=2)
+    {
+        printf("Parameter is number 3-20!\n");
+        exit(1);
+    }
+    n_uhelnik = atoi(argv[1]);
+    if (n_uhelnik > 20 || n_uhelnik < 3)
+    {
+        printf("Correct interval is 3-20!\n");
+        exit(1);
+    }
+
+    init();
+    SDL_Init(SDL_INIT_TIMER);
+    if ((screen = SDL_SetVideoMode(1024, 768, 16, SDL_SWSURFACE | SDL_DOUBLEBUF))==NULL)
+        exit(1);
+
+    redraw();
+    main_loop();	
+    return 0;
+}
+
+
+
+
+
 

@@ -132,33 +132,46 @@
 		[self setNeedsDisplay:YES];
 	}
 
-	
+	[_field signal: code];
 }
 
+
+
+
+#if 1
 - (void)drawRect:(NSRect)dirtyRect {
+	
+	[_field setX:0 y:0];
+	[_field draw];
+	
+/*	
 	int i, j;
-	for (j=0;j<6;j++) {
-	for (i=0;i<6;i++) {
-		[_field setX:30 + i*[_field width] 
-				   y:30 + j*[_field height]];
+	for (j=0;j<16;j++) {
+	for (i=0;i<16;i++) {
+		[_field setX:i*[_field width] 
+				   y:j*[_field height]];
 		[_field draw];
 	}
 	}
-	/*
-	[_field setX:30+[_field width] y:30];
-	[_field draw];
-	*/
 	
-	[_field setX:30 y:30];
+	[_field setX:0 y:0];
+*/
 }
+#endif
 
 - (void)scrollWheel:(NSEvent *)theEvent {
 	CGFloat x = [theEvent deltaX];
 	CGFloat y = [theEvent deltaY];
 	CGFloat a = (x + y) / 2;
 	
-	[_field setWidth:[_field width] - a];
-	[_field setHeight:[_field height] - a];
+	CGFloat w = [_field width] - a;
+	CGFloat h = [_field height] - a;
+	
+	if (w > 500 || h > 500) return;
+	
+	
+	[_field setWidth:w];
+	[_field setHeight:h];
 	NSLog(@"zoom :%f", _zoom);
 	[self setNeedsDisplay:YES];
 	

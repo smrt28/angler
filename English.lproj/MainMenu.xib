@@ -1324,10 +1324,10 @@
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSCustomView" id="963441577">
+						<object class="NSCustomView" id="570226423">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">274</int>
-							<string key="NSFrame">{{20, 20}, {609, 462}}</string>
+							<string key="NSFrame">{{0, -33}, {696, 542}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<string key="NSClassName">Designer</string>
 						</object>
@@ -2585,7 +2585,7 @@
 						<reference key="object" ref="439893737"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="963441577"/>
+							<reference ref="570226423"/>
 						</object>
 						<reference key="parent" ref="972006081"/>
 					</object>
@@ -3077,7 +3077,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">533</int>
-						<reference key="object" ref="963441577"/>
+						<reference key="object" ref="570226423"/>
 						<reference key="parent" ref="439893737"/>
 					</object>
 				</object>
@@ -3445,7 +3445,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{{525, 802}, {197, 73}}</string>
-					<string>{{380, 836}, {412, 20}}</string>
+					<string>{{2060, 573}, {412, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>{74, 862}</string>
@@ -3470,9 +3470,9 @@
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{1454, 146}, {649, 502}}</string>
+					<string>{{1163, 171}, {649, 502}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{1454, 146}, {649, 502}}</string>
+					<string>{{1163, 171}, {649, 502}}</string>
 					<integer value="1"/>
 					<string>{{33, 99}, {480, 360}}</string>
 					<string>{3.40282e+38, 3.40282e+38}</string>

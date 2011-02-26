@@ -19,6 +19,7 @@
 	_marginX = _marginY = 0;
 	_dragState = 0;
 	_lines = [[NSMutableArray alloc] init];
+	a34 = new al::A34();
 	return self;
 }
 
@@ -46,6 +47,7 @@
 }
 
 -(void)dealloc {
+	delete a34;
 	[_lines release];	
 	[super dealloc];
 }
@@ -60,6 +62,8 @@
 -(void)pushLine:(FLine)l {
 	if (![self checkFPoint:l.p1] || ![self checkFPoint:l.p2])
 		return;
+	
+	a34->addLine(l.alLine());
 	
 	NSValue *nv = [NSValue valueWithBytes:&l objCType:@encode(FLine)];
 	[_lines addObject: nv];
@@ -141,7 +145,7 @@
 }
 
 
--(void) drawDot:(NSPoint)point size:(float)size { return;
+-(void) drawDot:(NSPoint)point size:(float)size { //return;
 	NSBezierPath *path1;
 	
 	float dmx = [self zoomX: size];
@@ -248,6 +252,12 @@
 
 -(CGFloat)height {
 	return _height;
+}
+
+
+-(void) signal:(int)sig {
+	a34->signal(sig);
+	
 }
 
 @end
