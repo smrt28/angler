@@ -36,7 +36,7 @@ namespace al {
 	public:
 		Line() {}
 		Line(const Point &p1, const Point &p2) : p1(p1), p2(p2) {}
-		int cutMe(Line *l, std::vector<Line> &out, Point *p);
+		int cutMe(Line *l, Line *out, Point *pout);
 		Point p1;
 		Point p2;
 		

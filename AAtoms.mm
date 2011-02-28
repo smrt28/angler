@@ -11,8 +11,7 @@
 
 namespace al {
 	
-#define MAX(x, y)	((x) > (y) ? (x) : (y))
-#define MIN(x, y)	((x) < (y) ? (x) : (y))
+
 #define dcmp(x, y) ((x)+SMALL > y && (x)-SMALL < y)
 	
 	bool Point::cmp(Point *p) {
@@ -27,7 +26,7 @@ namespace al {
 		*C = *A * p1.x + *B * p1.y;
 	}
 	
-	int Line::cutMe(Line *l, std::vector<Line> &out, Point *pout) {
+	int Line::cutMe(Line *l, Line *out, Point *pout) {
 		Float a1, b1, c1;
 		Float a2, b2, c2;
 		abc(&a1, &b1, &c1);
@@ -44,27 +43,41 @@ namespace al {
 			p.y = (a1*c2 - a2*c1)/det;
 		}
 		
-		if (!p.cmp(&p2)) {
-			out.push_back(Line(p, p2));
+
+		if (	!(
+				p.x+SMALL >= MIN(p1.x, p2.x) && p.x-SMALL <= MAX(p1.x, p2.x) &&
+			    p.y+SMALL >= MIN(p1.y, p2.y) && p.y-SMALL <= MAX(p1.y, p2.y) &&
+				p.x+SMALL >= MIN(l->p1.x, l->p2.x) && p.x-SMALL <= MAX(l->p1.x, l->p2.x) &&
+				p.y+SMALL >= MIN(l->p1.y, l->p2.y) && p.y-SMALL <= MAX(l->p1.y, l->p2.y)
+			
+				 )
+			) 
+				return 0;
+		
+		if (p.cmp(&p1) || p.cmp(&p2)) {
+			
+			
+		} else {
+		
+			out[rv] = Line(p1, p);
 			rv++;
+			
+			p1 = p;
 		}
 		
-		if (!p.cmp(&p1)) {
-			out.push_back(Line(p, p1)); 
+		if (p.cmp(&l->p1) || p.cmp(&l->p2)) {
+			
+			
+		} else {
+		
+			out[rv] = Line(l->p1, p);
 			rv++;
+			
+			l->p1 = p;
 		}
 		
-		if (!p.cmp(&l->p1)) {
-			out.push_back(Line(p, l->p1));
-			rv++;
-		}
-		
-		if (!p.cmp(&l->p2)) {
-			out.push_back(Line(p, l->p2));
-			rv++;
-		}
-		
-		*pout = p;
+		if (pout)
+			*pout = p;
 		
 		return rv;
 	}

@@ -240,7 +240,7 @@
 		}
 	}
 	
-	std::vector<al::Line> lines;
+	std::vector<al::Line *> lines;
 	a34->getLines(lines);
 	
 	NSColor *colors[] = {
@@ -248,13 +248,18 @@
 		[NSColor redColor], 
 		[NSColor blackColor], 
 		[NSColor yellowColor], 
-		[NSColor greenColor], 		
+		[NSColor greenColor],
+		[NSColor brownColor],
+		[NSColor cyanColor],		
+		[NSColor darkGrayColor],
+		[NSColor grayColor],
+		[NSColor whiteColor],
 		0};
 	
 	NSColor **c = colors;
 	
 	for (i = 0; i<lines.size(); i++) {
-		[self drawAlLine:lines[i] color:*c];
+		[self drawAlLine:*lines[i] color:*c];
 		c++; if (!*c) c = colors;
 	}
 }

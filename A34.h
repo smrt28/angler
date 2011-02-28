@@ -46,12 +46,14 @@ namespace al {
 		void pushLine(Line l);
 		void reset();
 		
-		void getLines(std::vector<Line> &ll) {
+		void cut();
+		
+		void getLines(std::vector<Line *> &ll) {
 			ll = lines;
 		}
 		
 	private:
-		std::vector<Line> lines;
+		std::vector<Line *> lines;
 	};
 	
 }
