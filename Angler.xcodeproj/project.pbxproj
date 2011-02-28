@@ -11,6 +11,7 @@
 		256AC3DA0F4B6AC300CF3369 /* AnglerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* AnglerAppDelegate.m */; };
 		5E721883131984BA006A2DAE /* A34.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E721882131984BA006A2DAE /* A34.cpp */; };
 		5E72188B13198664006A2DAE /* 34g.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E72188A13198664006A2DAE /* 34g.c */; };
+		5E721A94131ADC45006A2DAE /* AAtoms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E721A93131ADC45006A2DAE /* AAtoms.cpp */; };
 		5E8F68E413191BCC005EC426 /* notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5E8F68E313191BCC005EC426 /* notes.txt */; };
 		5EE284B61316DAB900083292 /* AppCtrl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5EE284B31316DAB900083292 /* AppCtrl.mm */; };
 		5EE284B71316DAB900083292 /* Designer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5EE284B51316DAB900083292 /* Designer.mm */; };
@@ -34,6 +35,8 @@
 		5E721881131984BA006A2DAE /* A34.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A34.h; sourceTree = "<group>"; };
 		5E721882131984BA006A2DAE /* A34.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = A34.cpp; sourceTree = "<group>"; };
 		5E72188A13198664006A2DAE /* 34g.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = 34g.c; path = tmp/quiz/34g.c; sourceTree = "<group>"; };
+		5E721A92131ADC45006A2DAE /* AAtoms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAtoms.h; sourceTree = "<group>"; };
+		5E721A93131ADC45006A2DAE /* AAtoms.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AAtoms.cpp; sourceTree = "<group>"; };
 		5E8F68E313191BCC005EC426 /* notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notes.txt; sourceTree = "<group>"; };
 		5EE284B21316DAB900083292 /* AppCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCtrl.h; sourceTree = "<group>"; };
 		5EE284B31316DAB900083292 /* AppCtrl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppCtrl.mm; sourceTree = "<group>"; };
@@ -145,6 +148,8 @@
 			children = (
 				5E721881131984BA006A2DAE /* A34.h */,
 				5E721882131984BA006A2DAE /* A34.cpp */,
+				5E721A92131ADC45006A2DAE /* AAtoms.h */,
+				5E721A93131ADC45006A2DAE /* AAtoms.cpp */,
 				5E72188A13198664006A2DAE /* 34g.c */,
 			);
 			name = AnglerAPI;
@@ -220,6 +225,7 @@
 				5EE285CA1316EA5D00083292 /* Field.mm in Sources */,
 				5E721883131984BA006A2DAE /* A34.cpp in Sources */,
 				5E72188B13198664006A2DAE /* 34g.c in Sources */,
+				5E721A94131ADC45006A2DAE /* AAtoms.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

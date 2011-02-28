@@ -12,26 +12,11 @@
 
 #include <vector>
 
+#include "AAtoms.h"
+
 namespace al {
-	
-	class Error {
-	public:
-		Error(int id) : id(id) {}
-		int id;
-	};
-	
+		
 	class Spot;
-	typedef double Float; 
-	
-	
-	const Float SMALL = 0.00001;
-	
-	class Point {
-	public:
-		Float x;
-		Float y;
-		bool cmp(Point *);
-	};
 	
 	class LineTo
 	{
@@ -50,15 +35,6 @@ namespace al {
 		LineTo * mark;
 	};
 	
-	class Line {
-	public:
-		int intersection(Line *l, Point *p);
-		int getAb(Float *a, Float *b);
-
-		Point p1;
-		Point p2;
-	};
-	
 	
 	class A34 {
 		static const int MAX_LINES = 500;
@@ -67,12 +43,15 @@ namespace al {
 		void signal(int sig);
 		void run();
 		void cutLines();
-		void addLine(Line l);
+		void pushLine(Line l);
 		void reset();
-	
+		
+		void getLines(std::vector<Line> &ll) {
+			ll = lines;
+		}
+		
 	private:
-		Line lstack[MAX_LINES];
-		int lstack_top;
+		std::vector<Line> lines;
 	};
 	
 }

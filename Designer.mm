@@ -133,6 +133,7 @@
 	}
 
 	[_field signal: code];
+	[self setNeedsDisplay:YES];
 }
 
 

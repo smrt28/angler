@@ -18,7 +18,6 @@
 	_maxWidth = _maxHeight = 0;
 	_marginX = _marginY = 0;
 	_dragState = 0;
-	_lines = [[NSMutableArray alloc] init];
 	a34 = new al::A34();
 	return self;
 }
@@ -48,35 +47,12 @@
 
 -(void)dealloc {
 	delete a34;
-	[_lines release];	
 	[super dealloc];
 }
 
 
--(bool)checkFPoint:(FPoint)p {
-	if (p.x < 0 || p.y < 0) return false;
-	if (p.x >= _w || p.y >= _h) return false;
-	return true;
-}
 
--(void)pushLine:(FLine)l {
-	if (![self checkFPoint:l.p1] || ![self checkFPoint:l.p2])
-		return;
-	
-	a34->addLine(l.alLine());
-	
-	NSValue *nv = [NSValue valueWithBytes:&l objCType:@encode(FLine)];
-	[_lines addObject: nv];
-	NSLog(@"lines: %d", [_lines count]);
-}
-
-
--(void)popLine {
-	[_lines removeLastObject];
-}
-
-
--(NSPoint)makeNSPoint:(FPoint)p {
+-(NSPoint)makeNSPoint:(al::Point)p {
 	NSPoint rv;	
 	CGFloat gridx = [self gridX];
 	CGFloat gridy = [self gridY];
@@ -86,11 +62,21 @@
 	return rv;
 }
 
--(bool)makeFPoint:(NSPoint)p fpoint:(FPoint *)f {
+-(NSPoint)makeNSPointFromAl:(al::Point)p {
+	NSPoint rv;	
 	CGFloat gridx = [self gridX];
 	CGFloat gridy = [self gridY];
-	f->x = ((p.x - _marginX - _x) + (0.5 * gridx)) / gridx;
-	f->y = ((p.y - _marginY - _y) + (0.5 * gridy)) / gridy;
+	
+	rv.x = (gridx * p.x) + _x + _marginX;
+	rv.y = (gridy * p.y) + _y + _marginY;
+	return rv;
+}
+
+-(bool)makeAlPoint:(NSPoint)p alPoint:(al::Point *)f {
+	CGFloat gridx = [self gridX];
+	CGFloat gridy = [self gridY];
+	f->x = (int)(((p.x - _marginX - _x) + (0.5 * gridx)) / gridx);
+	f->y = (int)(((p.y - _marginY - _y) + (0.5 * gridy)) / gridy);
 	if (f->x >= 0 && f->x < _w && f->y >= 0 && f->y < _h)
 		return true;
 	return false;
@@ -117,8 +103,7 @@
 
 
 
-
--(void) drawNSLineFrom:(NSPoint)p1 to:(NSPoint)p2 {
+-(void) drawNSLineFrom:(NSPoint)p1 to:(NSPoint)p2 color:(NSColor *)color{
 	NSBezierPath* path2 = [NSBezierPath bezierPath];
 	[path2 moveToPoint:NSMakePoint(p1.x, p1.y)];
 	[path2 lineToPoint:NSMakePoint(p2.x, p2.y)];
@@ -126,24 +111,36 @@
 	float ww = 2.3;
 	float w = ([self zoomX:ww] + [self zoomY:ww])/2;
 	[path2 setLineWidth: w];
-	[[NSColor blackColor] set];
+	[color set];
 	[path2 stroke];	
 }
 
 
--(void) drawLine:(FLine)l {
-	NSPoint pp1 = [self makeNSPoint:l.p1];
-	NSPoint pp2 = [self makeNSPoint:l.p2];
-    [self drawNSLineFrom:pp1 to:pp2];
+
+-(void) drawNSLineFrom:(NSPoint)p1 to:(NSPoint)p2 {
+	[self drawNSLineFrom:p1 to:p2 color:[NSColor blackColor]];
 }
 
 
 
--(void) drawLineFrom:(FPoint)fp1 to:(NSPoint)pp2 {
+
+-(void) drawLineFrom:(al::Point)fp1 to:(NSPoint)pp2 {
 	NSPoint pp1 = [self makeNSPoint:fp1];
     [self drawNSLineFrom:pp1 to:pp2];
 }
 
+
+-(void) drawAlLine:(al::Line)l {
+	NSPoint p1 = [self makeNSPoint:l.p1];	
+	NSPoint p2 = [self makeNSPoint:l.p2];
+	[self drawNSLineFrom:p1 to:p2];
+}
+
+-(void) drawAlLine:(al::Line)l color:(NSColor *)color {
+	NSPoint p1 = [self makeNSPoint:l.p1];	
+	NSPoint p2 = [self makeNSPoint:l.p2];
+	[self drawNSLineFrom:p1 to:p2 color:color];
+}
 
 -(void) drawDot:(NSPoint)point size:(float)size { //return;
 	NSBezierPath *path1;
@@ -167,7 +164,7 @@
 
 -(bool)startAt:(NSPoint)p {
 	
-	if ([self makeFPoint:p fpoint:&_startPoint]) {
+	if ([self makeAlPoint:p alPoint:&_startPoint]) {
 		_dragState = 1;
 		return true;
 	}
@@ -188,11 +185,11 @@
 -(bool)stopAt:(NSPoint)p {
 	if (_dragState != 1)
 		return false;
-	FPoint fp;
-	if (![self makeFPoint:p fpoint:&fp])
+	al::Point fp;
+	if (![self makeAlPoint:p alPoint:&fp])
 		return false;
 	
-	FLine fl;
+	al::Line fl;
 	fl.p1 = _startPoint;
 	fl.p2 = fp;
 	
@@ -202,6 +199,14 @@
 	return true;
 }
 
+-(void) drawALines:(al::Line *)al count:(int)count {
+	int i;
+	for (i=0;i<count;i++) {
+		NSPoint p1 = [self makeNSPointFromAl: al[i].p1];
+		NSPoint p2 = [self makeNSPointFromAl: al[i].p2];
+		[self drawNSLineFrom:p1 to:p2];
+	}
+}
 
 -(void) draw {
 	
@@ -230,21 +235,37 @@
 	{
 		for(j=0;j<_h;j++)
 		{
-			NSPoint p = [self makeNSPoint: FPoint(i, j)];
+			NSPoint p = [self makeNSPoint: al::Point(i, j)];
 			[self drawDot:p size:1.2];
 		}
 	}
 	
-	for(NSValue *v in _lines) {
-		FLine l;
-		[v getValue: &l];
-		[self drawLine: l];		
-	}
+	std::vector<al::Line> lines;
+	a34->getLines(lines);
 	
-
+	NSColor *colors[] = {
+		[NSColor blueColor], 
+		[NSColor redColor], 
+		[NSColor blackColor], 
+		[NSColor yellowColor], 
+		[NSColor greenColor], 		
+		0};
+	
+	NSColor **c = colors;
+	
+	for (i = 0; i<lines.size(); i++) {
+		[self drawAlLine:lines[i] color:*c];
+		c++; if (!*c) c = colors;
+	}
 }
 
+-(void)popLine {
+	
+}
 
+-(void)pushLine:(al::Line)l {
+	a34->pushLine(l);
+}
 
 -(CGFloat)width {
 	return _width;
