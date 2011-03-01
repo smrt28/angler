@@ -19,6 +19,22 @@ namespace al {
 		return false;
 	}
 	
+	bool Point::inLineWith(Point &p1, Point &p2) {
+		Float a, b;
+		Float x1, y1, x2, y2;
+		
+		x1 = p1.x - x;
+		y1 = p1.y - y;
+		x2 = p2.x - p1.x;
+		y2 = p2.y - p1.y;
+		
+		a = (x1 * y2);	
+		b = (x2 * y1);
+		
+		if (dcmp(a, b))	return true;
+		return false;
+	}
+	
 	bool Line::hasPoint(Point &p) {
 		return p.x+SMALL >= MIN(p1.x, p2.x) && p.x-SMALL <= MAX(p1.x, p2.x) &&
 		p.y+SMALL >= MIN(p1.y, p2.y) && p.y-SMALL <= MAX(p1.y, p2.y);
