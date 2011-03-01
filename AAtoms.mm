@@ -19,6 +19,12 @@ namespace al {
 		return false;
 	}
 	
+	bool Line::hasPoint(Point &p) {
+		return p.x+SMALL >= MIN(p1.x, p2.x) && p.x-SMALL <= MAX(p1.x, p2.x) &&
+		p.y+SMALL >= MIN(p1.y, p2.y) && p.y-SMALL <= MAX(p1.y, p2.y);
+	
+	}
+	
 	
 	void Line::abc(Float *A, Float *B, Float *C) {
 		*A = p2.y - p1.y;
@@ -43,15 +49,7 @@ namespace al {
 			p.y = (a1*c2 - a2*c1)/det;
 		}
 		
-
-		if (	!(
-				p.x+SMALL >= MIN(p1.x, p2.x) && p.x-SMALL <= MAX(p1.x, p2.x) &&
-			    p.y+SMALL >= MIN(p1.y, p2.y) && p.y-SMALL <= MAX(p1.y, p2.y) &&
-				p.x+SMALL >= MIN(l->p1.x, l->p2.x) && p.x-SMALL <= MAX(l->p1.x, l->p2.x) &&
-				p.y+SMALL >= MIN(l->p1.y, l->p2.y) && p.y-SMALL <= MAX(l->p1.y, l->p2.y)
-			
-				 )
-			) 
+		if (! (hasPoint(p) && l->hasPoint(p)) ) 
 				return 0;
 		
 		if (p.cmp(&p1) || p.cmp(&p2)) {
