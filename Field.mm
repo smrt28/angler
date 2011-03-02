@@ -18,6 +18,7 @@
 	_maxWidth = _maxHeight = 0;
 	_marginX = _marginY = 0;
 	_dragState = 0;
+	_result = 0;
 	a34 = new al::A34();
 	return self;
 }
@@ -259,8 +260,21 @@
 	NSColor **c = colors;
 	
 	for (i = 0; i<lines.size(); i++) {
-		[self drawAlLine:*lines[i] color:*c];
+		//[self drawAlLine:*lines[i] color:*c];
+		[self drawAlLine:*lines[i] color:[NSColor blackColor]];
 		c++; if (!*c) c = colors;
+	}
+	
+	if (_result) {
+		boost::shared_ptr<al::A34SingleResult> res = (*_result)[_resultIdx];
+		for(i=0;i<res->size();i++) {
+			al::Line ln = (*res.get())[i];
+			[self drawAlLine:ln color:[NSColor yellowColor]];
+		
+			NSLog(@"%d, %d -> %d, %d",
+				  (int)ln.p1.x, (int)ln.p1.y, (int)ln.p2.x, (int)ln.p2.y);
+		}
+		
 	}
 }
 
@@ -282,8 +296,12 @@
 
 
 -(void) signal:(int)sig {
-	a34->signal(sig);
-	
+	if (_result) {
+		_resultIdx = (_resultIdx + 1) % _result->size();	
+	} else {
+		_result = a34->run();
+		_resultIdx = 0;
+	}
 }
 
 @end

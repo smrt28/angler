@@ -11,6 +11,7 @@
 #define A34_H
 
 #include <vector>
+#include <boost/shared_ptr.hpp>
 
 #include "AAtoms.h"
 
@@ -55,6 +56,12 @@ namespace al {
 
 	};
 	
+	class A34SingleResult : public std::vector<Line> {
+	};
+	
+	class A34Result : public std::vector< boost::shared_ptr<A34SingleResult> > {
+		
+	};
 	
 	class A34 {
 		static const int MAX_LINES = 500;
@@ -62,7 +69,7 @@ namespace al {
 		A34();
 		~A34();
 		void signal(int sig);
-		void run();
+		A34Result * run();
 		void cutLines();
 		void makeSpots();
 		void pushLine(Line l);
@@ -76,8 +83,8 @@ namespace al {
 			ll = lines;
 		}
 	private:
-		void find(Spot *first);
-		void find(Spot *start, std::vector<Spot *> &stack, int dep);
+		void find(A34Result *result, Spot *first);
+		void find(A34Result *result, Spot *start, std::vector<Spot *> &stack, int dep);
 	private:
 		template <typename T>
 		void freeVector(std::vector<T *> v) {
@@ -87,6 +94,7 @@ namespace al {
 				delete v[i];
 			v.clear();
 		}
+		A34SingleResult * makeResult(std::vector<Spot *> stack);
 		std::vector<Line *> lines;
 		std::vector<Spot *> spots;
 		

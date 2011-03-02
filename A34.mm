@@ -11,7 +11,7 @@
 
 namespace al {
 
-	A34::A34(): A(4){
+	A34::A34(): A(6){
 	}
 
 	
@@ -136,17 +136,18 @@ namespace al {
 	}
 
 	
-	void A34::run() {
+	A34Result * A34::run() {
+		A34Result * result = new A34Result();
 		cut();
 		makeSpots();
 		cnt = 0;
 		size_t sz = spots.size();
 		int i;
 		for(i=0;i<sz;i++) {
-			find(spots[i]);
+			find(result, spots[i]);
 		}
 		NSLog(@"found: %d", cnt);
-		
+		return result;
 	}
 	
 	void A34::signal(int sig) {
@@ -155,7 +156,7 @@ namespace al {
 		}
 	}
 	
-	void A34::find(Spot *spot) {
+	void A34::find(A34Result *result, Spot *spot) {
 		std::vector<Spot *> stack;
 		stack.push_back(spot);
 		
@@ -166,15 +167,46 @@ namespace al {
 			{
 				Spot::Mark mark2(to);
 				stack.push_back(to);
-				A34::find(spot, stack, 0);
+				A34::find(result, spot, stack, 0);
 				stack.pop_back();
 			}
 		}
 	}
 	
 	
+	A34SingleResult * A34::makeResult(std::vector<Spot *> stack) {
+		A34SingleResult * result = new A34SingleResult();
+		size_t sz = stack.size() - 1;
+		int i, j, c;
+		Line l;
+		Spot *fspot = 0;
+		Spot *spot;
+		bool first = true;
+		for(i=0;;i++) {
+			spot = stack[(i+1) % sz];
+			if (!stack[i % sz]->inLineWith(spot, stack[(i+2) % sz])) {
+				if (first) {
+					fspot = spot;
+					l.p1 = spot->p;
+					first = false;
+				} else {
+					l.p2 = spot->p;
+					result->push_back(l);
+					l.p1 = l.p2;
+					if (fspot == spot)
+						break;
+				}
+			}
+			if (i > 1000) {
+				NSLog(@"makeResult error!");
+				return 0;
+			}
+		}
+		Line l1 = (*result)[0];
+		return result;
+	}
 	
-	void A34::find(Spot * start, std::vector<Spot *> &stack, int dep) {
+	void A34::find(A34Result *result, Spot * start, std::vector<Spot *> &stack, int dep) {
 		if (stack.size() > 2) {
 			int i = stack.size() - 3;
 			if (!stack[i]->inLineWith(stack[i+1], stack[i+2])) {
@@ -195,7 +227,8 @@ namespace al {
 					j = 1;
 				
 				if (dep + j == A) {
-					
+					boost::shared_ptr<A34SingleResult> res(makeResult(stack));
+					result->push_back(res);
 					cnt++;
 					return;
 				}
@@ -213,7 +246,7 @@ namespace al {
 				Spot *to = lt->to;
 				to->mark = true;
 				stack.push_back(to);			
-				find(start, stack, dep);
+				find(result, start, stack, dep);
 				stack.pop_back();
 				to->mark = false;
 			}

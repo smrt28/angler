@@ -43,6 +43,9 @@ struct NLine {
 	NSPoint _endPoint;
 	
 	al::A34 *a34;
+	
+	int _resultIdx;
+	al::A34Result *_result;
 }
 
 -(CGFloat)width;
