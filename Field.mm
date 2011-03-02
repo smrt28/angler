@@ -118,6 +118,8 @@
 
 
 
+
+
 -(void) drawNSLineFrom:(NSPoint)p1 to:(NSPoint)p2 {
 	[self drawNSLineFrom:p1 to:p2 color:[NSColor blackColor]];
 }
@@ -265,15 +267,45 @@
 		c++; if (!*c) c = colors;
 	}
 	
+	/*
+	 -(void) drawNSLineFrom:(NSPoint)p1 to:(NSPoint)p2 color:(NSColor *)color{
+	 NSBezierPath* path2 = [NSBezierPath bezierPath];
+	 [path2 moveToPoint:NSMakePoint(p1.x, p1.y)];
+	 [path2 lineToPoint:NSMakePoint(p2.x, p2.y)];
+	 [path2 setLineCapStyle:NSSquareLineCapStyle];
+	 float ww = 2.3;
+	 float w = ([self zoomX:ww] + [self zoomY:ww])/2;
+	 [path2 setLineWidth: w];
+	 [color set];
+	 [path2 stroke];	
+	 }
+	 */
+	
+	
 	if (_result) {
+		NSBezierPath* path = [NSBezierPath bezierPath];
+		
 		boost::shared_ptr<al::A34SingleResult> res = (*_result)[_resultIdx];
 		for(i=0;i<res->size();i++) {
 			al::Line ln = (*res.get())[i];
-			[self drawAlLine:ln color:[NSColor yellowColor]];
+//			[self drawAlLine:ln color:[NSColor yellowColor]];
 		
 			NSLog(@"%d, %d -> %d, %d",
 				  (int)ln.p1.x, (int)ln.p1.y, (int)ln.p2.x, (int)ln.p2.y);
+
+			NSPoint p1 = [self makeNSPoint:ln.p1];	
+			NSPoint p2 = [self makeNSPoint:ln.p2];
+			
+			
+			
+			if (i == 0) {
+				[path moveToPoint: p1];
+			}
+			[path lineToPoint:p2];
 		}
+		
+		[[NSColor colorWithCalibratedRed:1 green:1 blue:1 alpha:0.5] set];
+		[path fill];
 		
 	}
 }
