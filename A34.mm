@@ -11,7 +11,7 @@
 
 namespace al {
 
-	A34::A34(): A(8){
+	A34::A34(): A(3){
 	}
 
 	
@@ -197,10 +197,6 @@ namespace al {
 						break;
 				}
 			}
-			if (i > 1000) {
-				NSLog(@"makeResult error!");
-				return 0;
-			}
 		}
 		Line l1 = (*result)[0];
 		return result;
@@ -213,11 +209,7 @@ namespace al {
 				dep++;
 			}
 		}
-/*		
-		NSLog(@"spot [%d, %d]; dep=%d, stack.size()=%d", 
-			  (int)stack.back()->p.x, 
-			  (int)stack.back()->p.y, (int)dep, (int)stack.size());
-*/		
+	
 		if (stack.size() > 2) {
 			if (dep > A) return;
 			if (stack.back() == start) {

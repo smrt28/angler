@@ -14,70 +14,42 @@
 
 #define ZOOM_SPEED 0.2
 
-- (float)grid {
-	return _grid + _zoom * ZOOM_SPEED;
-}
 
--(float)minZoom {
-	return (3 - _grid)/ZOOM_SPEED;
-}
 
--(float) zoom:(float)z {
-	float rv = z * ( (_grid + _zoom * ZOOM_SPEED) / _grid );
-	if (rv < 0.5) rv = 0.5;
-	return rv;
+- (void)windowResized:(NSNotification *)notification;
+{
+	/*
+	NSRect frame = [self frame];
+	NSSize size = [[self window] frame].size;
+	NSRect r;
+	r.size = frame.size;
+	r.origin.x = (size.width - frame.size.width) / 2;
+	r.origin.y = (size.height - frame.size.height) / 2;
+	[self setFrame: r];
+	[self setNeedsDisplay:YES];
+	
+	NSLog(@"window width = %f, window height = %f", size.width, size.height);
+	 
+	 */
 }
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
 		_field = [[Field alloc] initWithW:18 h:18 max_w:500 max_h:500];
-		p1_valid = false;
-		p2_valid = false;
-		_grid = 30;
-		margin.x = 5;
-		margin.y = 5;
-		width = 28;
-		height = 28;
-		_zoom = 0;
-		lines = [[NSMutableArray alloc] init];
+		
+		[[NSNotificationCenter defaultCenter] 
+				addObserver:self selector:@selector(windowResized:) 
+				name:NSWindowDidResizeNotification object:[self window]];
     }
     return self;
 }
 
 
--(bool) isValidPoint:(DPoint)p {
-	if (p.x < 0 || p.y < 0) return false;
-	if (p.x >= width || p.y >= height) return false;
-	return true;
-}
-
--(bool) isValidLine:(DLine)l {
-	return [self isValidPoint:l.p1] &&
-		[self isValidPoint:l.p2];
-}
-
-
-
 - (void)dealloc {
-	[lines release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[super dealloc];
 }
-
--(NSPoint) dp2p:(DPoint)p {
-	NSPoint rv;
-	rv.x = ((CGFloat)p.x) * [self grid] + margin.x;
-	rv.y = ((CGFloat)p.y) * [self grid] + margin.y;
-	return rv;
-}
-
--(DPoint) p2dp:(NSPoint)p {
-	DPoint rv;
-	rv.x = (p.x -= margin.y) / [self grid] + 0.5;
-	rv.y = (p.y -= margin.x) / [self grid] + 0.5;	
-	return rv;
-}
-
 
 -(void)awakeFromNib
 {	
@@ -112,69 +84,52 @@
 }
 
 
--(void) drawDot:(NSPoint)point size:(float)size {
-	NSBezierPath *path1;
-	float dm = size * size;
-	float rd = dm * 0.50;
-	NSPoint origin  = { point.x - rd, point.y - rd };
-	NSRect mainOval = { origin.x, origin.y, dm, dm };
-	path1 = [NSBezierPath bezierPathWithOvalInRect:mainOval];
-	[path1 setLineWidth:1.2];
-	[[NSColor blackColor] set];[path1 fill];	
-	[[NSColor blackColor] set];[path1 stroke];	
-}
-
 
 - (void) keyDown:(NSEvent *)event {
 	unsigned short code = [event keyCode];
 	if (code == 51) {
-		[lines removeLastObject];
 		[self setNeedsDisplay:YES];
 	}
-
+	/*
+	NSRect r;
+	r.origin.x = 0;
+	r.origin.y = 0;
+	r.size.width = 450;
+	r.size.height = 450;
+	[self setFrame: r];
+*/
 	[_field signal: code];
 	[self setNeedsDisplay:YES];
 }
 
 
-
-
-#if 1
-- (void)drawRect:(NSRect)dirtyRect {
-	
-	[_field setX:0 y:0];
-	[_field draw];
-	
-/*	
-	int i, j;
-	for (j=0;j<16;j++) {
-	for (i=0;i<16;i++) {
-		[_field setX:i*[_field width] 
-				   y:j*[_field height]];
-		[_field draw];
-	}
-	}
-	
-	[_field setX:0 y:0];
-*/
+void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
+{
+    NSBezierPath* path = [NSBezierPath bezierPath];
+	[path setLineWidth: 5];
+	[path setLineCapStyle:NSSquareLineCapStyle];
+    [path appendBezierPathWithRoundedRect:rect xRadius:x yRadius:y];
+    [path fill];
 }
-#endif
+
+- (void)drawRect:(NSRect)dirtyRect {
+	NSRect bounds = [self bounds];
+
+	CGFloat C = 15;
+	NSRect border;
+	border.size = bounds.size;
+	border.origin = bounds.origin;
+	DrawRoundedRect(border, 25, 25);
+	
+	[_field setX:bounds.origin.x + C y:bounds.origin.y + C];
+	[_field setWidth: bounds.size.width - 2*C];	
+	[_field setHeight: bounds.size.height - 2*C];
+	[_field setMarginX:10];
+	[_field setMarginY:10];	
+	[_field draw];
+}
 
 - (void)scrollWheel:(NSEvent *)theEvent {
-	CGFloat x = [theEvent deltaX];
-	CGFloat y = [theEvent deltaY];
-	CGFloat a = (x + y) / 2;
-	
-	CGFloat w = [_field width] - a;
-	CGFloat h = [_field height] - a;
-	
-	if (w > 500 || h > 500) return;
-	
-	
-	[_field setWidth:w];
-	[_field setHeight:h];
-	NSLog(@"zoom :%f", _zoom);
-	[self setNeedsDisplay:YES];
 	
 }
 

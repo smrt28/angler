@@ -64,8 +64,6 @@ struct NLine {
 
 -(void)draw;
 
-
-
 -(bool)startAt:(NSPoint)p;
 -(bool)dragTo:(NSPoint)p;
 -(bool)stopAt:(NSPoint)p;
@@ -75,7 +73,8 @@ struct NLine {
 -(CGFloat)gridX;
 -(CGFloat)gridY;
 
-//-(void) drawLineFrom:(FPoint)fp1 to:(NSPoint)np2;
+-(void) setMarginX:(CGFloat)x;
+-(void) setMarginY:(CGFloat)y;
 
 -(void) signal:(int)sig;
 

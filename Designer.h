@@ -24,47 +24,13 @@ typedef struct {
 
 
 @interface Designer : NSControl {
-	//NSPoint location;
-	
-	bool p1_valid;
-	bool p2_valid;
-	DPoint p1;
-	DPoint p2;
-	
-	int width;
-	int height;
-
-	bool drag_valid;
-	NSPoint drag;
-	
-	NSPoint margin;
-	CGFloat _grid;
-	
-	//Board *board;
-	NSMutableArray *lines;
-	
+ 	
 	SEL action;
 	
 	float _zoom;
 	
 	Field *_field;
 }
-
--(NSPoint) dp2p:(DPoint)point;
--(DPoint) p2dp:(NSPoint)dpoint;
-
--(void) drawDot:(NSPoint)point size:(float)size;
-
--(bool) isValidPoint:(DPoint)p; 
--(bool) isValidLine:(DLine)l;
-
-
-
--(float) grid;
-
--(float) minZoom;
-
--(float) zoom:(float)z;
 
 
 @end

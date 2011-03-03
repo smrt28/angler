@@ -53,6 +53,15 @@
 
 
 
+-(void) setMarginX:(CGFloat)x {
+	_marginX = x;
+}
+
+-(void) setMarginY:(CGFloat)y {
+	_marginY = y;
+}
+
+
 -(NSPoint)makeNSPoint:(al::Point)p {
 	NSPoint rv;	
 	CGFloat gridx = [self gridX];
@@ -246,49 +255,17 @@
 	std::vector<al::Line *> lines;
 	a34->getLines(lines);
 	
-	NSColor *colors[] = {
-		[NSColor blueColor], 
-		[NSColor redColor], 
-		[NSColor blackColor], 
-		[NSColor yellowColor], 
-		[NSColor greenColor],
-		[NSColor brownColor],
-		[NSColor cyanColor],		
-		[NSColor darkGrayColor],
-		[NSColor grayColor],
-		[NSColor whiteColor],
-		0};
-	
-	NSColor **c = colors;
-	
 	for (i = 0; i<lines.size(); i++) {
-		//[self drawAlLine:*lines[i] color:*c];
 		[self drawAlLine:*lines[i] color:[NSColor blackColor]];
-		c++; if (!*c) c = colors;
 	}
 	
-	/*
-	 -(void) drawNSLineFrom:(NSPoint)p1 to:(NSPoint)p2 color:(NSColor *)color{
-	 NSBezierPath* path2 = [NSBezierPath bezierPath];
-	 [path2 moveToPoint:NSMakePoint(p1.x, p1.y)];
-	 [path2 lineToPoint:NSMakePoint(p2.x, p2.y)];
-	 [path2 setLineCapStyle:NSSquareLineCapStyle];
-	 float ww = 2.3;
-	 float w = ([self zoomX:ww] + [self zoomY:ww])/2;
-	 [path2 setLineWidth: w];
-	 [color set];
-	 [path2 stroke];	
-	 }
-	 */
 	
-	
-	if (_result) {
+	if (_result && _result-> size() > 0) {
 		NSBezierPath* path = [NSBezierPath bezierPath];
 		
 		boost::shared_ptr<al::A34SingleResult> res = (*_result)[_resultIdx];
 		for(i=0;i<res->size();i++) {
 			al::Line ln = (*res.get())[i];
-//			[self drawAlLine:ln color:[NSColor yellowColor]];
 		
 			NSLog(@"%d, %d -> %d, %d",
 				  (int)ln.p1.x, (int)ln.p1.y, (int)ln.p2.x, (int)ln.p2.y);
@@ -329,7 +306,8 @@
 
 -(void) signal:(int)sig {
 	if (_result) {
-		_resultIdx = (_resultIdx + 1) % _result->size();	
+		if (_result->size())
+			_resultIdx = (_resultIdx + 1) % _result->size();	
 	} else {
 		_result = a34->run();
 		_resultIdx = 0;
