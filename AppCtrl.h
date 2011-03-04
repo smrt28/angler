@@ -7,14 +7,18 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Designer.h"
+
+@class Designer;
+@class ResultView;
+
 
 @interface AppCtrl : NSObject {
-	IBOutlet NSButton * buttonCount;
 	IBOutlet Designer * designer;
+	IBOutlet ResultView * results;
 }
 
--(IBAction)clicka:(id)sender;
--(IBAction)clicka2:(id)sender;
+-(void)showDesignerAtX:(CGFloat)x y:(CGFloat)y;
+
+-(void)doSomething;
 
 @end

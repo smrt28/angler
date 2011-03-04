@@ -46,7 +46,13 @@ struct NLine {
 	
 	int _resultIdx;
 	al::A34Result *_result;
+	
+	NSColor *bgcolor;
 }
+
+
+-(void)setBgcolor:(NSColor *)color;
+-(NSColor *)bgcolor;
 
 -(CGFloat)width;
 -(CGFloat)height;

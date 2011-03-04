@@ -7,14 +7,18 @@
 //
 
 #import "AppCtrl.h"
-
+#import "Designer.h"
+#import "ResultView.h"
 
 @implementation AppCtrl
 
--(void)clicka:(id)sender {
-	
+-(void)doSomething {
+	[designer setHidden:NO];
 }
--(void)clicka2:(id)sender {
-	
+
+
+-(void)showDesignerAtX:(CGFloat)x y:(CGFloat)y {
+	[designer showDesignerAtX:x y:y];
 }
+
 @end

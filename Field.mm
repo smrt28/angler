@@ -18,9 +18,19 @@
 	_maxWidth = _maxHeight = 0;
 	_marginX = _marginY = 0;
 	_dragState = 0;
+	bgcolor = [[NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 0.8] retain];
 	_result = 0;
 	a34 = new al::A34();
 	return self;
+}
+
+-(void)setBgcolor:(NSColor *)color {
+	[bgcolor autorelease];
+	bgcolor = [bgcolor retain];
+}
+
+-(NSColor *)bgcolor {
+	return bgcolor;
 }
 
 -(void)setX:(CGFloat)x y:(CGFloat)y {
@@ -48,6 +58,7 @@
 
 -(void)dealloc {
 	delete a34;
+	[bgcolor release];
 	[super dealloc];
 }
 
@@ -83,6 +94,8 @@
 }
 
 -(bool)makeAlPoint:(NSPoint)p alPoint:(al::Point *)f {
+	al::Point ff;
+	if (!f) f = &ff;
 	CGFloat gridx = [self gridX];
 	CGFloat gridy = [self gridY];
 	f->x = (int)(((p.x - _marginX - _x) + (0.5 * gridx)) / gridx);
@@ -230,13 +243,15 @@
 
 	[[NSColor blueColor] set];
 	
-	[[NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1] set];
-	[NSBezierPath fillRect: r];
+	//[bgcolor set];
+	//[NSBezierPath fillRect: r];
 	
 	if (_dragState == 1) {
 		NSPoint p;
 		p.x = _endPoint.x + _x;
 		p.y = _endPoint.y + _y;
+		
+		if ([self makeAlPoint:p alPoint:0 ])
 		
 		[self drawLineFrom:_startPoint to:p];
 	}

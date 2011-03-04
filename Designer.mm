@@ -37,13 +37,36 @@
     self = [super initWithFrame:frame];
     if (self) {
 		_field = [[Field alloc] initWithW:18 h:18 max_w:500 max_h:500];
-		
+		_field.bgcolor = [NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1];
+	
+		/*
+		// theAnim is an NSAnimation instance variable.
+        _shading = [[NSAnimation alloc] initWithDuration:10.0
+										 animationCurve:NSAnimationEaseIn];
+        [_shading setFrameRate:20.0];
+        [_shading setAnimationBlockingMode:NSAnimationNonblocking];
+        [_shading setDelegate:self];
+	*/
+	/*	
 		[[NSNotificationCenter defaultCenter] 
 				addObserver:self selector:@selector(windowResized:) 
 				name:NSWindowDidResizeNotification object:[self window]];
-    }
+	 */
+		
+		/*
+		_timer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self 
+									   selector:@selector(timerFired:) userInfo:(id)nil repeats:(BOOL)true];
+*/
+		
+	}
     return self;
 }
+
+- (void)timerFired:(NSTimer*)theTimer {
+	NSLog(@"time!");
+}
+
+
 
 
 - (void)dealloc {
@@ -53,16 +76,26 @@
 
 -(void)awakeFromNib
 {	
-	[[self window] makeFirstResponder:self];
-	[[self window] setAcceptsMouseMovedEvents:YES];
+[self setEnabled:NO];
 }
 
 - (BOOL)acceptsMouseMovedEvent {
 	return YES;
 }
+ 
+-(BOOL)acceptsFirstResponder { return YES; }
+
+-(BOOL)becomeFirstResponder { return YES; } 
 
 - (void)mouseMoved:(NSEvent *)theEvent {
-
+	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+	NSRect bounds = [self bounds];
+	if (p.x > 0 && p.y > 0 && p.x < bounds.size.width && p.y < bounds.size.height)		
+		NSLog(@"Mouse moved! %d %d", (int)p.x , (int)p.y);
+	else {
+		
+		
+	}
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
@@ -83,7 +116,9 @@
 	[self setNeedsDisplay:YES];
 }
 
-
+-(void)mouseExited:(NSEvent *)theEven {
+	NSLog(@"Mouse exited!");
+}
 
 - (void) keyDown:(NSEvent *)event {
 	unsigned short code = [event keyCode];
@@ -119,6 +154,7 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 	NSRect border;
 	border.size = bounds.size;
 	border.origin = bounds.origin;
+	[_field.bgcolor set];
 	DrawRoundedRect(border, 25, 25);
 	
 	[_field setX:bounds.origin.x + C y:bounds.origin.y + C];
@@ -146,5 +182,18 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 }
 
 - (BOOL)isFlipped { return YES; }
+
+-(void)showDesignerAtX:(CGFloat)x y:(CGFloat)y {
+	[self setHidden:NO];
+	[[self window] makeFirstResponder:self];
+	[[self window] setAcceptsMouseMovedEvents:YES];
+	[[self window] setMinSize:NSMakeSize(450.0, 450.0)];
+	//[self setEnabled:NO];
+	NSRect frame = [self frame];
+	frame.origin.x = x - [_field width] / 2;
+	frame.origin.y = y - [_field height] / 2;
+	[self setFrame: frame];
+//	[self setAlphaValue:0.5];
+}
 
 @end

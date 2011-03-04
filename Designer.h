@@ -30,7 +30,14 @@ typedef struct {
 	float _zoom;
 	
 	Field *_field;
+	
+	NSTimer * _timer;
+	
+	//NSAnimation *_shading;
 }
+
+
+-(void)showDesignerAtX:(CGFloat)x y:(CGFloat)y;
 
 
 @end
