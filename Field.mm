@@ -243,9 +243,6 @@
 
 	[[NSColor blueColor] set];
 	
-	//[bgcolor set];
-	//[NSBezierPath fillRect: r];
-	
 	if (_dragState == 1) {
 		NSPoint p;
 		p.x = _endPoint.x + _x;
@@ -273,27 +270,18 @@
 	for (i = 0; i<lines.size(); i++) {
 		[self drawAlLine:*lines[i] color:[NSColor blackColor]];
 	}
-	
-	
+		
 	if (_result && _result-> size() > 0) {
 		NSBezierPath* path = [NSBezierPath bezierPath];
 		
 		boost::shared_ptr<al::A34SingleResult> res = (*_result)[_resultIdx];
-		for(i=0;i<res->size();i++) {
-			al::Line ln = (*res.get())[i];
+		al::Point p1 = (*res.get())[0];
 		
-			NSLog(@"%d, %d -> %d, %d",
-				  (int)ln.p1.x, (int)ln.p1.y, (int)ln.p2.x, (int)ln.p2.y);
-
-			NSPoint p1 = [self makeNSPoint:ln.p1];	
-			NSPoint p2 = [self makeNSPoint:ln.p2];
-			
-			
-			
-			if (i == 0) {
-				[path moveToPoint: p1];
-			}
-			[path lineToPoint:p2];
+		[path moveToPoint: [self makeNSPoint:p1]];
+		
+		for(i=1;i<res->size();i++) {
+ 			p1 = (*res.get())[i];
+			[path lineToPoint: [self makeNSPoint:p1]];
 		}
 		
 		[[NSColor colorWithCalibratedRed:1 green:1 blue:1 alpha:0.5] set];

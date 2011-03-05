@@ -56,7 +56,7 @@ namespace al {
 
 	};
 	
-	class A34SingleResult : public std::vector<Line> {
+	class A34SingleResult : public std::vector<Point> {
 	};
 	
 	class A34Result : public std::vector< boost::shared_ptr<A34SingleResult> > {

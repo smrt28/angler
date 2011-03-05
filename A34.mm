@@ -178,14 +178,22 @@ namespace al {
 		A34SingleResult * result = new A34SingleResult();
 		size_t sz = stack.size() - 1;
 		int i, j, c;
-		Line l;
 		Spot *fspot = 0;
 		Spot *spot;
 		bool first = true;
 		for(i=0;;i++) {
 			spot = stack[(i+1) % sz];
 			if (!stack[i % sz]->inLineWith(spot, stack[(i+2) % sz])) {
-				if (first) {
+				result->push_back(spot->p);
+				
+				if (fspot == spot)
+					break;
+
+				if (!fspot)
+					fspot = spot;
+				
+			//				result->pop_back(p);
+				/*if (first) {
 					fspot = spot;
 					l.p1 = spot->p;
 					first = false;
@@ -195,10 +203,10 @@ namespace al {
 					l.p1 = l.p2;
 					if (fspot == spot)
 						break;
-				}
+				}*/
 			}
 		}
-		Line l1 = (*result)[0];
+		//Line l1 = (*result)[0];
 		return result;
 	}
 	
