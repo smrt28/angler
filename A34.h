@@ -78,6 +78,7 @@ namespace al {
 		
 		boost::shared_ptr<PPolygon> polygon;
 	public:
+		Polygon(){}
 		Polygon(int edges): polygon(new PPolygon(edges)) {}
 		
 		Float area(void);
@@ -91,7 +92,35 @@ namespace al {
 	};
 	
 	class A34Result : public std::vector<Polygon> {
+	public:
+		A34Result() : areaValid(false) {}
+	
+		void checkAreas() {
+			if (areaValid) return;
+
+			if (size() == 0) {
+				smallestArea = biggestArea = -1;
+				return;
+			}
+			
+			int i;
+			smallestArea = 1000000;
+			biggestArea = -1;
+			CGFloat tmp;
+			for(i=0;i<size();i++) {
+				tmp = (*this)[i].area();
+				if (tmp < smallestArea) smallestArea = tmp;
+				if (tmp > biggestArea) biggestArea = tmp;
+			}
+			areaValid = true;
+		}
 		
+		Float getSmallestArea() { checkAreas(); return smallestArea; }
+		Float getBiggestArea() { checkAreas(); return biggestArea; }
+	private:
+		bool areaValid;
+		Float smallestArea;
+		Float biggestArea;
 	};
 	
 	typedef std::vector<Line> Lines;

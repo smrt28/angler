@@ -15,6 +15,7 @@
 @interface AppCtrl : NSObject {
 	IBOutlet Designer * designer;
 	IBOutlet ResultView * results;
+	IBOutlet NSTextField * textResultCnt;
 }
 
 -(void)showDesignerAtX:(CGFloat)x y:(CGFloat)y;

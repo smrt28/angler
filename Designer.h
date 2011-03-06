@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 #import "Field.h"
+#import "AppCtrl.h"
 //#import "Board.h"
 //#import "DesignerProtocol.h"
 
@@ -32,8 +33,11 @@ typedef struct {
 	Field *_field;
 	
 	NSTimer * _timer;
+	IBOutlet NSTextField * textResultCnt;
 	
 	//NSAnimation *_shading;
+	
+	IBOutlet AppCtrl * appCtrl;
 }
 
 

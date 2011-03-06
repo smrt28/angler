@@ -22,8 +22,8 @@
 
 - (void)mouseDown:(NSEvent *)theEvent {
 
-	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:self];
-	[ctrl showDesignerAtX:p.x y:p.y];
+//	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:self];
+//	[ctrl showDesignerAtX:p.x y:p.y];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {

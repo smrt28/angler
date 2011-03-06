@@ -41,9 +41,7 @@ struct NLine {
 	int _dragState;
 	al::Point _startPoint;
 	NSPoint _endPoint;
-	
-	//al::A34 *a34;
-	
+		
 	int _resultIdx;
 	al::A34Result *_result;
 	
@@ -51,6 +49,11 @@ struct NLine {
 	
 	std::vector<al::Line> lines;
 }
+
+-(int)getResultCount;
+-(int)getResultIndex;
+-(bool)isBiggest;
+-(bool)isSmallest;
 
 
 -(void)setBgcolor:(NSColor *)color;

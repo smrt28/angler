@@ -32,7 +32,7 @@ namespace al {
 	}
 	
 	
-	A34::A34(Lines &lns): A(4){
+	A34::A34(Lines &lns): A(7){
 		size_t i;
 		for(i=0;i<lns.size();i++) {
 			pushLine(lns[i]);
@@ -159,6 +159,16 @@ namespace al {
 			s1->connect(s2);
 		}		
 	}
+	
+	namespace {
+	struct CmpAreas {
+		bool operator ()(const al::Polygon  &a, const al::Polygon  &b)  {
+			if (((Polygon &)a).area() > ((Polygon &)b).area()) return false;			
+			return true;
+		}
+	};
+		
+	}
 
 	
 	A34Result * A34::run() {
@@ -172,6 +182,7 @@ namespace al {
 			find(result, spots[i]);
 		}
 		NSLog(@"found: %d", cnt);
+		std::sort(result->begin(), result->end(), CmpAreas());
 		return result;
 	}
 	

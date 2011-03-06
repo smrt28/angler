@@ -38,26 +38,6 @@
     if (self) {
 		_field = [[Field alloc] initWithW:18 h:18 max_w:500 max_h:500];
 		_field.bgcolor = [NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1];
-	
-		/*
-		// theAnim is an NSAnimation instance variable.
-        _shading = [[NSAnimation alloc] initWithDuration:10.0
-										 animationCurve:NSAnimationEaseIn];
-        [_shading setFrameRate:20.0];
-        [_shading setAnimationBlockingMode:NSAnimationNonblocking];
-        [_shading setDelegate:self];
-	*/
-	/*	
-		[[NSNotificationCenter defaultCenter] 
-				addObserver:self selector:@selector(windowResized:) 
-				name:NSWindowDidResizeNotification object:[self window]];
-	 */
-		
-		/*
-		_timer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self 
-									   selector:@selector(timerFired:) userInfo:(id)nil repeats:(BOOL)true];
-*/
-		
 	}
     return self;
 }
@@ -75,8 +55,9 @@
 }
 
 -(void)awakeFromNib
-{	
-[self setEnabled:NO];
+{		
+	[[self window] makeFirstResponder:self];
+	[[self window] setAcceptsMouseMovedEvents:YES]; 
 }
 
 - (BOOL)acceptsMouseMovedEvent {
@@ -125,15 +106,26 @@
 	if (code == 51) {
 		[self setNeedsDisplay:YES];
 	}
-	/*
-	NSRect r;
-	r.origin.x = 0;
-	r.origin.y = 0;
-	r.size.width = 450;
-	r.size.height = 450;
-	[self setFrame: r];
-*/
+
 	[_field signal: code];
+	
+	int cnt = [_field getResultCount];
+	int idx = 1+[_field getResultIndex];
+	if (cnt == 0) idx = 0;
+	NSString *biggest = @"";
+	NSString *smallest = @"";
+	
+	if ([_field isBiggest]) {
+		biggest = @"biggest";
+	}
+	if ([_field isSmallest]) {
+		smallest = @"smallest";
+	}
+	
+	NSString *s = [NSString stringWithFormat:@"Found: %d/%d; %@ %@", idx, cnt, smallest, biggest];
+	
+	[textResultCnt setStringValue: s];
+	
 	[self setNeedsDisplay:YES];
 }
 
@@ -155,13 +147,12 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 	border.size = bounds.size;
 	border.origin = bounds.origin;
 	[_field.bgcolor set];
-	DrawRoundedRect(border, 25, 25);
 	
 	[_field setX:bounds.origin.x + C y:bounds.origin.y + C];
 	[_field setWidth: bounds.size.width - 2*C];	
 	[_field setHeight: bounds.size.height - 2*C];
-	[_field setMarginX:10];
-	[_field setMarginY:10];	
+	[_field setMarginX:0];
+	[_field setMarginY:0];	
 	[_field draw];
 }
 

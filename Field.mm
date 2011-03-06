@@ -142,7 +142,7 @@
 
 
 -(void) drawNSLineFrom:(NSPoint)p1 to:(NSPoint)p2 {
-	[self drawNSLineFrom:p1 to:p2 color:[NSColor blackColor]];
+	[self drawNSLineFrom:p1 to:p2 color:[NSColor whiteColor]];
 }
 
 
@@ -181,8 +181,9 @@
 	
 	path1 = [NSBezierPath bezierPathWithOvalInRect:mainOval];
 	[path1 setLineWidth:1.2];
-	[[NSColor blackColor] set];[path1 fill];	
-	[[NSColor blackColor] set];[path1 stroke];	
+	[[NSColor grayColor] set];
+	[path1 fill];	
+	[path1 stroke];	
 }
 
 
@@ -267,7 +268,7 @@
 	//a34->getLines(lines);
 	
 	for (i = 0; i<lines.size(); i++) {
-		[self drawAlLine:lines[i] color:[NSColor blackColor]];
+		[self drawAlLine:lines[i] color:[NSColor whiteColor]];
 	}
 	
 
@@ -323,6 +324,33 @@
 		_resultIdx = 0;
 	}
 }
+
+-(int)getResultCount {
+	if (!_result) return 0;
+	return _result->size();;
+}
+
+-(int)getResultIndex {
+	return _resultIdx;
+}
+
+
+-(bool)isBiggest {
+	if (!_result || _result->size() == 0) return false;
+	al::Polygon p = (*_result)[_resultIdx];
+	if (p.area() == _result->getBiggestArea()) 
+		return true;
+	return false;	
+}
+
+-(bool)isSmallest {
+	if (!_result || _result->size() == 0) return false;
+	al::Polygon p = (*_result)[_resultIdx];
+	if (p.area() == _result->getSmallestArea()) 
+		return true;
+	return false;
+}
+
 
 @end
 
