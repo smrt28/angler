@@ -56,32 +56,66 @@ namespace al {
 
 	};
 	
-	class A34SingleResult : public std::vector<Point> {
+	class Poligon {
+		
+	private:
+		class PPoligon {
+			friend class Poligon;
+		public:
+			PPoligon(int edges):edges(edges) {
+				p = new Point[edges];
+			}
+
+			~PPoligon() {
+				delete [] p;
+			}
+
+		private:
+			int edges;
+			Point * p;
+
+		};
+		
+		boost::shared_ptr<PPoligon> poligon;
+	public:
+		Poligon(int edges): poligon (new PPoligon(edges)) {}
+		
+		Point * getPoints() {
+			return poligon->p;
+		}
+		
+		int getEdgesCount() { return poligon->edges; }
+		
 	};
 	
-	class A34Result : public std::vector< boost::shared_ptr<A34SingleResult> > {
+	class A34Result : public std::vector<Poligon> {
 		
 	};
 	
 	class A34 {
 		static const int MAX_LINES = 500;
+
 	public:
 		A34();
 		~A34();
-		void signal(int sig);
 		A34Result * run();
+		void pushLine(Line l);
+		void getLines(std::vector<Line *> &ll) {
+			ll = lines;
+		}
+		
+	private:
+
+		void signal(int sig);
 		void cutLines();
 		void makeSpots();
-		void pushLine(Line l);
 		void reset();
 		
 		Spot * getSpot(Point &p);
 		
 		void cut();
 		
-		void getLines(std::vector<Line *> &ll) {
-			ll = lines;
-		}
+
 	private:
 		void find(A34Result *result, Spot *first);
 		void find(A34Result *result, Spot *start, std::vector<Spot *> &stack, int dep);
@@ -94,7 +128,8 @@ namespace al {
 				delete v[i];
 			v.clear();
 		}
-		A34SingleResult * makeResult(std::vector<Spot *> stack);
+		Poligon makeResult(std::vector<Spot *> &stack);
+		
 		std::vector<Line *> lines;
 		std::vector<Spot *> spots;
 		

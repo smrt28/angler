@@ -48,6 +48,8 @@ struct NLine {
 	al::A34Result *_result;
 	
 	NSColor *bgcolor;
+	
+	//std::vector<al::Line> lines;
 }
 
 

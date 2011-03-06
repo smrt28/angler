@@ -274,13 +274,14 @@
 	if (_result && _result-> size() > 0) {
 		NSBezierPath* path = [NSBezierPath bezierPath];
 		
-		boost::shared_ptr<al::A34SingleResult> res = (*_result)[_resultIdx];
-		al::Point p1 = (*res.get())[0];
+		al::Poligon res = (*_result)[_resultIdx];
+		al::Point *points = res.getPoints();
+		al::Point p1 = points[0];
 		
 		[path moveToPoint: [self makeNSPoint:p1]];
 		
-		for(i=1;i<res->size();i++) {
- 			p1 = (*res.get())[i];
+		for(i=1;i<res.getEdgesCount();i++) {
+ 			p1 = points[i];
 			[path lineToPoint: [self makeNSPoint:p1]];
 		}
 		

@@ -11,7 +11,7 @@
 
 namespace al {
 
-	A34::A34(): A(9){
+	A34::A34(): A(4){
 	}
 
 	
@@ -174,39 +174,28 @@ namespace al {
 	}
 	
 	
-	A34SingleResult * A34::makeResult(std::vector<Spot *> stack) {
-		A34SingleResult * result = new A34SingleResult();
+	Poligon A34::makeResult(std::vector<Spot *> &stack) {
+		Poligon result(A);
 		size_t sz = stack.size() - 1;
 		int i, j, c;
 		Spot *fspot = 0;
 		Spot *spot;
+		Point *points = result.getPoints();
 		bool first = true;
 		for(i=0;;i++) {
 			spot = stack[(i+1) % sz];
 			if (!stack[i % sz]->inLineWith(spot, stack[(i+2) % sz])) {
-				result->push_back(spot->p);
-				
+
 				if (fspot == spot)
 					break;
-
+				
+				*points = spot->p;
+				points++;
+				
 				if (!fspot)
 					fspot = spot;
-				
-			//				result->pop_back(p);
-				/*if (first) {
-					fspot = spot;
-					l.p1 = spot->p;
-					first = false;
-				} else {
-					l.p2 = spot->p;
-					result->push_back(l);
-					l.p1 = l.p2;
-					if (fspot == spot)
-						break;
-				}*/
 			}
 		}
-		//Line l1 = (*result)[0];
 		return result;
 	}
 	
@@ -227,8 +216,7 @@ namespace al {
 					j = 1;
 				
 				if (dep + j == A) {
-					boost::shared_ptr<A34SingleResult> res(makeResult(stack));
-					result->push_back(res);
+					result->push_back(makeResult(stack));
 					cnt++;
 					return;
 				}
