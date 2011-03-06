@@ -32,7 +32,7 @@ namespace al {
 	}
 	
 	
-	A34::A34(Lines &lns): A(7){
+	A34::A34(Lines &lns): A(4){
 		size_t i;
 		for(i=0;i<lns.size();i++) {
 			pushLine(lns[i]);
@@ -163,8 +163,7 @@ namespace al {
 	namespace {
 	struct CmpAreas {
 		bool operator ()(const al::Polygon  &a, const al::Polygon  &b)  {
-			if (((Polygon &)a).area() > ((Polygon &)b).area()) return false;			
-			return true;
+			return ((Polygon &)a).area() < ((Polygon &)b).area();
 		}
 	};
 		

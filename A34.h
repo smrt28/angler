@@ -78,7 +78,7 @@ namespace al {
 		
 		boost::shared_ptr<PPolygon> polygon;
 	public:
-		Polygon(){}
+
 		Polygon(int edges): polygon(new PPolygon(edges)) {}
 		
 		Float area(void);
