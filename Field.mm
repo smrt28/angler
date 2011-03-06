@@ -20,7 +20,7 @@
 	_dragState = 0;
 	bgcolor = [[NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 0.8] retain];
 	_result = 0;
-	a34 = new al::A34();
+	//a34 = new al::A34();
 	return self;
 }
 
@@ -57,7 +57,6 @@
 }
 
 -(void)dealloc {
-	delete a34;
 	[bgcolor release];
 	[super dealloc];
 }
@@ -264,17 +263,18 @@
 		}
 	}
 	
-	std::vector<al::Line *> lines;
-	a34->getLines(lines);
+	//std::vector<al::Line *> lines;
+	//a34->getLines(lines);
 	
 	for (i = 0; i<lines.size(); i++) {
-		[self drawAlLine:*lines[i] color:[NSColor blackColor]];
+		[self drawAlLine:lines[i] color:[NSColor blackColor]];
 	}
-		
+	
+
 	if (_result && _result-> size() > 0) {
 		NSBezierPath* path = [NSBezierPath bezierPath];
 		
-		al::Poligon res = (*_result)[_resultIdx];
+		al::Polygon res = (*_result)[_resultIdx];
 		al::Point *points = res.getPoints();
 		al::Point p1 = points[0];
 		
@@ -289,6 +289,7 @@
 		[path fill];
 		
 	}
+
 }
 
 -(void)popLine {
@@ -296,7 +297,9 @@
 }
 
 -(void)pushLine:(al::Line)l {
-	a34->pushLine(l);
+	lines.push_back(l);
+	delete _result;
+	_result = 0;
 }
 
 -(CGFloat)width {
@@ -309,11 +312,14 @@
 
 
 -(void) signal:(int)sig {
+	
+
 	if (_result) {
 		if (_result->size())
 			_resultIdx = (_resultIdx + 1) % _result->size();	
 	} else {
-		_result = a34->run();
+		al::A34 a34(lines);
+		_result = a34.run();
 		_resultIdx = 0;
 	}
 }

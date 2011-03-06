@@ -42,14 +42,14 @@ struct NLine {
 	al::Point _startPoint;
 	NSPoint _endPoint;
 	
-	al::A34 *a34;
+	//al::A34 *a34;
 	
 	int _resultIdx;
 	al::A34Result *_result;
 	
 	NSColor *bgcolor;
 	
-	//std::vector<al::Line> lines;
+	std::vector<al::Line> lines;
 }
 
 

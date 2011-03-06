@@ -11,7 +11,32 @@
 
 namespace al {
 
-	A34::A34(): A(4){
+	Float Polygon::area(void) {
+		if (polygon->area >= 0)
+			return polygon->area;
+		Point *p = getPoints();
+
+		Float ar = 0;
+		int i,j, N;
+		N = getEdgesCount();
+		
+		for (i=0;i<N;i++) {
+			j = (i + 1) % N;
+			ar += p[i].x * p[j].y;
+			ar -= p[i].y * p[j].x;
+		}
+		
+		ar /= 2;
+		polygon->area = (ar < 0 ? -ar : ar);
+		return polygon->area;
+	}
+	
+	
+	A34::A34(Lines &lns): A(4){
+		size_t i;
+		for(i=0;i<lns.size();i++) {
+			pushLine(lns[i]);
+		}
 	}
 
 	
@@ -174,8 +199,8 @@ namespace al {
 	}
 	
 	
-	Poligon A34::makeResult(std::vector<Spot *> &stack) {
-		Poligon result(A);
+	Polygon A34::makeResult(std::vector<Spot *> &stack) {
+		Polygon result(A);
 		size_t sz = stack.size() - 1;
 		int i, j, c;
 		Spot *fspot = 0;
