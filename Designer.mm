@@ -184,7 +184,7 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 	frame.origin.x = x - [_field width] / 2;
 	frame.origin.y = y - [_field height] / 2;
 	[self setFrame: frame];
-//	[self setAlphaValue:0.5];
+//	
 }
 
 @end
