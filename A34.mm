@@ -32,7 +32,7 @@ namespace al {
 	}
 	
 	
-	A34::A34(Lines &lns): A(4){
+	A34::A34(Lines &lns, int edges): A(edges){
 		size_t i;
 		for(i=0;i<lns.size();i++) {
 			pushLine(lns[i]);

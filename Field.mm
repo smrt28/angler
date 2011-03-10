@@ -319,7 +319,7 @@
 		if (_result->size())
 			_resultIdx = (_resultIdx + 1) % _result->size();	
 	} else {
-		al::A34 a34(lines);
+		al::A34 a34(lines, 4);
 		_result = a34.run();
 		_resultIdx = 0;
 	}

@@ -58,10 +58,15 @@
 	  NSForegroundColorAttributeName,
 	  nil]];
 	
-	NSString *s = [NSString stringWithFormat:@"%d", edges ];
-	[s drawAtPoint: NSMakePoint(50, 50) withAttributes:dict]; 
+
 	
+	NSString *s = [NSString stringWithFormat:@"%d", edges ];
 	NSSize sz = [s sizeWithAttributes: dict];
+	
+	
+	
+	[s drawAtPoint: NSMakePoint(w2 - sz.width/2, sz.height/4) withAttributes:dict]; 
+	
 
 	i = 0;
 }
@@ -72,5 +77,7 @@
 		edges = 4;
 	[self setNeedsDisplay:YES];
 }
+
+- (BOOL)isFlipped { return YES; }
 
 @end

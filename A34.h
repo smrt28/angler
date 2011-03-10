@@ -49,7 +49,6 @@ namespace al {
 		bool isConnected(Spot *spot);
 		Point p;
 		LineTo * first;
-//		LineTo * mark;
 		bool mark;
 	private:
 		void disconnect1(Spot *spot);
@@ -129,7 +128,7 @@ namespace al {
 		static const int MAX_LINES = 500;
 
 	public:
-		A34(Lines &lns);
+		A34(Lines &lns, int edges);
 		~A34();
 		A34Result * run();
 		
