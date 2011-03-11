@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		5E01BF1313217A8C00C88DED /* ResultView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E01BF1213217A8C00C88DED /* ResultView.m */; };
+		5E606539132AA968005F6900 /* ALEdges.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5E606538132AA968005F6900 /* ALEdges.mm */; };
 		5E721883131984BA006A2DAE /* A34.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5E721882131984BA006A2DAE /* A34.mm */; };
 		5E72188B13198664006A2DAE /* 34g.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E72188A13198664006A2DAE /* 34g.c */; };
 		5E721A94131ADC45006A2DAE /* AAtoms.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5E721A93131ADC45006A2DAE /* AAtoms.mm */; };
@@ -33,6 +34,9 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		5E01BF1113217A8C00C88DED /* ResultView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultView.h; sourceTree = "<group>"; };
 		5E01BF1213217A8C00C88DED /* ResultView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultView.m; sourceTree = "<group>"; };
+		5E606525132AA8C1005F6900 /* EdgesHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EdgesHolder.h; sourceTree = "<group>"; };
+		5E606537132AA968005F6900 /* ALEdges.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALEdges.h; sourceTree = "<group>"; };
+		5E606538132AA968005F6900 /* ALEdges.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ALEdges.mm; sourceTree = "<group>"; };
 		5E721881131984BA006A2DAE /* A34.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = A34.h; sourceTree = "<group>"; };
 		5E721882131984BA006A2DAE /* A34.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = A34.mm; sourceTree = "<group>"; };
 		5E72188A13198664006A2DAE /* 34g.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = 34g.c; path = tmp/quiz/34g.c; sourceTree = "<group>"; };
@@ -66,6 +70,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5E606524132AA8A6005F6900 /* Edges */,
 				5EE284B21316DAB900083292 /* AppCtrl.h */,
 				5EE284B31316DAB900083292 /* AppCtrl.mm */,
 				5EE284B41316DAB900083292 /* Designer.h */,
@@ -146,6 +151,16 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5E606524132AA8A6005F6900 /* Edges */ = {
+			isa = PBXGroup;
+			children = (
+				5E606525132AA8C1005F6900 /* EdgesHolder.h */,
+				5E606537132AA968005F6900 /* ALEdges.h */,
+				5E606538132AA968005F6900 /* ALEdges.mm */,
+			);
+			name = Edges;
 			sourceTree = "<group>";
 		};
 		5EE284B01316DA1700083292 /* AnglerAPI */ = {
@@ -232,6 +247,7 @@
 				5E721A94131ADC45006A2DAE /* AAtoms.mm in Sources */,
 				5E01BF1313217A8C00C88DED /* ResultView.m in Sources */,
 				5E9CA877132562F100935170 /* AngleSelector.m in Sources */,
+				5E606539132AA968005F6900 /* ALEdges.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

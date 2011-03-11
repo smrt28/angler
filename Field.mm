@@ -19,8 +19,6 @@
 	_marginX = _marginY = 0;
 	_dragState = 0;
 	bgcolor = [[NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 0.8] retain];
-	_result = 0;
-	//a34 = new al::A34();
 	return self;
 }
 
@@ -218,7 +216,7 @@
 	fl.p1 = _startPoint;
 	fl.p2 = fp;
 	
-	[self pushLine:fl];
+	[edgesHolder lineDrawn:fl];
 
 	_dragState = 0;
 	return true;
@@ -233,7 +231,7 @@
 	}
 }
 
--(void) draw {
+-(void) draw:(ALEdges *)edges offset:(int)ofs {
 	
 	NSRect r;
 	r.origin.y = _y;
@@ -264,18 +262,19 @@
 		}
 	}
 	
-	//std::vector<al::Line *> lines;
-	//a34->getLines(lines);
+	std::vector<al::Line> &lines = [edges getLines];
 	
 	for (i = 0; i<lines.size(); i++) {
 		[self drawAlLine:lines[i] color:[NSColor whiteColor]];
 	}
 	
+	
+	al::A34Result *result = [edges result];
 
-	if (_result && _result-> size() > 0) {
+	if (ofs>=0 && result && result->size() > 0) {
+		ofs %= result->size();
 		NSBezierPath* path = [NSBezierPath bezierPath];
-		
-		al::Polygon res = (*_result)[_resultIdx];
+		al::Polygon res = (*result)[ofs];
 		al::Point *points = res.getPoints();
 		al::Point p1 = points[0];
 		
@@ -297,12 +296,6 @@
 	
 }
 
--(void)pushLine:(al::Line)l {
-	lines.push_back(l);
-	delete _result;
-	_result = 0;
-}
-
 -(CGFloat)width {
 	return _width;
 }
@@ -312,49 +305,32 @@
 }
 
 
--(void) signal:(int)sig {
-	
-
-	if (_result) {
-		if (_result->size())
-			_resultIdx = (_resultIdx + 1) % _result->size();	
-	} else {
-		al::A34 a34(lines, 4);
-		_result = a34.run();
-		_resultIdx = 0;
-	}
-}
-
--(int)getResultCount {
-	if (!_result) return 0;
-	return _result->size();;
-}
-
--(int)getResultIndex {
-	return _resultIdx;
-}
-
-
 -(bool)isBiggest {
+	/*
 	if (!_result || _result->size() == 0) return false;
 	al::Polygon p = (*_result)[_resultIdx];
 	if (p.area() == _result->getBiggestArea()) 
 		return true;
+	 */
 	return false;	
 }
 
 -(bool)isSmallest {
+	/*
 	if (!_result || _result->size() == 0) return false;
 	al::Polygon p = (*_result)[_resultIdx];
 	if (p.area() == _result->getSmallestArea()) 
 		return true;
+	 */
 	return false;
 }
 
+-(id<EdgesHolder>)setEdgesHolder:(id<EdgesHolder>)eh {
+	edgesHolder = eh;
+	return eh;
+}
 
 @end
-
-
 
 
 

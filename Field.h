@@ -8,7 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "EdgesHolder.h"
+#import "ALEdges.h"
+
 #include "A34.h"
+
 
 
 struct NLine {
@@ -16,9 +20,13 @@ struct NLine {
 	NSPoint p2;
 };
 
+
+
 @interface Field : NSObject {
 
 @private
+	
+
 	
 	//number of points
 	int _w;
@@ -36,22 +44,18 @@ struct NLine {
 	CGFloat _marginX;
 	CGFloat _marginY;
 	
-	
-	//dragging line
 	int _dragState;
 	al::Point _startPoint;
 	NSPoint _endPoint;
-		
-	int _resultIdx;
-	al::A34Result *_result;
 	
 	NSColor *bgcolor;
 	
-	std::vector<al::Line> lines;
+	id<EdgesHolder>  edgesHolder;
 }
 
--(int)getResultCount;
--(int)getResultIndex;
+-(id<EdgesHolder>)setEdgesHolder:(id<EdgesHolder>)eh;
+
+
 -(bool)isBiggest;
 -(bool)isSmallest;
 
@@ -66,14 +70,13 @@ struct NLine {
 -(Field *)initWithW:(int)w h:(int)h max_w:(CGFloat)mw max_h:(CGFloat)mh;
 -(void)setWidth:(CGFloat)w;
 -(void)setHeight:(CGFloat)h;
-
--(void)pushLine:(al::Line)l;
 -(void)popLine;
 
 -(CGFloat)zoomX:(CGFloat)x;
 -(CGFloat)zoomY:(CGFloat)y;
 
--(void)draw;
+
+-(void)draw:(ALEdges *)edges offset:(int)ofs;
 
 -(bool)startAt:(NSPoint)p;
 -(bool)dragTo:(NSPoint)p;
@@ -87,6 +90,5 @@ struct NLine {
 -(void) setMarginX:(CGFloat)x;
 -(void) setMarginY:(CGFloat)y;
 
--(void) signal:(int)sig;
 
 @end

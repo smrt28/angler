@@ -67,8 +67,6 @@
 	
 	[s drawAtPoint: NSMakePoint(w2 - sz.width/2, sz.height/4) withAttributes:dict]; 
 	
-
-	i = 0;
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {

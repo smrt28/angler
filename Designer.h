@@ -10,6 +10,7 @@
 
 #import "Field.h"
 #import "AppCtrl.h"
+#import "EdgesHolder.h"
 //#import "Board.h"
 //#import "DesignerProtocol.h"
 
@@ -24,7 +25,7 @@ typedef struct {
 
 
 
-@interface Designer : NSControl {
+@interface Designer : NSControl <EdgesHolder> {
  	
 	SEL action;
 	
@@ -38,6 +39,10 @@ typedef struct {
 	//NSAnimation *_shading;
 	
 	IBOutlet AppCtrl * appCtrl;
+	
+	ALEdges *edges;
+	
+	int resOffset;
 }
 
 

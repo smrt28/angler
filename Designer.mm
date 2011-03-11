@@ -36,8 +36,11 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+		resOffset = 0;
 		_field = [[Field alloc] initWithW:18 h:18 max_w:500 max_h:500];
 		_field.bgcolor = [NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1];
+		edges = [[ALEdges alloc] init];
+		[_field setEdgesHolder:self];
 	}
     return self;
 }
@@ -51,6 +54,8 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[edges release];
+	[_field setEdgesHolder:nil];
 	[super dealloc];
 }
 
@@ -106,15 +111,15 @@
 	if (code == 51) {
 		[self setNeedsDisplay:YES];
 	}
-
-	[_field signal: code];
 	
-	int cnt = [_field getResultCount];
-	int idx = 1+[_field getResultIndex];
-	if (cnt == 0) idx = 0;
+	if ([edges runA34])
+		resOffset ++;
+	else
+		resOffset = 0;
+ 
 	NSString *biggest = @"";
 	NSString *smallest = @"";
-	
+/*	
 	if ([_field isBiggest]) {
 		biggest = @"biggest";
 	}
@@ -125,7 +130,7 @@
 	NSString *s = [NSString stringWithFormat:@"Found: %d/%d; %@ %@", idx, cnt, smallest, biggest];
 	
 	[textResultCnt setStringValue: s];
-	
+*/	
 	[self setNeedsDisplay:YES];
 }
 
@@ -153,7 +158,7 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 	[_field setHeight: bounds.size.height - 2*C];
 	[_field setMarginX:0];
 	[_field setMarginY:0];	
-	[_field draw];
+	[_field draw:edges offset:resOffset];
 }
 
 - (void)scrollWheel:(NSEvent *)theEvent {
@@ -185,6 +190,10 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 	frame.origin.y = y - [_field height] / 2;
 	[self setFrame: frame];
 //	
+}
+
+-(void)lineDrawn:(al::Line)line {
+	[edges push:line];
 }
 
 @end
