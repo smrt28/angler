@@ -196,4 +196,8 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 	[edges push:line];
 }
 
+-(void)edgesCountChanged:(int)ed {
+	[edges setEdges: ed];
+}
+
 @end

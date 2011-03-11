@@ -14,10 +14,14 @@
 	std::vector<al::Line> lines;
 	al::A34Result *result;
 	bool resultValid;
+	int edges;
 }
 
 @property al::A34Result* result;
 
+
+-(void)setEdges:(int)ed;
+-(bool)valid;
 -(ALEdges *)init;
 -(void)dealloc;
 -(void)push:(al::Line)line;

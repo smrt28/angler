@@ -14,7 +14,7 @@
 		5E72188B13198664006A2DAE /* 34g.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E72188A13198664006A2DAE /* 34g.c */; };
 		5E721A94131ADC45006A2DAE /* AAtoms.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5E721A93131ADC45006A2DAE /* AAtoms.mm */; };
 		5E8F68E413191BCC005EC426 /* notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5E8F68E313191BCC005EC426 /* notes.txt */; };
-		5E9CA877132562F100935170 /* AngleSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E9CA876132562F100935170 /* AngleSelector.m */; };
+		5E9CA877132562F100935170 /* AngleSelector.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5E9CA876132562F100935170 /* AngleSelector.mm */; };
 		5EE284B61316DAB900083292 /* AppCtrl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5EE284B31316DAB900083292 /* AppCtrl.mm */; };
 		5EE284B71316DAB900083292 /* Designer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5EE284B51316DAB900083292 /* Designer.mm */; };
 		5EE285CA1316EA5D00083292 /* Field.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5EE285C91316EA5D00083292 /* Field.mm */; };
@@ -44,7 +44,7 @@
 		5E721A93131ADC45006A2DAE /* AAtoms.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AAtoms.mm; sourceTree = "<group>"; };
 		5E8F68E313191BCC005EC426 /* notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notes.txt; sourceTree = "<group>"; };
 		5E9CA875132562F100935170 /* AngleSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AngleSelector.h; sourceTree = "<group>"; };
-		5E9CA876132562F100935170 /* AngleSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AngleSelector.m; sourceTree = "<group>"; };
+		5E9CA876132562F100935170 /* AngleSelector.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AngleSelector.mm; sourceTree = "<group>"; };
 		5EE284B21316DAB900083292 /* AppCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCtrl.h; sourceTree = "<group>"; };
 		5EE284B31316DAB900083292 /* AppCtrl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppCtrl.mm; sourceTree = "<group>"; };
 		5EE284B41316DAB900083292 /* Designer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Designer.h; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 				5EE285C81316EA5D00083292 /* Field.h */,
 				5EE285C91316EA5D00083292 /* Field.mm */,
 				5E9CA875132562F100935170 /* AngleSelector.h */,
-				5E9CA876132562F100935170 /* AngleSelector.m */,
+				5E9CA876132562F100935170 /* AngleSelector.mm */,
 				5EE284B01316DA1700083292 /* AnglerAPI */,
 			);
 			name = Classes;
@@ -246,7 +246,7 @@
 				5E72188B13198664006A2DAE /* 34g.c in Sources */,
 				5E721A94131ADC45006A2DAE /* AAtoms.mm in Sources */,
 				5E01BF1313217A8C00C88DED /* ResultView.m in Sources */,
-				5E9CA877132562F100935170 /* AngleSelector.m in Sources */,
+				5E9CA877132562F100935170 /* AngleSelector.mm in Sources */,
 				5E606539132AA968005F6900 /* ALEdges.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,9 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "EdgesHolder.h"
 
 @interface AngleSelector : NSControl {
+	IBOutlet id<AngleSelectorHandler> handler;
 	int edges;
 }
 @property int edges;

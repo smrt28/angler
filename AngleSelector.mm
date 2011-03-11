@@ -73,6 +73,7 @@
 	edges ++;
 	if (edges > 15)
 		edges = 4;
+	[handler edgesCountChanged: edges];
 	[self setNeedsDisplay:YES];
 }
 

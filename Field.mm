@@ -271,7 +271,7 @@
 	
 	al::A34Result *result = [edges result];
 
-	if (ofs>=0 && result && result->size() > 0) {
+	if ([edges valid] && ofs>=0 && result && result->size() > 0) {
 		ofs %= result->size();
 		NSBezierPath* path = [NSBezierPath bezierPath];
 		al::Polygon res = (*result)[ofs];

@@ -11,6 +11,7 @@
 #import "Field.h"
 #import "AppCtrl.h"
 #import "EdgesHolder.h"
+#import "AngleSelector.h"
 //#import "Board.h"
 //#import "DesignerProtocol.h"
 
@@ -25,7 +26,7 @@ typedef struct {
 
 
 
-@interface Designer : NSControl <EdgesHolder> {
+@interface Designer : NSControl <EdgesHolder, AngleSelectorHandler> {
  	
 	SEL action;
 	

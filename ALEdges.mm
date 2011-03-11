@@ -22,6 +22,7 @@
 }
 -(ALEdges *)init {
 	result = 0;
+	edges = 4;
 	resultValid = false;
 	return self;
 }
@@ -31,7 +32,7 @@
 		return true;
 	delete result;
 	result = 0;
-	al::A34 a34(lines, 4);
+	al::A34 a34(lines, edges);
 	result = a34.run();
 	resultValid = true;
 	return false;
@@ -42,6 +43,16 @@
 	[super dealloc];
 }
 
+-(bool)valid {
+	return resultValid;
+}
+
+
+-(void)setEdges:(int)ed {
+	if (ed == edges) return;
+	edges = ed;
+	resultValid = false;
+}
 
 @end
 

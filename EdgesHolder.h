@@ -16,3 +16,10 @@
 -(void)lineDrawn:(al::Line)line;
 
 @end
+
+
+@protocol AngleSelectorHandler
+
+-(void)edgesCountChanged:(int)ed;
+
+@end
