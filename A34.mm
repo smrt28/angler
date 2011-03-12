@@ -69,7 +69,7 @@ namespace al {
 			
 			i++;
 		}
-		NSLog(@"lines: %d", lines.size());
+		NSLog(@"lines: %lu", lines.size());
 	}
 	
 	Spot * A34::getSpot(Point &p) {

@@ -15,24 +15,6 @@
 #define ZOOM_SPEED 0.2
 
 
-
-- (void)windowResized:(NSNotification *)notification;
-{
-	/*
-	NSRect frame = [self frame];
-	NSSize size = [[self window] frame].size;
-	NSRect r;
-	r.size = frame.size;
-	r.origin.x = (size.width - frame.size.width) / 2;
-	r.origin.y = (size.height - frame.size.height) / 2;
-	[self setFrame: r];
-	[self setNeedsDisplay:YES];
-	
-	NSLog(@"window width = %f, window height = %f", size.width, size.height);
-	 
-	 */
-}
-
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -76,12 +58,10 @@
 - (void)mouseMoved:(NSEvent *)theEvent {
 	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	NSRect bounds = [self bounds];
+/*
 	if (p.x > 0 && p.y > 0 && p.x < bounds.size.width && p.y < bounds.size.height)		
 		NSLog(@"Mouse moved! %d %d", (int)p.x , (int)p.y);
-	else {
-		
-		
-	}
+*/
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
@@ -116,21 +96,42 @@
 		resOffset ++;
 	else
 		resOffset = 0;
- 
-	NSString *biggest = @"";
-	NSString *smallest = @"";
-/*	
-	if ([_field isBiggest]) {
-		biggest = @"biggest";
-	}
-	if ([_field isSmallest]) {
-		smallest = @"smallest";
-	}
-	
-	NSString *s = [NSString stringWithFormat:@"Found: %d/%d; %@ %@", idx, cnt, smallest, biggest];
-	
-	[textResultCnt setStringValue: s];
-*/	
+    
+    
+    al::A34Result *res_ptr = [edges result];
+    if (!res_ptr) return;
+    
+    al::A34Result &res = *res_ptr;
+    
+    if (resOffset >= res.size())
+        resOffset = 0;
+    
+    if (res.size() > 0) {
+        
+        NSString *biggest = @"";
+        NSString *smallest = @"";
+        
+        al::Float biggestArea = res.getBiggestArea();
+        al::Float smallestArea = res.getSmallestArea();
+        
+        al::Float area = res[resOffset].area();
+
+        if (area == biggestArea) {
+            biggest = @"biggest";
+        }
+        if (area == smallestArea) {
+            smallest = @"smallest";
+        }
+        
+        NSString *s = [NSString stringWithFormat:@"Found: %d/%d; %@ %@", resOffset, res.size(), smallest, biggest];
+        
+        [textResultCnt setStringValue: s];
+
+    }
+    
+    
+    /*	
+     */	
 	[self setNeedsDisplay:YES];
 }
 
