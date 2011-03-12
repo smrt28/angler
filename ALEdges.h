@@ -13,14 +13,14 @@
 @interface ALEdges : NSObject {
 	std::vector<al::Line> lines;
 	al::A34Result *result;
-	bool resultValid;
 	int edges;
+    int resultFor;
 }
 
 @property al::A34Result* result;
+@property int edges;
 
-
--(void)setEdges:(int)ed;
+//-(void)setEdges:(int)ed;
 -(bool)valid;
 -(ALEdges *)init;
 -(void)dealloc;

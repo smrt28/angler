@@ -231,7 +231,7 @@
 	}
 }
 
--(void) draw:(ALEdges *)edges offset:(int)ofs {
+-(void) draw:(ALEdges *)edges offset:(int)ofs resultColor:(NSColor *)rcolor{
 	
 	NSRect r;
 	r.origin.y = _y;
@@ -285,7 +285,8 @@
 			[path lineToPoint: [self makeNSPoint:p1]];
 		}
 		
-		[[NSColor colorWithCalibratedRed:1 green:1 blue:1 alpha:0.5] set];
+//		[[NSColor colorWithCalibratedRed:1 green:1 blue:1 alpha:0.5] set];
+        [rcolor set];
 		[path fill];
 		
 	}

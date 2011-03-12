@@ -72,7 +72,7 @@
 - (void)mouseUp:(NSEvent *)theEvent {
 	edges ++;
 	if (edges > 15)
-		edges = 4;
+		edges = 3;
 	[handler edgesCountChanged: edges];
 	[self setNeedsDisplay:YES];
 }

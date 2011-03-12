@@ -1,4 +1,4 @@
-//
+ //
 //  Designer.m
 //  Angler
 //
@@ -82,21 +82,19 @@
 	[self setNeedsDisplay:YES];
 }
 
+
 -(void)mouseExited:(NSEvent *)theEven {
 	NSLog(@"Mouse exited!");
 }
 
-- (void) keyDown:(NSEvent *)event {
-	unsigned short code = [event keyCode];
-	if (code == 51) {
-		[self setNeedsDisplay:YES];
-	}
-	
-	if ([edges runA34])
-		resOffset ++;
-	else
-		resOffset = 0;
+-(void)recalculate {
     
+    if ([edges valid])
+		resOffset ++;
+    else {    
+        [edges runA34];
+        resOffset = 0;
+    }
     
     al::A34Result *res_ptr = [edges result];
     if (!res_ptr) return;
@@ -115,7 +113,7 @@
         al::Float smallestArea = res.getSmallestArea();
         
         al::Float area = res[resOffset].area();
-
+        
         if (area == biggestArea) {
             biggest = @"biggest";
         }
@@ -123,15 +121,20 @@
             smallest = @"smallest";
         }
         
-        NSString *s = [NSString stringWithFormat:@"Found: %d/%d; %@ %@", resOffset, res.size(), smallest, biggest];
+        NSString *s = [NSString stringWithFormat:@"Found: %d/%d; %@ %@", resOffset + 1, res.size(), smallest, biggest];
         
         [textResultCnt setStringValue: s];
-
+        
+    } else {
+        NSString *s = [NSString stringWithFormat:@"No %d-angles found", [edges edges]];        
+        [textResultCnt setStringValue: s];
     }
     
-    
-    /*	
-     */	
+	[self setNeedsDisplay:YES];    
+}
+
+- (void) keyDown:(NSEvent *)event {
+    [self recalculate];
 	[self setNeedsDisplay:YES];
 }
 
@@ -158,8 +161,19 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 	[_field setWidth: bounds.size.width - 2*C];	
 	[_field setHeight: bounds.size.height - 2*C];
 	[_field setMarginX:0];
-	[_field setMarginY:0];	
-	[_field draw:edges offset:resOffset];
+	[_field setMarginY:0];
+
+    NSColor *col;
+
+    if ([edges result]) {
+    switch([edges result]->clasifySize(resOffset)) {
+        case 0: col = [NSColor colorWithCalibratedRed:0.5 green:0.5 blue:1 alpha:0.5]; break;
+        case 1: col = [NSColor colorWithCalibratedRed:1 green:1 blue:1 alpha:0.5]; break;
+        case 2: col = [NSColor colorWithCalibratedRed:1 green:0.5 blue:0.5 alpha:0.5]; break;
+    }
+    }
+    
+   	[_field draw:edges offset:resOffset resultColor:col];
 }
 
 - (void)scrollWheel:(NSEvent *)theEvent {
@@ -199,6 +213,7 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 
 -(void)edgesCountChanged:(int)ed {
 	[edges setEdges: ed];
+    [self recalculate];
 }
 
 @end

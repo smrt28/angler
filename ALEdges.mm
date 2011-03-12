@@ -14,27 +14,30 @@
 @synthesize result;
 
 -(void)push:(al::Line)line {
-	resultValid = false;
 	lines.push_back(line);
+    resultFor = -1;
 }
+
 -(std::vector<al::Line> &) getLines {
 	return lines;
 }
+
 -(ALEdges *)init {
 	result = 0;
 	edges = 4;
-	resultValid = false;
+    resultFor = -1;
 	return self;
 }
 
 -(bool)runA34 {
-	if (resultValid) 
-		return true;
+    if (resultFor == edges)
+        return true;
+
 	delete result;
 	result = 0;
 	al::A34 a34(lines, edges);
 	result = a34.run();
-	resultValid = true;
+    resultFor = edges;
 	return false;
 }
 
@@ -44,15 +47,11 @@
 }
 
 -(bool)valid {
-	return resultValid;
+	return edges == resultFor;
 }
 
 
--(void)setEdges:(int)ed {
-	if (ed == edges) return;
-	edges = ed;
-	resultValid = false;
-}
+@synthesize edges;
 
 @end
 

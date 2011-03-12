@@ -76,7 +76,7 @@ struct NLine {
 -(CGFloat)zoomY:(CGFloat)y;
 
 
--(void)draw:(ALEdges *)edges offset:(int)ofs;
+-(void)draw:(ALEdges *)edges offset:(int)ofs resultColor:(NSColor *)rcolor;
 
 -(bool)startAt:(NSPoint)p;
 -(bool)dragTo:(NSPoint)p;

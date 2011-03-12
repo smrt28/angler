@@ -114,6 +114,20 @@ namespace al {
 			areaValid = true;
 		}
 		
+        int clasifySize(int idx) {
+            if (idx >= size())
+                return 1;
+            Float f = (*this)[idx].area();
+            if (f == getSmallestArea()) {
+                if (f == getBiggestArea())
+                    return 1;
+                return 0;
+            }
+            if (f == getBiggestArea())
+                return 2;
+            return 1;
+        }
+        
 		Float getSmallestArea() { checkAreas(); return smallestArea; }
 		Float getBiggestArea() { checkAreas(); return biggestArea; }
 	private:
