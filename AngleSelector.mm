@@ -65,7 +65,7 @@
 	
 	
 	
-	[s drawAtPoint: NSMakePoint(w2 - sz.width/2, sz.height/4) withAttributes:dict]; 
+	//[s drawAtPoint: NSMakePoint(w2 - sz.width/2, sz.height/4) withAttributes:dict]; 
 	
 }
 

@@ -92,7 +92,7 @@ namespace al {
 	
 	class A34Result : public std::vector<Polygon> {
 	public:
-		A34Result() : areaValid(false) {}
+		A34Result() : areaValid(false), errorMessage(0) {}
 	
 		void checkAreas() {
 			if (areaValid) return;
@@ -130,6 +130,7 @@ namespace al {
         
 		Float getSmallestArea() { checkAreas(); return smallestArea; }
 		Float getBiggestArea() { checkAreas(); return biggestArea; }
+        const char * errorMessage;
 	private:
 		bool areaValid;
 		Float smallestArea;
@@ -169,6 +170,7 @@ namespace al {
 		std::vector<Line *> lines;
 		std::vector<Spot *> spots;
 		
+        int complexity;
 		int cnt;
 		int A;
 	};

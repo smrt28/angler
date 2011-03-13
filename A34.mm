@@ -9,7 +9,20 @@
 
 #include "A34.h"
 
+#define MAX_COMPLEXITY 1100000
+
 namespace al {
+    
+    class Error {
+    public:
+    enum A34ErrorId { 
+        A34ERR_TOO_COMPLICATED
+    };
+
+    public:
+        Error(A34ErrorId err) : err(err) { }
+        A34ErrorId err;
+    };
 
 	Float Polygon::area(void) {
 		if (polygon->area >= 0)
@@ -53,8 +66,8 @@ namespace al {
 	
 	void A34::cut() {
 		Line *l, out[2];
-		int i, j, tmp, rv, k;
-		i = 0;
+		int i, j, tmp, rv, k, cnt;
+		i = 0; cnt = 0;
 		while(i<lines.size()) {
 			tmp = lines.size();
 			l = lines[i];
@@ -65,11 +78,15 @@ namespace al {
 					Line *nl = new Line(out[k]);
 					lines.push_back(nl);
 				}
+                
+                if (cnt++ > 8000) {
+                    throw Error(Error::A34ERR_TOO_COMPLICATED);
+                }
 			}
 			
 			i++;
 		}
-		NSLog(@"lines: %lu", lines.size());
+		NSLog(@"lines: %lu %d", lines.size(), cnt);
 	}
 	
 	Spot * A34::getSpot(Point &p) {
@@ -171,18 +188,26 @@ namespace al {
 
 	
 	A34Result * A34::run() {
-		A34Result * result = new A34Result();
+        std::auto_ptr<A34Result> result(new A34Result());
+
+        try {
 		cut();
 		makeSpots();
 		cnt = 0;
 		size_t sz = spots.size();
 		int i;
+        complexity = 0;
 		for(i=0;i<sz;i++) {
-			find(result, spots[i]);
+			find(result.get(), spots[i]);
 		}
-		NSLog(@"found: %d", cnt);
+		NSLog(@"found: %d; complexity: %d", cnt, complexity);
 		std::sort(result->begin(), result->end(), CmpAreas());
-		return result;
+		return result.release();
+        } catch(Error e) {
+            result.get()->clear();
+            result->errorMessage = "The shape is too complicated!";
+            return result.release();
+        }
 	}
 	
 	void A34::signal(int sig) {
@@ -192,6 +217,7 @@ namespace al {
 	}
 	
 	void A34::find(A34Result *result, Spot *spot) {
+        
 		std::vector<Spot *> stack;
 		stack.push_back(spot);
 		
@@ -235,6 +261,9 @@ namespace al {
 	}
 	
 	void A34::find(A34Result *result, Spot * start, std::vector<Spot *> &stack, int dep) {
+        if (complexity++ > MAX_COMPLEXITY)
+            throw Error(Error::A34ERR_TOO_COMPLICATED);
+        
 		if (stack.size() > 2) {
 			int i = stack.size() - 3;
 			if (!stack[i]->inLineWith(stack[i+1], stack[i+2])) {
@@ -251,6 +280,8 @@ namespace al {
 					j = 1;
 				
 				if (dep + j == A) {
+                 //   if (cnt > 7000)
+                 //       throw Error(Error::A34ERR_TOO_COMPLICATED);
 					result->push_back(makeResult(stack));
 					cnt++;
 					return;

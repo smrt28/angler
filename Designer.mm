@@ -103,8 +103,16 @@
     
     if (resOffset >= res.size())
         resOffset = 0;
+
+    NSString *s;
     
-    if (res.size() > 0) {
+    int totalCnt, idx;
+    totalCnt = 0; idx = 0;
+    
+    if (res.errorMessage) {
+        s = [NSString stringWithFormat:@"%s", res.errorMessage];
+        
+    } else if (res.size() > 0) {
         
         NSString *biggest = @"";
         NSString *smallest = @"";
@@ -121,14 +129,13 @@
             smallest = @"smallest";
         }
         
-        NSString *s = [NSString stringWithFormat:@"Found: %d/%d; %@ %@", resOffset + 1, res.size(), smallest, biggest];
-        
-        [textResultCnt setStringValue: s];
-        
-    } else {
-        NSString *s = [NSString stringWithFormat:@"No %d-angles found", [edges edges]];        
-        [textResultCnt setStringValue: s];
-    }
+        totalCnt = res.size();
+        idx = resOffset + 1;
+    } 
+    
+    s = [NSString stringWithFormat:@"%d-angles: %d/%d", [edges edges], idx, totalCnt];    
+    [textResultCnt setStringValue: s];
+
     
 	[self setNeedsDisplay:YES];    
 }
@@ -209,6 +216,7 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 
 -(void)lineDrawn:(al::Line)line {
 	[edges push:line];
+    [self recalculate];
 }
 
 -(void)edgesCountChanged:(int)ed {

@@ -19,9 +19,7 @@
 			<string>NSTextField</string>
 			<string>NSTextFieldCell</string>
 			<string>NSCustomView</string>
-			<string>NSButtonCell</string>
 			<string>NSUserDefaultsController</string>
-			<string>NSButton</string>
 			<string>NSCustomObject</string>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -1362,7 +1360,7 @@
 			<object class="NSWindowTemplate" id="488337185">
 				<int key="NSWindowStyleMask">8213</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{2088, 93}, {320, 551}}</string>
+				<string key="NSWindowRect">{{2088, 93}, {400, 532}}</string>
 				<int key="NSWTFlags">611844096</int>
 				<string key="NSWindowTitle">Draw your shape...</string>
 				<string key="NSWindowClass">NSPanel</string>
@@ -1375,7 +1373,7 @@
 						<object class="NSCustomView" id="268795585">
 							<reference key="NSNextResponder" ref="566046940"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{0, 231}, {320, 320}}</string>
+							<string key="NSFrame">{{0, 132}, {400, 400}}</string>
 							<reference key="NSSuperview" ref="566046940"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="453016622"/>
@@ -1385,17 +1383,17 @@
 						<object class="NSTextField" id="607975134">
 							<reference key="NSNextResponder" ref="566046940"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 48}, {286, 17}}</string>
+							<string key="NSFrame">{{112, 100}, {317, 17}}</string>
 							<reference key="NSSuperview" ref="566046940"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="450053940"/>
+							<reference key="NSNextKeyView"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="246916051">
 								<int key="NSCellFlags">68288064</int>
-								<int key="NSCellFlags2">138413056</int>
+								<int key="NSCellFlags2">4195328</int>
 								<string key="NSContents">The shape contains</string>
-								<object class="NSFont" key="NSSupport" id="901920924">
+								<object class="NSFont" key="NSSupport">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">13</double>
 									<int key="NSfFlags">1044</int>
@@ -1419,38 +1417,15 @@
 						<object class="NSCustomView" id="453016622">
 							<reference key="NSNextResponder" ref="566046940"/>
 							<int key="NSvFlags">264</int>
-							<string key="NSFrame">{{85, 73}, {150, 150}}</string>
+							<string key="NSFrame">{{20, 37}, {80, 80}}</string>
 							<reference key="NSSuperview" ref="566046940"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="607975134"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<string key="NSClassName">AngleSelector</string>
 						</object>
-						<object class="NSButton" id="450053940">
-							<reference key="NSNextResponder" ref="566046940"/>
-							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{112, 12}, {96, 32}}</string>
-							<reference key="NSSuperview" ref="566046940"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
-							<int key="NSViewLayerContentsRedrawPolicy">2</int>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="652233725">
-								<int key="NSCellFlags">67239424</int>
-								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Show All</string>
-								<reference key="NSSupport" ref="901920924"/>
-								<reference key="NSControlView" ref="450053940"/>
-								<int key="NSButtonFlags">-2038284033</int>
-								<int key="NSButtonFlags2">129</int>
-								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent"/>
-								<int key="NSPeriodicDelay">200</int>
-								<int key="NSPeriodicInterval">25</int>
-							</object>
-						</object>
 					</object>
-					<string key="NSFrame">{{7, 11}, {320, 551}}</string>
+					<string key="NSFrame">{{7, 11}, {400, 532}}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="268795585"/>
@@ -3238,9 +3213,8 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="268795585"/>
-							<reference ref="453016622"/>
 							<reference ref="607975134"/>
-							<reference ref="450053940"/>
+							<reference ref="453016622"/>
 						</object>
 						<reference key="parent" ref="488337185"/>
 					</object>
@@ -3296,20 +3270,6 @@
 						<int key="objectID">581</int>
 						<reference key="object" ref="735708437"/>
 						<reference key="parent" ref="973819539"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">667</int>
-						<reference key="object" ref="450053940"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="652233725"/>
-						</object>
-						<reference key="parent" ref="566046940"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">668</int>
-						<reference key="object" ref="652233725"/>
-						<reference key="parent" ref="450053940"/>
 					</object>
 				</object>
 			</object>
@@ -3559,8 +3519,6 @@
 					<string>613.IBPluginDependency</string>
 					<string>645.IBPluginDependency</string>
 					<string>645.IBViewBoundsToFrameTransform</string>
-					<string>667.IBPluginDependency</string>
-					<string>668.IBPluginDependency</string>
 					<string>72.IBPluginDependency</string>
 					<string>72.ImportedFromIB2</string>
 					<string>73.IBPluginDependency</string>
@@ -3847,8 +3805,6 @@
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">AUDAAABDUwAAA</bytes>
 					</object>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

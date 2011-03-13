@@ -13,12 +13,6 @@
 #include <vector>
 namespace al {
 	
-	class Error {
-	public:
-		Error(int id) : id(id) {}
-		int id;
-	};
-	
 	typedef double Float; 
 	
 	const Float SMALL = 0.00001;
