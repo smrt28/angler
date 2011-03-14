@@ -205,16 +205,11 @@ namespace al {
 		return result.release();
         } catch(Error e) {
             result.get()->clear();
-            result->errorMessage = "The shape is too complicated!";
+            result->errorMessage = "???";
             return result.release();
         }
 	}
-	
-	void A34::signal(int sig) {
-		if (sig == 49) {
-			run();
-		}
-	}
+
 	
 	void A34::find(A34Result *result, Spot *spot) {
         

@@ -86,10 +86,10 @@ namespace al {
 			return polygon->p;
 		}
 		
-		int getEdgesCount() { return polygon->edges; }
-		
+		int getEdgesCount() { return polygon->edges; }		
 	};
 	
+    
 	class A34Result : public std::vector<Polygon> {
 	public:
 		A34Result() : areaValid(false), errorMessage(0) {}
@@ -131,6 +131,8 @@ namespace al {
 		Float getSmallestArea() { checkAreas(); return smallestArea; }
 		Float getBiggestArea() { checkAreas(); return biggestArea; }
         const char * errorMessage;
+        
+        
 	private:
 		bool areaValid;
 		Float smallestArea;
@@ -149,7 +151,7 @@ namespace al {
 		
 	private:
 		void pushLine(Line l);
-		void signal(int sig);
+		//void signal(int sig);
 		void cutLines();
 		void makeSpots();
 		void reset();

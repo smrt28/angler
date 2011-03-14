@@ -21,4 +21,8 @@
 	[designer showDesignerAtX:x y:y];
 }
 
+- (IBAction) showAllResults: sender {
+    [resultViewWindow makeKeyAndOrderFront:nil];
+}
+
 @end

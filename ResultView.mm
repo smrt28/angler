@@ -7,18 +7,24 @@
 //
 
 #import "ResultView.h"
-
+#import "Field.h"
 
 @implementation ResultView
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code here.
+        field = [[Field alloc] initWithW:18 h:18 max_w:500 max_h:500];
+        field.bgcolor = [NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1];
     }
     return self;
 }
 
+
+-(void)dealloc {
+    [field release];
+    [super dealloc];
+}
 
 - (void)mouseDown:(NSEvent *)theEvent {
 
@@ -72,5 +78,9 @@
 }
 
 - (BOOL)isFlipped { return YES; }
+
+-(void)setContent:(ALEdges *) edges {
+
+}
 
 @end

@@ -32,8 +32,6 @@
 }
 
 
-
-
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[edges release];
@@ -58,10 +56,6 @@
 - (void)mouseMoved:(NSEvent *)theEvent {
 	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	NSRect bounds = [self bounds];
-/*
-	if (p.x > 0 && p.y > 0 && p.x < bounds.size.width && p.y < bounds.size.height)		
-		NSLog(@"Mouse moved! %d %d", (int)p.x , (int)p.y);
-*/
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
@@ -104,7 +98,7 @@
     if (resOffset >= res.size())
         resOffset = 0;
 
-    NSString *s;
+    NSString *s = 0;
     
     int totalCnt, idx;
     totalCnt = 0; idx = 0;
@@ -131,9 +125,13 @@
         
         totalCnt = res.size();
         idx = resOffset + 1;
-    } 
+    }
     
-    s = [NSString stringWithFormat:@"%d-angles: %d/%d", [edges edges], idx, totalCnt];    
+    if (!s) {
+        NSString *aname = [NSString stringWithFormat:@"%d", [edges edges]];
+        s = [NSString stringWithFormat:@"%@: %d/%d", aname, idx, totalCnt];    
+    }
+    
     [textResultCnt setStringValue: s];
 
     
@@ -211,7 +209,6 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 	frame.origin.x = x - [_field width] / 2;
 	frame.origin.y = y - [_field height] / 2;
 	[self setFrame: frame];
-//	
 }
 
 -(void)lineDrawn:(al::Line)line {

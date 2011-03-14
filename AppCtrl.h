@@ -16,10 +16,14 @@
 	IBOutlet Designer * designer;
 	IBOutlet ResultView * results;
 	IBOutlet NSTextField * textResultCnt;
+    IBOutlet NSWindow * resultViewWindow;
+    IBOutlet ResultView * resultView;
 }
 
 -(void)showDesignerAtX:(CGFloat)x y:(CGFloat)y;
 
 -(void)doSomething;
+
+- (IBAction) showAllResults: sender;
 
 @end

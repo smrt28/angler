@@ -285,7 +285,6 @@
 			[path lineToPoint: [self makeNSPoint:p1]];
 		}
 		
-//		[[NSColor colorWithCalibratedRed:1 green:1 blue:1 alpha:0.5] set];
         [rcolor set];
 		[path fill];
 		
@@ -305,26 +304,6 @@
 	return _height;
 }
 
-
--(bool)isBiggest {
-	/*
-	if (!_result || _result->size() == 0) return false;
-	al::Polygon p = (*_result)[_resultIdx];
-	if (p.area() == _result->getBiggestArea()) 
-		return true;
-	 */
-	return false;	
-}
-
--(bool)isSmallest {
-	/*
-	if (!_result || _result->size() == 0) return false;
-	al::Polygon p = (*_result)[_resultIdx];
-	if (p.area() == _result->getSmallestArea()) 
-		return true;
-	 */
-	return false;
-}
 
 -(id<EdgesHolder>)setEdgesHolder:(id<EdgesHolder>)eh {
 	edgesHolder = eh;

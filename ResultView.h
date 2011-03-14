@@ -8,9 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 #import "AppCtrl.h"
+#import "ALEdges.h"
+#import "Field.h"
 
 @interface ResultView : NSView {
 	IBOutlet AppCtrl *ctrl;
+    Field * field;
 }
+
+-(void)setContent:(ALEdges *) edges;
 
 @end

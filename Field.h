@@ -56,8 +56,6 @@ struct NLine {
 -(id<EdgesHolder>)setEdgesHolder:(id<EdgesHolder>)eh;
 
 
--(bool)isBiggest;
--(bool)isSmallest;
 
 
 -(void)setBgcolor:(NSColor *)color;
