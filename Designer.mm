@@ -160,7 +160,14 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 	NSRect border;
 	border.size = bounds.size;
 	border.origin = bounds.origin;
-	[_field.bgcolor set];
+	//[_field.bgcolor set];
+    
+    
+    NSBezierPath *path = [NSBezierPath bezierPathWithRect: bounds];
+    [[NSColor blackColor] set];
+    [path fill];
+    
+    
 	
 	[_field setX:bounds.origin.x + C y:bounds.origin.y + C];
 	[_field setWidth: bounds.size.width - 2*C];	

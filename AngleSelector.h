@@ -12,6 +12,7 @@
 @interface AngleSelector : NSControl {
 	IBOutlet id<AngleSelectorHandler> handler;
 	int edges;
+    NSColor *color; 
 }
 @property int edges;
 

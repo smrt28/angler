@@ -71,6 +71,8 @@
 			
 		}
 	}
+    
+//    [self animator];
 	
 //	[[NSColor yellowColor] set];
 //	[NSBezierPath fillRect: bounds];

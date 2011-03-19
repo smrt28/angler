@@ -238,7 +238,8 @@
 	r.origin.x = _x;
 	r.size.width = _width;
 	r.size.height = _height;
-
+   
+    
 	[[NSColor blueColor] set];
 	
 	if (_dragState == 1) {

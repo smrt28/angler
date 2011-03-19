@@ -7,7 +7,7 @@
 //
 
 #import "AngleSelector.h"
-
+#include <stdio.h>
 
 @implementation AngleSelector
 
@@ -17,6 +17,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         edges = 4;
+        color = [[NSColor whiteColor] retain];
     }
     return self;
 }
@@ -31,7 +32,7 @@
 	NSBezierPath* path = [NSBezierPath bezierPath];
 	[path setLineCapStyle:NSSquareLineCapStyle];
 	[path setLineWidth: 2];
-	[[NSColor whiteColor] set];
+	[color set];
 
 	
 	for (i = 0;i < edges + 1; i++) {
@@ -78,5 +79,23 @@
 }
 
 - (BOOL)isFlipped { return YES; }
+
+- (void)setValue:(id)value forKeyPath:(NSString *)keyPath {
+    
+    if ([keyPath  compare:@"color"] == NSOrderedSame) {
+        float r, g, b, a;
+        
+        NSString *s = value;
+        int l = [s length] + 1;
+        char buf[l];
+        if ([s getCString:buf maxLength:l encoding:NSUTF8StringEncoding]) {
+            sscanf(buf, "%f, %f, %f, %f", &r, &g, &b, &a);
+            [color release];
+            color = [[NSColor colorWithCalibratedRed:r green:g blue:b alpha:a] retain];
+        }
+    }
+    
+}
+
 
 @end
