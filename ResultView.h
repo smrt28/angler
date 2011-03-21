@@ -14,6 +14,7 @@
 @interface ResultView : NSView {
 	IBOutlet AppCtrl *ctrl;
     Field * field;
+    ALEdges * edges;
 }
 
 -(void)setContent:(ALEdges *) edges;

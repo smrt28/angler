@@ -23,6 +23,7 @@
 		_field.bgcolor = [NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1];
 		edges = [[ALEdges alloc] init];
 		[_field setEdgesHolder:self];
+        [_field setDots:YES];
 	}
     return self;
 }
@@ -87,6 +88,7 @@
 		resOffset ++;
     else {    
         [edges runA34];
+        [resultView setContent: edges];
         resOffset = 0;
     }
     

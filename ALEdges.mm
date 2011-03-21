@@ -50,6 +50,12 @@
 	return edges == resultFor;
 }
 
+-(int)getResultCount {
+    if (!result)
+        return 0;
+    
+    return result->size();
+}
 
 @synthesize edges;
 

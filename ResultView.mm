@@ -9,12 +9,15 @@
 #import "ResultView.h"
 #import "Field.h"
 
+//#define S 200
+
 @implementation ResultView
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        field = [[Field alloc] initWithW:18 h:18 max_w:500 max_h:500];
+        edges = 0;
+        field = [[Field alloc] initWithW:18 h:18 max_w:400 max_h:400];
         field.bgcolor = [NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1];
     }
     return self;
@@ -38,14 +41,21 @@
 
 - (void)drawRect:(NSRect)dirtyRect {
 	
-	static const CGFloat S = 120; 
-	static const CGFloat one = 0.9;
-	static const CGFloat two = 0.8;
+	static CGFloat S; 
+	static const CGFloat one = 0.1;
+	static const CGFloat two = 0.2;
 	
 	int nx, ny;
 	
-	int x, y;
+	int x, y, W;
+
 	
+
+    NSRect bnd = [self bounds];
+
+    W = 6;
+    S = bnd.size.width / W;
+    
 	NSRect bounds = [self bounds];
 	
 	nx = 1 + (bounds.size.width / S);
@@ -72,8 +82,40 @@
 		}
 	}
     
+    
+    if (edges) {
+        NSColor *colors[3];
+        colors[0] = [NSColor colorWithCalibratedRed:0.5 green:0.5 blue:1 alpha:0.5];
+        colors[1] = [NSColor colorWithCalibratedRed:1 green:1 blue:1 alpha:0.5];
+        colors[2] = [NSColor colorWithCalibratedRed:1 green:0.5 blue:0.5 alpha:0.5];
+        
+        CGFloat xx, yy;
+        
+        bool last = false;
+        int k = 0;
+        int n = [edges getResultCount];
+        [field setWidth:S];
+        [field setHeight:S];
+        
+
+        for(y = 0; !last && k < n;y ++) {
+            for(x = 0; !last && k < n && x < W; x ++, k++) {
+                xx = x*S; yy = y*S;
+                if (xx > bnd.origin.x + bnd.size.width ||
+                    yy > bnd.origin.y + bnd.size.height) {
+                    last = true;
+                    break;
+                }
+                
+                NSColor *col;
+                col = colors[[edges result]->clasifySize(k)];
+                [field setX:x*S y:y*S];
+                [field draw:edges offset:k resultColor:col];
+            }
+        }
+    }
+        
 //    [self animator];
-	
 //	[[NSColor yellowColor] set];
 //	[NSBezierPath fillRect: bounds];
 
@@ -81,8 +123,11 @@
 
 - (BOOL)isFlipped { return YES; }
 
--(void)setContent:(ALEdges *) edges {
-
+-(void)setContent:(ALEdges *)ed{
+    [edges release];
+    edges = ed;
+    [edges retain];
+    [self setNeedsDisplay:YES];
 }
 
 @end

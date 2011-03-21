@@ -37,6 +37,8 @@ typedef struct {
 	NSTimer * _timer;
 	IBOutlet NSTextField * textResultCnt;
 	
+    IBOutlet ResultView * resultView;
+    
 	//NSAnimation *_shading;
 	
 	IBOutlet AppCtrl * appCtrl;
@@ -44,7 +46,11 @@ typedef struct {
 	ALEdges *edges;
 	
 	int resOffset;
+
+
+    
 }
+
 
 
 -(void)showDesignerAtX:(CGFloat)x y:(CGFloat)y;

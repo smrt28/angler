@@ -26,6 +26,7 @@
 -(void)dealloc;
 -(void)push:(al::Line)line;
 -(bool)runA34;
+-(int)getResultCount;
 -(std::vector<al::Line> &) getLines;
 
 @end

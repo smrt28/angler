@@ -24,10 +24,6 @@ struct NLine {
 
 @interface Field : NSObject {
 
-@private
-	
-
-	
 	//number of points
 	int _w;
 	int _h;
@@ -36,10 +32,10 @@ struct NLine {
 	CGFloat _x;
 	CGFloat _y;
 	
-	CGFloat _width;
-	CGFloat _height;	
-	CGFloat _maxWidth;
-	CGFloat _maxHeight;
+	CGFloat width;
+	CGFloat height;	
+	CGFloat fieldWidth;
+	CGFloat fieldHeight;
 	
 	CGFloat _marginX;
 	CGFloat _marginY;
@@ -49,20 +45,23 @@ struct NLine {
 	NSPoint _endPoint;
 	
 	NSColor *bgcolor;
+    
+    BOOL dots;
 	
 	id<EdgesHolder>  edgesHolder;
 }
 
 -(id<EdgesHolder>)setEdgesHolder:(id<EdgesHolder>)eh;
 
+@property CGFloat fieldWidth;
+@property CGFloat fieldHeight;
+@property CGFloat width;
+@property CGFloat height;
 
-
+@property BOOL dots;
 
 -(void)setBgcolor:(NSColor *)color;
 -(NSColor *)bgcolor;
-
--(CGFloat)width;
--(CGFloat)height;
 
 
 -(Field *)initWithW:(int)w h:(int)h max_w:(CGFloat)mw max_h:(CGFloat)mh;
@@ -75,6 +74,7 @@ struct NLine {
 
 
 -(void)draw:(ALEdges *)edges offset:(int)ofs resultColor:(NSColor *)rcolor;
+
 
 -(bool)startAt:(NSPoint)p;
 -(bool)dragTo:(NSPoint)p;

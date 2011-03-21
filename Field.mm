@@ -12,12 +12,18 @@
 
 @implementation Field
 
+@synthesize fieldWidth;
+@synthesize fieldHeight;
+@synthesize width;
+@synthesize height;
+
 -(id)init {
 	_x = _y = 0;
-	_w = _h = _height = _width = 0;
-	_maxWidth = _maxHeight = 0;
+	_w = _h = height = width = 0;
+	fieldWidth = fieldHeight = 0;
 	_marginX = _marginY = 0;
 	_dragState = 0;
+    dots = NO;
 	bgcolor = [[NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 0.8] retain];
 	return self;
 }
@@ -36,20 +42,10 @@
 	_y = y;
 }
 
--(void)setWidth:(CGFloat)w {
-	if (w < 0) return;
-	_width = w;
-}
-
--(void)setHeight:(CGFloat)h {
-	if (h < 0) return;
-	_height = h;
-}
-
 -(Field *)initWithW:(int)w h:(int)h max_w:(CGFloat)mw max_h:(CGFloat)mh {
 	[self init];
 	_w = w; _h = h;
-	_width = _maxWidth = mw; _height = _maxHeight = mh;
+	width = fieldWidth = mw; height = fieldHeight = mh;
 	
 	return self;
 }
@@ -103,21 +99,21 @@
 }
 
 -(CGFloat)gridX {
-	return (_width - 2*_marginX) / (_w - 1);
+	return (width - 2*_marginX) / (_w - 1);
 }
 
 -(CGFloat)gridY {
-	return (_height - 2*_marginY) / (_h - 1);
+	return (height - 2*_marginY) / (_h - 1);
 }
 
 
 -(CGFloat)zoomX:(CGFloat)x {
-	CGFloat rv = (_width / _maxWidth) * x;
+	CGFloat rv = (width / fieldWidth) * x;
 	return rv;
 }
 
 -(CGFloat)zoomY:(CGFloat)y {
-	CGFloat rv = (_height / _maxHeight) * y;
+	CGFloat rv = (height / fieldHeight) * y;
 	return rv;
 }
 
@@ -236,8 +232,8 @@
 	NSRect r;
 	r.origin.y = _y;
 	r.origin.x = _x;
-	r.size.width = _width;
-	r.size.height = _height;
+	r.size.width = width;
+	r.size.height = height;
    
     
 	[[NSColor blueColor] set];
@@ -253,16 +249,17 @@
 	}
 
 	int i, j;
-	
-	for(i=0;i<_w;i++)
-	{
-		for(j=0;j<_h;j++)
-		{
-			NSPoint p = [self makeNSPoint: al::Point(i, j)];
-			[self drawDot:p size:1.2];
-		}
-	}
-	
+	if (dots) {
+        for(i=0;i<_w;i++)
+        {
+            for(j=0;j<_h;j++)
+            {
+                NSPoint p = [self makeNSPoint: al::Point(i, j)];
+                [self drawDot:p size:1.2];
+            }
+        }
+    }
+    
 	std::vector<al::Line> &lines = [edges getLines];
 	
 	for (i = 0; i<lines.size(); i++) {
@@ -297,19 +294,13 @@
 	
 }
 
--(CGFloat)width {
-	return _width;
-}
-
--(CGFloat)height {
-	return _height;
-}
-
 
 -(id<EdgesHolder>)setEdgesHolder:(id<EdgesHolder>)eh {
 	edgesHolder = eh;
 	return eh;
 }
+
+@synthesize dots;
 
 @end
 
