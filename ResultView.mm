@@ -97,16 +97,27 @@
         [field setWidth:S];
         [field setHeight:S];
         
+         NSRect  vr = [self visibleRect];
 
         for(y = 0; !last && k < n;y ++) {
             for(x = 0; !last && k < n && x < W; x ++, k++) {
                 xx = x*S; yy = y*S;
+                
+                if (yy + S < vr.origin.y) {
+                    
+                    int a;
+                    a = 0;
+                    continue;
+                }
+                
                 if (xx > bnd.origin.x + bnd.size.width ||
                     yy > bnd.origin.y + bnd.size.height) {
                     last = true;
                     break;
                 }
+                
                 //NSIntersectsRect();
+                
                 NSColor *col;
                 col = colors[[edges result]->clasifySize(k)];
                 [field setX:x*S y:y*S];
@@ -122,6 +133,7 @@
     NSRect f = [self frame];
 
     NSView * suv = [self superview];
+    NSRect  vr = [self visibleRect];
     NSRect w = [suv bounds];
     int n = [edges getResultCount];
     f.size.height = ((n+5)/6) * (f.size.width/6);
