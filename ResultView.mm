@@ -106,7 +106,7 @@
                     last = true;
                     break;
                 }
-                
+                //NSIntersectsRect();
                 NSColor *col;
                 col = colors[[edges result]->clasifySize(k)];
                 [field setX:x*S y:y*S];
@@ -114,20 +114,46 @@
             }
         }
     }
-        
-//    [self animator];
-//	[[NSColor yellowColor] set];
-//	[NSBezierPath fillRect: bounds];
-
 }
 
 - (BOOL)isFlipped { return YES; }
 
--(void)setContent:(ALEdges *)ed{
+-(void)checkResize {
+    NSRect f = [self frame];
+
+    NSView * suv = [self superview];
+    NSRect w = [suv bounds];
+    int n = [edges getResultCount];
+    f.size.height = ((n+5)/6) * (f.size.width/6);
+    if (f.size.height < w.size.height)
+        f.size.height = w.size.height;
+    [self setFrame:f]; 
+    [self setNeedsDisplay:YES];
+}
+
+-(void)setContent:(ALEdges *)ed {
+    [self checkResize];
     [edges release];
     edges = ed;
     [edges retain];
-    [self setNeedsDisplay:YES];
+    
+    NSScrollView *sv = [self enclosingScrollView];
+    
+    NSRect r = [sv documentVisibleRect];
+    sv = 0;
 }
+
+- (void)viewDidMoveToWindow
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(windowResized:) name:NSWindowDidResizeNotification
+                                               object:[self window]];
+}
+
+- (void)windowResized:(NSNotification *)notification;
+{
+    [self checkResize];
+}
+
 
 @end

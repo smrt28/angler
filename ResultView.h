@@ -13,6 +13,7 @@
 
 @interface ResultView : NSView {
 	IBOutlet AppCtrl *ctrl;
+    IBOutlet NSScrollView *scrollView;
     Field * field;
     ALEdges * edges;
 }
