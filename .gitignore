@@ -7,5 +7,7 @@ build/
 **/*.perspectivev*
 tmp/quiz/a.out
 tmp/quiz/out.ps
+Angler.xcodeproj/project.xcworkspace/
+Angler.xcodeproj/xcuserdata/
 
 
