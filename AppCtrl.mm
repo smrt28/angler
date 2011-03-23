@@ -26,3 +26,23 @@
 }
 
 @end
+
+
+@implementation AAppDelegate
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+    return NSTerminateNow;
+}
+
+- (void)applicationWillHide:(NSNotification *)aNotification {
+    
+}
+
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
+    if (flag)
+        return NO;
+    [window orderFront:self];
+    return YES;
+}
+
+@end

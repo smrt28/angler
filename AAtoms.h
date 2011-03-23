@@ -33,6 +33,9 @@ namespace al {
 		Line(const Point &p1, const Point &p2) : p1(p1), p2(p2) {}
 		bool hasPoint(Point &p);
 		int cutMe(Line *l, Line *out, Point *pout);
+        
+        bool cmp(Line *l) { return l->p1.cmp(&p1) && l->p2.cmp(&p2); }
+        
 		Point p1;
 		Point p2;
 		

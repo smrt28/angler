@@ -39,8 +39,42 @@
 	NSLog(@"result - mouse dragged!");
 }
 
+- (BOOL)knowsPageRange:(NSRangePointer)range {
+    NSPrintInfo *pi = [[NSPrintOperation currentOperation] printInfo];
+    NSSize paperSize = [pi paperSize];
+    
+    CGFloat singleFieldSize = paperSize.width / 6;
+    int n = [edges getResultCount];
+    int rows = n / 6;
+    
+    //singleFieldSize * 
+ 
+    range->location = 20;
+    range->length = 5;
+    return YES;
+}
+
+- (NSRect)rectForPage:(NSInteger)pageNumber {
+    NSRect rv;
+    rv.origin.x = 0;
+    rv.origin.y = 0;
+    rv.size.width = 100;
+    rv.size.height = 100;
+    return rv;
+}
+
 - (void)drawRect:(NSRect)dirtyRect {
 	
+    if (! [NSGraphicsContext currentContextDrawingToScreen] ) { 
+        // Draw printer-only elements here
+        NSRect r = dirtyRect;
+        NSPrintOperation *op = [NSPrintOperation currentOperation];
+        NSPrintInfo *pInfo = [op printInfo];
+        NSLog(@"PRINT 2");
+        return;
+    }
+    
+    
 	static CGFloat S; 
 	static const CGFloat one = 0.1;
 	static const CGFloat two = 0.2;
@@ -110,11 +144,15 @@
                     continue;
                 }
                 
+                if (yy > vr.origin.y + vr.size.height) {
+                    continue;
+                }
+                /*
                 if (xx > bnd.origin.x + bnd.size.width ||
                     yy > bnd.origin.y + bnd.size.height) {
                     last = true;
                     break;
-                }
+                }*/
                 
                 //NSIntersectsRect();
                 

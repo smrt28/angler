@@ -1,3 +1,15 @@
+
+
+
+NSPrintOperation* po = [NSPrintOperation printOperationWithView:self];
+NSPrintInfo *pInfo = [po printInfo];
+[NSPrintOperation setCurrentOperation:po];
+[pInfo setHorizontalPagination:NSFitPagination];
+[pInfo setVerticalPagination:NSClipPagination];
+
+
+
+
 - (void)drawRect:(NSRect)dirtyRect {
     NSRect offscreenRect = NSMakeRect(0.0, 0.0, 100, 100);
     
@@ -32,3 +44,5 @@
     NSPoint myPoint = {50,50};
     [ledImageRep drawAtPoint:myPoint]; 
 }
+
+

@@ -155,7 +155,15 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
     [path fill];
 }
 
+- (void)drawRectPrinter:(NSRect)dirtyRect {
+
+}
+
 - (void)drawRect:(NSRect)dirtyRect {
+    
+
+    
+    
 	NSRect bounds = [self bounds];
 
 	CGFloat C = 15;
@@ -221,6 +229,8 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 }
 
 -(void)lineDrawn:(al::Line)line {
+    if (line.p1.cmp(&line.p2))
+        return;
 	[edges push:line];
     [self recalculate];
 }

@@ -11,6 +11,14 @@
 @class Designer;
 @class ResultView;
 
+@interface AAppDelegate : NSObject <NSApplicationDelegate> {
+    IBOutlet NSWindow * window;
+}
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender;    
+- (void)applicationWillHide:(NSNotification *)aNotification;
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag;
+@end
 
 @interface AppCtrl : NSObject {
 	IBOutlet Designer * designer;
