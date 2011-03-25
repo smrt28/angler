@@ -51,8 +51,8 @@
     int fieldsPerPage = rowsPerPage * fieldsPerRow;
     int pages = (n - 1)/fieldsPerPage + 1;
     
-    range->location = 20;
-    range->length = pages;
+    range->location = 1;
+    range->length = pages + 1;
     page = 0;
     return YES;
 }
@@ -99,8 +99,20 @@
         int fieldsPerPage = rowsPerPage * fieldsPerRow;
         int pages = (n - 1)/fieldsPerPage + 1;
         
+        if (page == 0) {
+            page++;
+            Field *f = [[[Field alloc] initWithW:18 h:18 max_w:paperSize.width max_h:paperSize.width] autorelease];
+            f.bgcolor = [NSColor colorWithDeviceRed: 0 green: 0 blue: 0 alpha: 1];
+            f.lineColor = [NSColor blackColor];
+            f.maxLineWidth = f.minLineWidth = 2;
+            [f setX:marginX y:marginX + paperSize.height/2 - paperSize.width/2];
+            [f draw:edges offset:-1 resultColor:0];
+            
+            return;
+        }
         
-        int from = page * fieldsPerPage;
+        
+        int from = (page - 1) * fieldsPerPage;
         int to = from + fieldsPerPage;
         if (to > n) to = n;
         
@@ -110,9 +122,9 @@
         f.maxLineWidth = f.minLineWidth = 0.4;
 
         NSColor *colors[3];
-        colors[0] = [NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0.25];
+        colors[0] = [NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0.15];
         colors[1] = [NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0.15];
-        colors[2] = [NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0.25];    
+        colors[2] = [NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0.15];    
 
         int x, y, k;
         k = from;
