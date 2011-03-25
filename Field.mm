@@ -16,6 +16,10 @@
 @synthesize fieldHeight;
 @synthesize width;
 @synthesize height;
+@synthesize lineColor;
+
+@synthesize minLineWidth;
+@synthesize maxLineWidth;
 
 -(id)init {
 	_x = _y = 0;
@@ -23,6 +27,10 @@
 	fieldWidth = fieldHeight = 0;
 	_marginX = _marginY = 0;
 	_dragState = 0;
+    minLineWidth = 0.7;
+    maxLineWidth = 1.5;
+    self.lineColor = [NSColor whiteColor];
+    
     dots = NO;
 	bgcolor = [[NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 0.8] retain];
 	return self;
@@ -51,6 +59,7 @@
 }
 
 -(void)dealloc {
+    self.lineColor = nil;
 	[bgcolor release];
 	[super dealloc];
 }
@@ -126,6 +135,11 @@
 	[path2 setLineCapStyle:NSSquareLineCapStyle];
 	float ww = 2.3;
 	float w = ([self zoomX:ww] + [self zoomY:ww])/2;
+    
+    if (w > maxLineWidth) w = maxLineWidth;
+    if (w < minLineWidth) w = minLineWidth;
+    
+    //if (w < minLineWidth)
 	[path2 setLineWidth: w];
 	[color set];
 	[path2 stroke];	
@@ -263,7 +277,7 @@
 	std::vector<al::Line> &lines = [edges getLines];
 	
 	for (i = 0; i<lines.size(); i++) {
-		[self drawAlLine:lines[i] color:[NSColor whiteColor]];
+		[self drawAlLine:lines[i] color:lineColor];
 	}
 	
 	

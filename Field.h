@@ -45,18 +45,25 @@ struct NLine {
 	NSPoint _endPoint;
 	
 	NSColor *bgcolor;
+    NSColor *lineColor;
     
     BOOL dots;
+    
+    CGFloat minLineWidth;
+    CGFloat maxLineWidth;
 	
 	id<EdgesHolder>  edgesHolder;
 }
 
 -(id<EdgesHolder>)setEdgesHolder:(id<EdgesHolder>)eh;
 
+@property CGFloat minLineWidth;
+@property CGFloat maxLineWidth;
 @property CGFloat fieldWidth;
 @property CGFloat fieldHeight;
 @property CGFloat width;
 @property CGFloat height;
+@property (retain) NSColor *lineColor;
 
 @property BOOL dots;
 

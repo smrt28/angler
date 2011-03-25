@@ -42,35 +42,97 @@
 - (BOOL)knowsPageRange:(NSRangePointer)range {
     NSPrintInfo *pi = [[NSPrintOperation currentOperation] printInfo];
     NSSize paperSize = [pi paperSize];
-    
-    CGFloat singleFieldSize = paperSize.width / 6;
+
+    int fieldsPerRow = 6;
+    CGFloat singleFieldSize = paperSize.width / fieldsPerRow;
     int n = [edges getResultCount];
-    int rows = n / 6;
+    int rows = ((n - 1)/fieldsPerRow) + 1;
+    int rowsPerPage = paperSize.height / singleFieldSize;
+    int fieldsPerPage = rowsPerPage * fieldsPerRow;
+    int pages = (n - 1)/fieldsPerPage + 1;
     
-    //singleFieldSize * 
- 
     range->location = 20;
-    range->length = 5;
+    range->length = pages;
+    page = 0;
     return YES;
+}
+
+
+- (float)calculatePrintHeight {
+    NSPrintInfo *pi = [[NSPrintOperation currentOperation] printInfo];
+    NSSize paperSize = [pi paperSize];
+    float pageHeight = paperSize.height - [pi topMargin] - [pi bottomMargin];
+    float scale = [[[pi dictionary] objectForKey:NSPrintScalingFactor]
+                   floatValue];
+    return pageHeight / scale;
 }
 
 - (NSRect)rectForPage:(NSInteger)pageNumber {
     NSRect rv;
+    
+    NSPrintInfo *pi = [[NSPrintOperation currentOperation] printInfo];
+    NSSize paperSize = [pi paperSize];
     rv.origin.x = 0;
     rv.origin.y = 0;
-    rv.size.width = 100;
-    rv.size.height = 100;
+    rv.size.width = paperSize.width;
+    rv.size.height = paperSize.height;
     return rv;
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
 	
     if (! [NSGraphicsContext currentContextDrawingToScreen] ) { 
-        // Draw printer-only elements here
-        NSRect r = dirtyRect;
-        NSPrintOperation *op = [NSPrintOperation currentOperation];
-        NSPrintInfo *pInfo = [op printInfo];
-        NSLog(@"PRINT 2");
+        NSPrintInfo *pi = [[NSPrintOperation currentOperation] printInfo];
+        NSSize paperSize = [pi paperSize];
+        
+        CGFloat marginX = 30;
+        CGFloat marginY = 30;
+        int fieldsPerRow = 6;
+        
+        paperSize.width -= 2*marginX;
+        paperSize.height -= 2*marginY;
+        
+        CGFloat singleFieldSize = paperSize.width / fieldsPerRow;
+        int n = [edges getResultCount];
+        int rows = ((n - 1)/fieldsPerRow) + 1;
+        int rowsPerPage = paperSize.height / singleFieldSize;
+        int fieldsPerPage = rowsPerPage * fieldsPerRow;
+        int pages = (n - 1)/fieldsPerPage + 1;
+        
+        
+        int from = page * fieldsPerPage;
+        int to = from + fieldsPerPage;
+        if (to > n) to = n;
+        
+        Field *f = [[[Field alloc] initWithW:18 h:18 max_w:singleFieldSize max_h:singleFieldSize] autorelease];
+        f.bgcolor = [NSColor colorWithDeviceRed: 0 green: 0 blue: 0 alpha: 1];
+        f.lineColor = [NSColor blackColor];
+        f.maxLineWidth = f.minLineWidth = 0.4;
+
+        NSColor *colors[3];
+        colors[0] = [NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0.25];
+        colors[1] = [NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0.15];
+        colors[2] = [NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0.25];    
+
+        int x, y, k;
+        k = from;
+
+        for (y = 0; k < to && y < rowsPerPage; y++) {
+            for (x = 0; k < to && x < fieldsPerRow; x++) {
+                
+                
+                NSColor *col;
+                col = colors[[edges result]->clasifySize(k)];
+                
+                [f setX:x*singleFieldSize+marginX y:y*singleFieldSize+marginY];
+                [f draw:edges offset:k resultColor:col];      
+
+                k ++;
+                
+            }
+        }
+        
+        page++;
         return;
     }
     
@@ -147,14 +209,7 @@
                 if (yy > vr.origin.y + vr.size.height) {
                     continue;
                 }
-                /*
-                if (xx > bnd.origin.x + bnd.size.width ||
-                    yy > bnd.origin.y + bnd.size.height) {
-                    last = true;
-                    break;
-                }*/
-                
-                //NSIntersectsRect();
+
                 
                 NSColor *col;
                 col = colors[[edges result]->clasifySize(k)];

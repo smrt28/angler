@@ -16,6 +16,7 @@
     IBOutlet NSScrollView *scrollView;
     Field * field;
     ALEdges * edges;
+    int page;
 }
 
 -(void)setContent:(ALEdges *) edges;
