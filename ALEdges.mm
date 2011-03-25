@@ -57,6 +57,13 @@
     return result->size();
 }
 
+-(void)pop {
+    if (lines.empty())
+        return;
+    lines.pop_back();
+    resultFor = -1;
+}
+
 @synthesize edges;
 
 @end

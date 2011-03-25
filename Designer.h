@@ -51,7 +51,7 @@ typedef struct {
     
 }
 
-
+-(IBAction)undo: sender;
 
 -(void)showDesignerAtX:(CGFloat)x y:(CGFloat)y;
 

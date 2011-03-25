@@ -240,4 +240,9 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
     [self recalculate];
 }
 
+-(IBAction)undo: sender {
+    [edges pop];
+    [self recalculate];
+}
+
 @end

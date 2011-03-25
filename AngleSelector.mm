@@ -26,6 +26,9 @@
 
 	int i;
 	NSRect bounds = [self bounds];
+    
+    [NSBezierPath fillRect: bounds];
+    
 	CGFloat w2 = bounds.size.width / 2;
 	CGFloat h2 = bounds.size.height / 2;
 
@@ -63,11 +66,6 @@
 	
 	NSString *s = [NSString stringWithFormat:@"%d", edges ];
 	NSSize sz = [s sizeWithAttributes: dict];
-	
-	
-	
-	//[s drawAtPoint: NSMakePoint(w2 - sz.width/2, sz.height/4) withAttributes:dict]; 
-	
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
