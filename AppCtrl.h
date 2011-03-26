@@ -8,11 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class AngleSelector;
 @class Designer;
 @class ResultView;
+@class AppCtrl;
 
 @interface AAppDelegate : NSObject <NSApplicationDelegate> {
     IBOutlet NSWindow * window;
+    IBOutlet AppCtrl * appCtrl;
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender;    
@@ -22,16 +25,20 @@
 
 @interface AppCtrl : NSObject {
 	IBOutlet Designer * designer;
-	IBOutlet ResultView * results;
 	IBOutlet NSTextField * textResultCnt;
     IBOutlet NSWindow * resultViewWindow;
-    IBOutlet ResultView * resultView;
+    IBOutlet NSPanel *panel;
+    IBOutlet AngleSelector * activeASelector;
 }
+
+-(void)show;
+-(id)init;
+
+-(IBAction)showDrawer: sender;
 
 -(void)showDesignerAtX:(CGFloat)x y:(CGFloat)y;
 
--(void)doSomething;
-
-- (IBAction) showAllResults: sender;
+- (IBAction) showAllResults:sender;
+- (IBAction) selectNAngler:sender;
 
 @end

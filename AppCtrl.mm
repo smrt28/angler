@@ -9,11 +9,14 @@
 #import "AppCtrl.h"
 #import "Designer.h"
 #import "ResultView.h"
+#import "AngleSelector.h"
 
 @implementation AppCtrl
 
--(void)doSomething {
-	[designer setHidden:NO];
+-(id)init {
+    [super init];
+    
+    return self;
 }
 
 
@@ -24,6 +27,33 @@
 - (IBAction) showAllResults: sender {
     [resultViewWindow makeKeyAndOrderFront:nil];
 }
+
+-(IBAction)showDrawer: sender {
+   // [panel orderFront: self]; 
+    [panel setIsVisible:YES];
+    
+}
+
+- (IBAction) selectNAngler: sender {
+    int i = [sender edges];
+    [designer edgesCountChanged:i];
+    
+    [activeASelector setSelected: NO];
+    activeASelector = sender;
+    [activeASelector setSelected: YES];
+}
+
+- (void)awakeFromNib {
+    [designer edgesCountChanged:3];
+    [activeASelector setSelected: YES];
+}
+
+
+-(void)show {
+    [resultViewWindow orderFront:self];
+    [panel setIsVisible:YES];
+}
+
 
 @end
 
@@ -41,8 +71,10 @@
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
     if (flag)
         return NO;
-    [window orderFront:self];
+    [appCtrl show];
+    //[window orderFront:self];
     return YES;
 }
+
 
 @end

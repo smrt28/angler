@@ -16,10 +16,22 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        isSelected = NO;
         edges = 4;
-        color = [[NSColor whiteColor] retain];
+        CGFloat x = 0.3;
+        CGFloat a = 0.8;
+        color = [[NSColor colorWithCalibratedRed:x green:x blue:x alpha:a] retain];
+      
+        x = 1;
+        colorSel = [[NSColor colorWithCalibratedRed:x green:x blue:x alpha:a] retain];
+
+        
     }
     return self;
+}
+
+-(void)dealloc {
+    [super dealloc];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -27,7 +39,7 @@
 	int i;
 	NSRect bounds = [self bounds];
     
-    [NSBezierPath fillRect: bounds];
+   // [NSBezierPath fillRect: bounds];
     
 	CGFloat w2 = bounds.size.width / 2;
 	CGFloat h2 = bounds.size.height / 2;
@@ -35,7 +47,11 @@
 	NSBezierPath* path = [NSBezierPath bezierPath];
 	[path setLineCapStyle:NSSquareLineCapStyle];
 	[path setLineWidth: 2];
-	[color set];
+    
+    if (isSelected)
+        [colorSel set];
+    else
+        [color set];
 
 	
 	for (i = 0;i < edges + 1; i++) {
@@ -69,17 +85,24 @@
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
+    [appCtrl performSelector:sel withObject:self];
+    /*
 	edges ++;
 	if (edges > 15)
 		edges = 3;
 	[handler edgesCountChanged: edges];
 	[self setNeedsDisplay:YES];
+     */
 }
 
 - (BOOL)isFlipped { return YES; }
 
 - (void)setValue:(id)value forKeyPath:(NSString *)keyPath {
-    
+    if ([keyPath  compare:@"edges"] == NSOrderedSame) {
+        NSNumber *ne = value;
+        edges = [ne intValue];
+            }
+    /*
     if ([keyPath  compare:@"color"] == NSOrderedSame) {
         float r, g, b, a;
         
@@ -92,8 +115,22 @@
             color = [[NSColor colorWithCalibratedRed:r green:g blue:b alpha:a] retain];
         }
     }
+     */
     
 }
 
+- (void)setAction:(SEL)aSelector {
+    sel = aSelector;
+}
+
+- (void)setTarget:(id)anObject {
+    appCtrl = anObject;
+}
+
+-(void)setSelected:(BOOL)b {
+    if (b!=isSelected)
+        [self setNeedsDisplay:YES];
+    isSelected = b;
+}
 
 @end

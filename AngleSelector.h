@@ -8,12 +8,20 @@
 
 #import <Cocoa/Cocoa.h>
 #import "EdgesHolder.h"
-
+#import "AppCtrl.h"
 @interface AngleSelector : NSControl {
 	IBOutlet id<AngleSelectorHandler> handler;
 	int edges;
-    NSColor *color; 
+    NSColor *color;
+    NSColor *colorSel;
+    id appCtrl;
+    SEL sel;
+    BOOL isSelected;
 }
+
+-(void)dealloc;
+-(void)setSelected:(BOOL)b;
+
 @property int edges;
 
 @end
