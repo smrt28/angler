@@ -86,13 +86,6 @@
 
 - (void)mouseUp:(NSEvent *)theEvent {
     [appCtrl performSelector:sel withObject:self];
-    /*
-	edges ++;
-	if (edges > 15)
-		edges = 3;
-	[handler edgesCountChanged: edges];
-	[self setNeedsDisplay:YES];
-     */
 }
 
 - (BOOL)isFlipped { return YES; }
@@ -101,22 +94,7 @@
     if ([keyPath  compare:@"edges"] == NSOrderedSame) {
         NSNumber *ne = value;
         edges = [ne intValue];
-            }
-    /*
-    if ([keyPath  compare:@"color"] == NSOrderedSame) {
-        float r, g, b, a;
-        
-        NSString *s = value;
-        int l = [s length] + 1;
-        char buf[l];
-        if ([s getCString:buf maxLength:l encoding:NSUTF8StringEncoding]) {
-            sscanf(buf, "%f, %f, %f, %f", &r, &g, &b, &a);
-            [color release];
-            color = [[NSColor colorWithCalibratedRed:r green:g blue:b alpha:a] retain];
-        }
     }
-     */
-    
 }
 
 - (void)setAction:(SEL)aSelector {

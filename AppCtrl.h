@@ -13,7 +13,7 @@
 @class ResultView;
 @class AppCtrl;
 
-@interface AAppDelegate : NSObject <NSApplicationDelegate> {
+@interface AAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate> {
     IBOutlet NSWindow * window;
     IBOutlet AppCtrl * appCtrl;
 }
@@ -22,6 +22,11 @@
 - (void)applicationWillHide:(NSNotification *)aNotification;
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag;
 @end
+
+
+
+//- (void)setDelegate:(id < NSWindowDelegate >)delegate
+
 
 @interface AppCtrl : NSObject {
 	IBOutlet Designer * designer;

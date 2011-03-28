@@ -68,8 +68,3 @@
 
 @end
 
-/*
-@implementation ALEdges
-
-
-@end*/

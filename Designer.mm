@@ -174,7 +174,7 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
     
     
     NSBezierPath *path = [NSBezierPath bezierPathWithRect: bounds];
-    [[NSColor blackColor] set];
+    [[NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0.5] set];
     [path fill];
     
     

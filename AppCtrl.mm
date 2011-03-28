@@ -44,6 +44,8 @@
 }
 
 - (void)awakeFromNib {
+   // DrawPanleDelegate *dpd = [[DrawPanleDelegate alloc] init];
+   // [panel setDelegate: dpd];
     [designer edgesCountChanged:3];
     [activeASelector setSelected: YES];
 }
@@ -54,6 +56,15 @@
     [panel setIsVisible:YES];
 }
 
+- (void)windowWillClose:(NSNotification *)notification {
+    if ([notification object] == panel) {
+        [resultViewWindow setIsVisible: NO];
+    } else if ([notification object] == resultViewWindow) {
+        [panel setIsVisible: NO];
+    }
+
+        
+}
 
 @end
 
