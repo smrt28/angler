@@ -34,16 +34,19 @@
     IBOutlet NSWindow * resultViewWindow;
     IBOutlet NSPanel *panel;
     IBOutlet AngleSelector * activeASelector;
+    IBOutlet ResultView *resultView;
+    IBOutlet NSPopUpButton *widthSelectMenu;
 }
 
 -(void)show;
 -(id)init;
 
 -(IBAction)showDrawer: sender;
+-(IBAction)print: sender;
 
 -(void)showDesignerAtX:(CGFloat)x y:(CGFloat)y;
 
 - (IBAction) showAllResults:sender;
 - (IBAction) selectNAngler:sender;
-
+- (IBAction) widthChange:(NSPopUpButton *)sender;
 @end

@@ -13,10 +13,17 @@
 
 @implementation ResultView
 
+-(void)setFieldsInRow:(int)flds {
+    fieldsInRow = flds;
+    [self checkResize];
+    [self setNeedsDisplay:YES];
+}
+
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         edges = 0;
+        fieldsInRow = 6;
         field = [[Field alloc] initWithW:18 h:18 max_w:400 max_h:400];
         field.bgcolor = [NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1];
     }
@@ -43,7 +50,7 @@
     NSPrintInfo *pi = [[NSPrintOperation currentOperation] printInfo];
     NSSize paperSize = [pi paperSize];
 
-    int fieldsPerRow = 6;
+    int fieldsPerRow = fieldsInRow;
     CGFloat singleFieldSize = paperSize.width / fieldsPerRow;
     int n = [edges getResultCount];
     int rows = ((n - 1)/fieldsPerRow) + 1;
@@ -87,16 +94,16 @@
         
         CGFloat marginX = 30;
         CGFloat marginY = 30;
-        int fieldsPerRow = 6;
+      //  int fieldsPerRow = 6;
         
         paperSize.width -= 2*marginX;
         paperSize.height -= 2*marginY;
         
-        CGFloat singleFieldSize = paperSize.width / fieldsPerRow;
+        CGFloat singleFieldSize = paperSize.width / fieldsInRow;
         int n = [edges getResultCount];
-        int rows = ((n - 1)/fieldsPerRow) + 1;
+        int rows = ((n - 1)/fieldsInRow) + 1;
         int rowsPerPage = paperSize.height / singleFieldSize;
-        int fieldsPerPage = rowsPerPage * fieldsPerRow;
+        int fieldsPerPage = rowsPerPage * fieldsInRow;
         int pages = (n - 1)/fieldsPerPage + 1;
         
         if (page == 0) {
@@ -130,7 +137,7 @@
         k = from;
 
         for (y = 0; k < to && y < rowsPerPage; y++) {
-            for (x = 0; k < to && x < fieldsPerRow; x++) {
+            for (x = 0; k < to && x < fieldsInRow; x++) {
                 
                 
                 NSColor *col;
@@ -161,7 +168,7 @@
 
     NSRect bnd = [self bounds];
 
-    W = 6;
+    W = fieldsInRow;
     S = bnd.size.width / W;
     
 	NSRect bounds = [self bounds];
@@ -241,7 +248,9 @@
     NSRect  vr = [self visibleRect];
     NSRect w = [suv bounds];
     int n = [edges getResultCount];
-    f.size.height = ((n+5)/6) * (f.size.width/6);
+    int a5 = fieldsInRow - 1;
+    int a6 = fieldsInRow;
+    f.size.height = ((n+a5)/a6) * (f.size.width/a6);
     if (f.size.height < w.size.height)
         f.size.height = w.size.height;
     [self setFrame:f]; 

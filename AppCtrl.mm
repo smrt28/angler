@@ -48,6 +48,7 @@
    // [panel setDelegate: dpd];
     [designer edgesCountChanged:3];
     [activeASelector setSelected: YES];
+    [widthSelectMenu selectItemAtIndex: 1];
 }
 
 
@@ -61,9 +62,16 @@
         [resultViewWindow setIsVisible: NO];
     } else if ([notification object] == resultViewWindow) {
         [panel setIsVisible: NO];
-    }
+    }        
+}
 
-        
+-(IBAction)print: sender {
+    [resultView print: sender];
+}
+
+- (IBAction) widthChange:(NSPopUpButton *)sender {
+    int i = [sender indexOfSelectedItem] + 5;
+    [resultView setFieldsInRow: i];
 }
 
 @end

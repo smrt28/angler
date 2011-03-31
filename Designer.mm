@@ -245,4 +245,11 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
     [self recalculate];
 }
 
+-(IBAction)clear: sender {
+    while([edges getLines].size() > 0) {
+        [edges pop];
+    }
+    [self recalculate];
+}
+
 @end

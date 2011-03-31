@@ -17,8 +17,12 @@
     Field * field;
     ALEdges * edges;
     int page;
+    int fieldsInRow;
 }
 
+-(void)setFieldsInRow:(int)flds;
+
 -(void)setContent:(ALEdges *) edges;
+-(void)checkResize;
 
 @end
