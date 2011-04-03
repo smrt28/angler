@@ -19,13 +19,47 @@
     self = [super initWithFrame:frame];
     if (self) {
 		resOffset = 0;
-		_field = [[Field alloc] initWithW:18 h:18 max_w:500 max_h:500];
+		_field = [[Field alloc] initWithW:17 h:17 max_w:500 max_h:500];
 		_field.bgcolor = [NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1];
+//        backShow = [NSTimer scheduledTimerWithTimeInterval:0.3 invocation:@selector(updClk:) repeats:YES];
+     //   [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updClk:) userinfo:nil repeats:YES];
+       
+    //    backShow = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updClk:) userInfo:nil repeats:YES];
 		edges = [[ALEdges alloc] init];
 		[_field setEdgesHolder:self];
         [_field setDots:YES];
 	}
     return self;
+}
+
+- (void)updClk:(NSTimer *)theTimer {
+    al::A34Result *res = [edges result];
+    if (!res) return;
+
+    if (res->size() <= 1) {
+        resOffset = -1;
+        return;
+    }
+    
+    int tmp = resOffset;
+    resOffset = rand() % res->size();
+
+    if (resOffset == tmp) {
+        resOffset++;
+        resOffset %= res->size();
+    }
+    
+    /*
+    resOffset++;
+    
+    if (resOffset >= res->size())
+        resOffset = 0;
+    
+    if (resOffset < 0) 
+        resOffset = 0;
+    */
+    [self setNeedsDisplay:YES]; 
+    
 }
 
 - (void)timerFired:(NSTimer*)theTimer {
@@ -35,6 +69,7 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    [backShow release];
 	[edges release];
 	[_field setEdgesHolder:nil];
 	[super dealloc];
@@ -131,9 +166,10 @@
     
     if (!s) {
         NSString *aname = [NSString stringWithFormat:@"%d", [edges edges]];
-        s = [NSString stringWithFormat:@"%@: %d/%d", aname, idx, totalCnt];    
+        s = [NSString stringWithFormat:@"%@-angles found: %d", aname, totalCnt];    
     }
     
+    [appCtrl notifyChanges: edges];
     [textResultCnt setStringValue: s];
 
     
@@ -189,13 +225,14 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 
     if ([edges result]) {
     switch([edges result]->clasifySize(resOffset)) {
-        case 0: col = [NSColor colorWithCalibratedRed:0.5 green:0.5 blue:1 alpha:0.5]; break;
-        case 1: col = [NSColor colorWithCalibratedRed:1 green:1 blue:1 alpha:0.5]; break;
-        case 2: col = [NSColor colorWithCalibratedRed:1 green:0.5 blue:0.5 alpha:0.5]; break;
+        case 0: col = [NSColor colorWithCalibratedRed:0.5 green:0.5 blue:1 alpha:0.05]; break;
+        case 1: col = [NSColor colorWithCalibratedRed:1 green:1 blue:1 alpha:0.05]; break;
+        case 2: col = [NSColor colorWithCalibratedRed:1 green:0.5 blue:0.5 alpha:0.05]; break;
     }
     }
     
-   	[_field draw:edges offset:resOffset resultColor:col];
+//   	[_field draw:edges offset:resOffset resultColor:col];
+   	[_field draw:edges offset:-1 resultColor:col];
 }
 
 - (void)scrollWheel:(NSEvent *)theEvent {
@@ -253,3 +290,6 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 }
 
 @end
+
+
+

@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "ALEdges.h"
 
 @class AngleSelector;
 @class Designer;
@@ -36,6 +37,10 @@
     IBOutlet AngleSelector * activeASelector;
     IBOutlet ResultView *resultView;
     IBOutlet NSPopUpButton *widthSelectMenu;
+
+    IBOutlet NSButton *printButton;
+    IBOutlet NSButton *clearButton;
+    IBOutlet NSButton *undoButton;
 }
 
 -(void)show;
@@ -49,4 +54,7 @@
 - (IBAction) showAllResults:sender;
 - (IBAction) selectNAngler:sender;
 - (IBAction) widthChange:(NSPopUpButton *)sender;
+
+- (void) notifyChanges:(ALEdges *)edges;
+
 @end

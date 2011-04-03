@@ -29,5 +29,5 @@
 -(void)pop;
 -(int)getResultCount;
 -(std::vector<al::Line> &) getLines;
-
+-(int)linesCnt;
 @end

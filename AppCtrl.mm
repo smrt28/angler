@@ -19,6 +19,23 @@
     return self;
 }
 
+- (void) notifyChanges:(ALEdges *)edges; {
+    int resCnt = [edges getResultCount];
+    int lines = [edges linesCnt];
+    if (lines <= 0) {
+        [undoButton setEnabled: NO];
+        [clearButton setEnabled: NO];
+    } else {
+        [undoButton setEnabled: YES];
+        [clearButton setEnabled: YES];
+    }
+    
+    if (resCnt > 0) {
+        [printButton setEnabled: YES];
+    } else {
+        [printButton setEnabled: NO];        
+    }
+}
 
 -(void)showDesignerAtX:(CGFloat)x y:(CGFloat)y {
 	[designer showDesignerAtX:x y:y];
@@ -73,6 +90,7 @@
     int i = [sender indexOfSelectedItem] + 5;
     [resultView setFieldsInRow: i];
 }
+
 
 @end
 

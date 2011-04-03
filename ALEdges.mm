@@ -64,6 +64,10 @@
     resultFor = -1;
 }
 
+-(int)linesCnt {
+    return lines.size();
+}
+
 @synthesize edges;
 
 @end

@@ -47,14 +47,13 @@ typedef struct {
 	
 	int resOffset;
 
-
-    
+    NSTimer * backShow;
 }
 
 -(IBAction)undo: sender;
 -(IBAction)clear: sender;
 
 -(void)showDesignerAtX:(CGFloat)x y:(CGFloat)y;
-
+-(void)updClk:(NSTimer *)theTimer;
 
 @end
