@@ -249,9 +249,6 @@
 	r.size.width = width;
 	r.size.height = height;
    
-    
-	[[NSColor blueColor] set];
-	
 	if (_dragState == 1) {
 		NSPoint p;
 		p.x = _endPoint.x + _x;

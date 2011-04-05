@@ -233,7 +233,7 @@ namespace al {
 	Polygon A34::makeResult(std::vector<Spot *> &stack) {
 		Polygon result(A);
 		size_t sz = stack.size() - 1;
-		int i, j, c;
+		int i;
 		Spot *fspot = 0;
 		Spot *spot;
 		Point *points = result.getPoints();

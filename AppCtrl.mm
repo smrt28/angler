@@ -19,6 +19,19 @@
     return self;
 }
 
+- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize {
+    NSLog(@"Will resize...");
+    return frameSize;
+}
+
+- (void)windowWillStartLiveResize:(NSNotification *)notification {
+    [buyMe setHidden: YES];
+}
+
+- (void)windowDidEndLiveResize:(NSNotification *)notification {
+    [buyMe setHidden: NO];
+}
+
 - (void) notifyChanges:(ALEdges *)edges; {
     int resCnt = [edges getResultCount];
     int lines = [edges linesCnt];
@@ -114,4 +127,12 @@
 }
 
 
+
+- (void)awakeFromNib {
+ //   [window setDelegate:self];
+}
+
+
 @end
+
+

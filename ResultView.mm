@@ -9,8 +9,6 @@
 #import "ResultView.h"
 #import "Field.h"
 
-//#define S 200
-
 @implementation ResultView
 
 -(void)setFieldsInRow:(int)flds {
@@ -151,6 +149,8 @@
             }
         }
         
+        
+        
         page++;
         return;
     }
@@ -158,7 +158,7 @@
     
 	static CGFloat S; 
 	static const CGFloat one = 0.1;
-	static const CGFloat two = 0.2;
+	static const CGFloat two = 0.13;
 	
 	int nx, ny;
 	
@@ -182,7 +182,7 @@
 	NSColor *c2 = [NSColor colorWithDeviceRed:two green:two blue:two alpha: 1];
 
 	NSRect r;
-	r.size.width = r.size.height = S;
+	r.size.width = r.size.height = S + 1;
 
 	NSColor *c;
 	
@@ -237,6 +237,36 @@
             }
         }
     }
+    /*
+    NSRect  vr = [self visibleRect];
+    vr.size.width = 100;
+    [buyMe setFrame:vr];
+     */
+   // [self buyMe];
+}
+
+-(void)buyMe {
+    NSString *s = @"Buy to stop the blinking!";
+    NSMutableDictionary * attributes = [[[NSMutableDictionary alloc] init] autorelease];
+    
+    [attributes setObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
+    
+   // [[NSColor redColor] set];
+    CGFloat h = [s sizeWithAttributes:attributes].height;
+    
+    NSRect  vr = [self visibleRect];
+    NSRect rec = [self bounds];
+    rec = vr;
+    //rec.origin.y = rec.size.width;
+    
+    [s drawInRect:rec withAttributes:attributes];
+    
+    h = 0;
+    
+    //    NSRect rect;
+    //    rect.origin.x = 10; rect.origin.y = 10;
+    //    NSBezierPath *path = [NSBezierPath bezierPathWithRect:rect];
+    
 }
 
 - (BOOL)isFlipped { return YES; }
@@ -281,5 +311,11 @@
     [self checkResize];
 }
 
+- (NSRect)adjustScroll:(NSRect)proposedVisibleRect {
+    NSRect r = [buyMe frame];
+    r.origin.y = 11 + proposedVisibleRect.origin.y;
+    [buyMe setFrame:r];
+   return proposedVisibleRect;
+}
 
 @end

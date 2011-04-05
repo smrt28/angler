@@ -231,9 +231,16 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
     }
     }
     
+    
+    
 //   	[_field draw:edges offset:resOffset resultColor:col];
    	[_field draw:edges offset:-1 resultColor:col];
+    
+ //   + (NSBezierPath *)bezierPathWithRect:(NSRect)aRec
 }
+
+
+
 
 - (void)scrollWheel:(NSEvent *)theEvent {
 	

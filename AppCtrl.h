@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "ALEdges.h"
+#import "BuyMe.h"
 
 @class AngleSelector;
 @class Designer;
@@ -41,6 +42,7 @@
     IBOutlet NSButton *printButton;
     IBOutlet NSButton *clearButton;
     IBOutlet NSButton *undoButton;
+    IBOutlet BuyMe *buyMe;
 }
 
 -(void)show;
@@ -56,5 +58,7 @@
 - (IBAction) widthChange:(NSPopUpButton *)sender;
 
 - (void) notifyChanges:(ALEdges *)edges;
+- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize;
+- (void)windowWillStartLiveResize:(NSNotification *)notification;
 
 @end
