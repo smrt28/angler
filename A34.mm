@@ -86,7 +86,7 @@ namespace al {
 			
 			i++;
 		}
-		NSLog(@"lines: %lu %d", lines.size(), cnt);
+	//	NSLog(@"lines: %lu %d", lines.size(), cnt);
 	}
 	
 	Spot * A34::getSpot(Point &p) {
@@ -200,12 +200,12 @@ namespace al {
 		for(i=0;i<sz;i++) {
 			find(result.get(), spots[i]);
 		}
-		NSLog(@"found: %d; complexity: %d", cnt, complexity);
+	//	NSLog(@"found: %d; complexity: %d", cnt, complexity);
 		std::sort(result->begin(), result->end(), CmpAreas());
 		return result.release();
         } catch(Error e) {
             result.get()->clear();
-            result->errorMessage = "???";
+            result->errorMessage = "Too complicated picture, please undo lines...";
             return result.release();
         }
 	}

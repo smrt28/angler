@@ -15,8 +15,10 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+#ifdef FREE_VERSION       
         blinkState = true;
         blink = [NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(doBlink:) userInfo:nil repeats:YES];
+#endif
     }
     
     return self;
@@ -24,19 +26,21 @@
 
 - (void)dealloc
 {
+#ifdef FREE_VERSION
     [blink release];
+#endif
     [super dealloc];
 }
 
 - (void)doBlink:(NSTimer *)theTimer {
+#ifdef FREE_VERSION
     blinkState = blinkState ? false : true;
     [self setNeedsDisplay:YES];
+#endif
 }
 
-
+#ifdef FREE_VERSION
 - (NSAttributedString *)attributedTitle {
-    
-	// set default attributes & alignment
 	if (!attributedTitle) {
         
 		NSFont *smallFont = [NSFont controlContentFontOfSize:
@@ -57,21 +61,15 @@
 		
 		return [[[NSAttributedString alloc] initWithString: @"Buy to stop the blinking!" attributes: attributes] autorelease];
 	}
-	
+
 	return attributedTitle;
 }
+#endif
 
-/*
-- (NSRect)titleRectForBounds:(NSRect)theRect {
-    NSRect titleFrame = [super titleRectForBounds:theRect];
-    NSSize titleSize = [[self attributedStringValue] size];
-    theRect.origin.y += (theRect.size.height - titleSize.height)/2.0 - 0.5;
-    return theRect;
-}
- */
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+#ifdef FREE_VERSION
     if (blinkState) {
 
     NSSize titleSize = [[self attributedTitle] size];
@@ -84,7 +82,7 @@
     
         [[self attributedTitle] drawInRect: theRect];
     }
-
+#endif
 }
 
 

@@ -22,8 +22,10 @@
     if (self) {
         edges = 0;
         fieldsInRow = 6;
-        field = [[Field alloc] initWithW:18 h:18 max_w:400 max_h:400];
+        field = [[Field alloc] initWithW:DESIGNER_SIZE h:DESIGNER_SIZE max_w:400 max_h:400];
         field.bgcolor = [NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1];
+        [field setMarginX:3];
+        [field setMarginY:3];
     }
     return self;
 }
@@ -41,7 +43,7 @@
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
-	NSLog(@"result - mouse dragged!");
+	//NSLog(@"result - mouse dragged!");
 }
 
 - (BOOL)knowsPageRange:(NSRangePointer)range {
@@ -99,10 +101,10 @@
         
         CGFloat singleFieldSize = paperSize.width / fieldsInRow;
         int n = [edges getResultCount];
-        int rows = ((n - 1)/fieldsInRow) + 1;
+       // int rows = ((n - 1)/fieldsInRow) + 1;
         int rowsPerPage = paperSize.height / singleFieldSize;
         int fieldsPerPage = rowsPerPage * fieldsInRow;
-        int pages = (n - 1)/fieldsPerPage + 1;
+       // int pages = (n - 1)/fieldsPerPage + 1;
         
         if (page == 0) {
             page++;
@@ -237,12 +239,6 @@
             }
         }
     }
-    /*
-    NSRect  vr = [self visibleRect];
-    vr.size.width = 100;
-    [buyMe setFrame:vr];
-     */
-   // [self buyMe];
 }
 
 -(void)buyMe {

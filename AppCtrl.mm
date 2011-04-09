@@ -20,7 +20,7 @@
 }
 
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize {
-    NSLog(@"Will resize...");
+  //  NSLog(@"Will resize...");
     return frameSize;
 }
 
@@ -48,6 +48,9 @@
     } else {
         [printButton setEnabled: NO];        
     }
+
+    if ([resultViewWindow isOnActiveSpace])
+        [resultViewWindow orderFront: self];
 }
 
 -(void)showDesignerAtX:(CGFloat)x y:(CGFloat)y {
@@ -74,11 +77,13 @@
 }
 
 - (void)awakeFromNib {
-   // DrawPanleDelegate *dpd = [[DrawPanleDelegate alloc] init];
-   // [panel setDelegate: dpd];
     [designer edgesCountChanged:3];
     [activeASelector setSelected: YES];
     [widthSelectMenu selectItemAtIndex: 1];
+    [panel setFloatingPanel: NO];
+#ifndef FREE_VERSION
+    [buyMe setHidden: YES];
+#endif
 }
 
 
@@ -104,6 +109,10 @@
     [resultView setFieldsInRow: i];
 }
 
+- (void)windowDidBecomeMain:(NSNotification *)notification {
+    if ([panel isOnActiveSpace])
+        [panel orderFront: self];    
+}
 
 @end
 

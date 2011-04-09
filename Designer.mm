@@ -19,7 +19,7 @@
     self = [super initWithFrame:frame];
     if (self) {
 		resOffset = 0;
-		_field = [[Field alloc] initWithW:17 h:17 max_w:500 max_h:500];
+		_field = [[Field alloc] initWithW:DESIGNER_SIZE h:DESIGNER_SIZE max_w:500 max_h:500];
 		_field.bgcolor = [NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1];
 //        backShow = [NSTimer scheduledTimerWithTimeInterval:0.3 invocation:@selector(updClk:) repeats:YES];
      //   [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updClk:) userinfo:nil repeats:YES];
@@ -63,7 +63,7 @@
 }
 
 - (void)timerFired:(NSTimer*)theTimer {
-	NSLog(@"time!");
+	//NSLog(@"time!");
 }
 
 
@@ -114,7 +114,7 @@
 
 
 -(void)mouseExited:(NSEvent *)theEven {
-	NSLog(@"Mouse exited!");
+//	NSLog(@"Mouse exited!");
 }
 
 -(void)recalculate {
@@ -210,7 +210,7 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
     
     
     NSBezierPath *path = [NSBezierPath bezierPathWithRect: bounds];
-    [[NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0.5] set];
+    [[NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:1] set];
     [path fill];
     
     

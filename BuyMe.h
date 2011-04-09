@@ -12,8 +12,10 @@
 @interface BuyMe : NSView {
 @private
     NSAttributedString * attributedTitle;
+#ifdef FREE_VERSION
     NSTimer * blink;
     bool blinkState;
+#endif
 }
 
 - (void)doBlink:(NSTimer *)theTimer;

@@ -15,22 +15,30 @@
 @class ResultView;
 @class AppCtrl;
 
-@interface AAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate> {
+@interface AAppDelegate : NSObject <NSApplicationDelegate> {
     IBOutlet NSWindow * window;
     IBOutlet AppCtrl * appCtrl;
 }
 
+
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender;    
 - (void)applicationWillHide:(NSNotification *)aNotification;
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag;
+
+
+
 @end
 
 
 
 //- (void)setDelegate:(id < NSWindowDelegate >)delegate
 
+@interface PanelDelegate : NSObject<NSWindowDelegate> {
 
-@interface AppCtrl : NSObject {
+}
+@end
+
+@interface AppCtrl : NSObject<NSWindowDelegate> {
 	IBOutlet Designer * designer;
 	IBOutlet NSTextField * textResultCnt;
     IBOutlet NSWindow * resultViewWindow;
@@ -60,5 +68,7 @@
 - (void) notifyChanges:(ALEdges *)edges;
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize;
 - (void)windowWillStartLiveResize:(NSNotification *)notification;
+
+- (void)windowDidBecomeMain:(NSNotification *)notification;
 
 @end
