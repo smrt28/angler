@@ -15,7 +15,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-#ifdef FREE_VERSION       
+#ifdef FREE_VERSION
+        paused = 0;
         blinkState = true;
         blink = [NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(doBlink:) userInfo:nil repeats:YES];
 #endif
@@ -34,6 +35,11 @@
 
 - (void)doBlink:(NSTimer *)theTimer {
 #ifdef FREE_VERSION
+    if (paused > 0) 
+        paused--;
+    else
+        [self setHidden:NO];
+        
     blinkState = blinkState ? false : true;
     [self setNeedsDisplay:YES];
 #endif
@@ -55,7 +61,7 @@
 		
 		[pStyle setAlignment: NSCenterTextAlignment];
 		[attributes setValue: pStyle forKey: NSParagraphStyleAttributeName];
-        [attributes setObject:[NSColor colorWithCalibratedRed:1 green:1 blue:0 alpha:0.5] forKey:NSForegroundColorAttributeName];
+        [attributes setObject:[NSColor colorWithCalibratedRed:1 green:1 blue:0 alpha:1] forKey:NSForegroundColorAttributeName];
 		[pStyle release];
 		[attributes autorelease];
 		
@@ -85,6 +91,11 @@
 #endif
 }
 
-
-
+#ifdef FREE_VERSION
+- (void)mouseDown:(NSEvent *)theEvent {
+    paused = 50;
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.hroby.com/ag"]];
+    [self setHidden:YES];
+}
+#endif
 @end

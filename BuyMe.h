@@ -15,6 +15,7 @@
 #ifdef FREE_VERSION
     NSTimer * blink;
     bool blinkState;
+    int paused;
 #endif
 }
 
