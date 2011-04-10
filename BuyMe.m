@@ -55,7 +55,7 @@
 		
 		[pStyle setAlignment: NSCenterTextAlignment];
 		[attributes setValue: pStyle forKey: NSParagraphStyleAttributeName];
-        [attributes setObject:[NSColor yellowColor] forKey:NSForegroundColorAttributeName];
+        [attributes setObject:[NSColor colorWithCalibratedRed:1 green:1 blue:0 alpha:0.5] forKey:NSForegroundColorAttributeName];
 		[pStyle release];
 		[attributes autorelease];
 		
@@ -77,7 +77,7 @@
     theRect.origin.y -= (theRect.size.height - titleSize.height)/2.0 - 0.5;
     
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:[self bounds] xRadius:3 yRadius:3];
-    [[NSColor colorWithCalibratedRed:1 green:0 blue:0 alpha:0.7] set];
+    [[NSColor colorWithCalibratedRed:1 green:0 blue:0 alpha:0.4] set];
     [path fill];
     
         [[self attributedTitle] drawInRect: theRect];

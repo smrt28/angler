@@ -260,13 +260,60 @@
 	}
 
 	int i, j;
+
 	if (dots) {
+        CGFloat big = 7;
+        CGFloat med = 2.5;
+        CGFloat sml = 1.2;
+        CGFloat size;
+
         for(i=0;i<_w;i++)
         {
             for(j=0;j<_h;j++)
             {
                 NSPoint p = [self makeNSPoint: al::Point(i, j)];
-                [self drawDot:p size:1.2];
+                size = sml;
+                if (i == 0 && j == _h/2) size = big;
+                if (i == _w-1 && j == _h/2) size = big;
+
+                if (j == 0 && i == _h/2) size = big;
+                if (j == _h-1 && i == _w/2) size = big;
+
+                if (j == _h/2 && i == _w/2) size = big;
+
+                if (j == _h/4) {
+                    if (i == _w/2) size = med;
+                    if (i == _w/2+_w/4) size = med;
+                    if (i == _w/4) size = med;
+                }
+                
+                
+                if (j == _h/2 && i == _w/4) size = med;
+                if (j == _h/2 && i == _w/2+_w/4) size = med;
+                
+                if (j == _h/2+_h/4) {
+                    if (i == _w/4) size = med;
+                    if (i == _w/2+_w/4) size = med;
+                    if (i == _w/2) size = med;
+                }
+                
+                
+                if (j == 0 || j == _h-1) {
+                    if (i == _w/4) size = med;
+                    if (i == _w/2 + _w/4) size = med;
+                    if (i == _w/2 - _w/4) size = med;
+                }
+
+                if ((i == 0 || i == _w-1) && j == _h/4) size = med;
+                if ((i == 0 || i == _w-1) && j == _h/2 + _h/4) size = med;
+                if ((i == 0 || i == _w-1) && j == _h/2 - _h/4) size = med;
+                
+                if (i==0 && j == 0) size = med;
+                if (i==0 && j == _h-1) size = med;
+                if (i==_w-1 && j == 0) size = med;
+                if (i==_w-1 && j == _h-1) size = med;
+                
+                [self drawDot:p size:size];
             }
         }
     }

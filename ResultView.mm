@@ -26,6 +26,8 @@
         field.bgcolor = [NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1];
         [field setMarginX:3];
         [field setMarginY:3];
+        
+        //[self adjustScroll:frame];
     }
     return self;
 }
@@ -34,6 +36,15 @@
 -(void)dealloc {
     [field release];
     [super dealloc];
+}
+
+- (void)awakeFromNib {
+    NSRect r = [self frame];
+    r = [self bounds];
+    r = [self bounds];
+    [self adjustScroll:r];
+    
+    
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
@@ -241,29 +252,7 @@
     }
 }
 
--(void)buyMe {
-    NSString *s = @"Buy to stop the blinking!";
-    NSMutableDictionary * attributes = [[[NSMutableDictionary alloc] init] autorelease];
-    
-    [attributes setObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
-    
-   // [[NSColor redColor] set];
-    CGFloat h = [s sizeWithAttributes:attributes].height;
-    
-    NSRect  vr = [self visibleRect];
-    NSRect rec = [self bounds];
-    rec = vr;
-    //rec.origin.y = rec.size.width;
-    
-    [s drawInRect:rec withAttributes:attributes];
-    
-    h = 0;
-    
-    //    NSRect rect;
-    //    rect.origin.x = 10; rect.origin.y = 10;
-    //    NSBezierPath *path = [NSBezierPath bezierPathWithRect:rect];
-    
-}
+
 
 - (BOOL)isFlipped { return YES; }
 
@@ -308,10 +297,13 @@
 }
 
 - (NSRect)adjustScroll:(NSRect)proposedVisibleRect {
+#ifdef FREE_VERSION
     NSRect r = [buyMe frame];
-    r.origin.y = 11 + proposedVisibleRect.origin.y;
+    r.origin.y = proposedVisibleRect.origin.y + proposedVisibleRect.size.height/2 - r.size.height/2;
+    r.origin.x = proposedVisibleRect.origin.x + proposedVisibleRect.size.width/2 - r.size.width/2;
     [buyMe setFrame:r];
-   return proposedVisibleRect;
+#endif    
+    return proposedVisibleRect;
 }
 
 @end

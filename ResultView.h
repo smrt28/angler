@@ -26,7 +26,6 @@
 
 -(void)setContent:(ALEdges *) edges;
 -(void)checkResize;
--(void)buyMe;
 - (NSRect)adjustScroll:(NSRect)proposedVisibleRect;
 
 @end
