@@ -11,15 +11,40 @@
 
 @implementation BuyMe
 
+-(void)setMsgId:(int)mid {
+    msgId = mid;
+    blinking = NO;
+    if (msgId == 0) {
+#ifndef FREE_VERSION        
+        [self hide:YES];
+#endif        
+        blinking = YES;
+        return;
+    }
+    if (msgId == 1) {
+        [self hide:NO];
+        blinking = NO;
+    }
+}
+
+-(void)hide:(BOOL)b {
+    hidden = b;
+    [self setHidden:b];
+}
+
+- (void)setHidden:(BOOL)flag {
+    if (hidden) flag = YES;
+    [super setHidden:flag];
+}
+
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-#ifdef FREE_VERSION
+        [self setMsgId:0];
         paused = 0;
         blinkState = true;
         blink = [NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(doBlink:) userInfo:nil repeats:YES];
-#endif
     }
     
     return self;
@@ -27,30 +52,33 @@
 
 - (void)dealloc
 {
-#ifdef FREE_VERSION
     [blink release];
-#endif
     [super dealloc];
 }
 
 - (void)doBlink:(NSTimer *)theTimer {
-#ifdef FREE_VERSION
-    if (paused > 0) 
-        paused--;
-    else
-        [self setHidden:NO];
-        
+    if (hidden) {
+        [self setHidden:YES];
+        return;
+    }
+    
+    if (msgId == 0) {
+        if (paused > 0) 
+            paused--;
+        else
+            [self setHidden:NO];
+    }
+    
     blinkState = blinkState ? false : true;
+    if (!blinking) blinkState = true;
     [self setNeedsDisplay:YES];
-#endif
 }
 
-#ifdef FREE_VERSION
 - (NSAttributedString *)attributedTitle {
 	if (!attributedTitle) {
         
 		NSFont *smallFont = [NSFont controlContentFontOfSize:
-                             [NSFont systemFontSizeForControlSize: NSSmallControlSize]];
+                             [NSFont systemFontSizeForControlSize: NSRegularControlSize /*NSSmallControlSize*/]];
         
 		NSMutableDictionary *attributes = [[NSDictionary dictionaryWithObjectsAndKeys:
                                             smallFont, NSFontAttributeName,
@@ -65,17 +93,23 @@
 		[pStyle release];
 		[attributes autorelease];
 		
-		return [[[NSAttributedString alloc] initWithString: @"Buy to stop the blinking!" attributes: attributes] autorelease];
+        switch(msgId) {
+#ifdef FREE_VERSION
+            case 0:
+                return [[[NSAttributedString alloc] initWithString: @"Buy to stop the blinking!" attributes: attributes] autorelease];
+#endif
+            case 1:
+                return [[[NSAttributedString alloc] initWithString: @"The image is too complicated!" attributes: attributes] autorelease];
+        }
+        
 	}
 
 	return attributedTitle;
 }
-#endif
 
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-#ifdef FREE_VERSION
     if (blinkState) {
 
     NSSize titleSize = [[self attributedTitle] size];
@@ -88,14 +122,13 @@
     
         [[self attributedTitle] drawInRect: theRect];
     }
-#endif
 }
 
-#ifdef FREE_VERSION
 - (void)mouseDown:(NSEvent *)theEvent {
+#ifdef FREE_VERSION
     paused = 50;
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.hroby.com/ag"]];
     [self setHidden:YES];
-}
 #endif
+}
 @end

@@ -70,5 +70,6 @@
 - (void)windowWillStartLiveResize:(NSNotification *)notification;
 
 - (void)windowDidBecomeMain:(NSNotification *)notification;
+- (void)mouseOnResult:(int)n;
 
 @end

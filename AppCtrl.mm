@@ -19,6 +19,10 @@
     return self;
 }
 
+- (void)mouseOnResult:(int)n {
+    [designer mouseOnResult:n];
+}
+
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize {
   //  NSLog(@"Will resize...");
     return frameSize;

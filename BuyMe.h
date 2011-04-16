@@ -12,13 +12,16 @@
 @interface BuyMe : NSView {
 @private
     NSAttributedString * attributedTitle;
-#ifdef FREE_VERSION
     NSTimer * blink;
     bool blinkState;
     int paused;
-#endif
+    BOOL hidden;
+    int msgId;
+    BOOL blinking;
 }
 
+-(void)setMsgId:(int)mid;
+-(void)hide:(BOOL)b;
 - (void)doBlink:(NSTimer *)theTimer;
 
 @end

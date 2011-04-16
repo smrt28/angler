@@ -57,22 +57,34 @@
 -(BOOL)becomeFirstResponder { return YES; } 
 
 - (void)mouseMoved:(NSEvent *)theEvent {
-    NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-  //  NSRect r;
-    NSLog(@"mouse move(%d, %d)", (int)p.x, (int)p.y);
 
+}
+
+- (void)hlResult:(NSEvent *)theEvent {
+    NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    NSRect bnd = [self bounds];
+    if (!NSPointInRect(p, bnd))
+        return;
+    
+    CGFloat W = fieldsInRow;
+    CGFloat S = bnd.size.width / W;
+    
+    int n = (int)(p.y / S) * fieldsInRow + (int)(p.x / S);
+    
+    [ctrl mouseOnResult:n];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
-
-
-    
-//	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:self];
-//	[ctrl showDesignerAtX:p.x y:p.y];
+    [self hlResult:theEvent];
 }
 
+- (void)mouseUp:(NSEvent *)theEvent {
+    [ctrl mouseOnResult:-1];
+}
+
+
 - (void)mouseDragged:(NSEvent *)theEvent {
-	//NSLog(@"result - mouse dragged!");
+    [self hlResult:theEvent];
 }
 
 - (BOOL)knowsPageRange:(NSRangePointer)range {
@@ -322,12 +334,10 @@
 }
 
 - (NSRect)adjustScroll:(NSRect)proposedVisibleRect {
-#ifdef FREE_VERSION
     NSRect r = [buyMe frame];
     r.origin.y = proposedVisibleRect.origin.y + proposedVisibleRect.size.height/2 - r.size.height/2;
     r.origin.x = proposedVisibleRect.origin.x + proposedVisibleRect.size.width/2 - r.size.width/2;
     [buyMe setFrame:r];
-#endif    
     return proposedVisibleRect;
 }
 

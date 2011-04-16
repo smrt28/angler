@@ -36,7 +36,8 @@ typedef struct {
 	
 	NSTimer * _timer;
 	IBOutlet NSTextField * textResultCnt;
-	
+
+	IBOutlet BuyMe *buyMe;
     IBOutlet ResultView * resultView;
     
 	//NSAnimation *_shading;
@@ -48,6 +49,9 @@ typedef struct {
 	int resOffset;
 
     NSTimer * backShow;
+    
+    int hlResult;
+    
 }
 
 -(IBAction)undo: sender;
@@ -55,5 +59,6 @@ typedef struct {
 
 -(void)showDesignerAtX:(CGFloat)x y:(CGFloat)y;
 -(void)updClk:(NSTimer *)theTimer;
+- (void)mouseOnResult:(int)n;
 
 @end

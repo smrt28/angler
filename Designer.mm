@@ -14,10 +14,18 @@
 
 #define ZOOM_SPEED 0.2
 
+- (void)mouseOnResult:(int)n {
+    if (n>=[edges getResultCount]) n = -1;
+    if (n == hlResult)
+        return;
+    hlResult = n;
+    [self setNeedsDisplay:YES];
+}
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        hlResult = -1;
 		resOffset = 0;
 		_field = [[Field alloc] initWithW:DESIGNER_SIZE h:DESIGNER_SIZE max_w:500 max_h:500];
 		_field.bgcolor = [NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1];
@@ -167,6 +175,9 @@
     if (!s) {
         NSString *aname = [NSString stringWithFormat:@"%d", [edges edges]];
         s = [NSString stringWithFormat:@"%@-angles found: %d", aname, totalCnt];    
+        [buyMe setMsgId:0];
+    } else {
+        [buyMe setMsgId:1];
     }
     
     [appCtrl notifyChanges: edges];
@@ -221,20 +232,20 @@ void DrawRoundedRect(NSRect rect, CGFloat x, CGFloat y)
 	[_field setMarginX:0];
 	[_field setMarginY:0];
 
-    NSColor *col;
+    NSColor *col = nil;
 
     if ([edges result]) {
-    switch([edges result]->clasifySize(resOffset)) {
-        case 0: col = [NSColor colorWithCalibratedRed:0.5 green:0.5 blue:1 alpha:0.05]; break;
-        case 1: col = [NSColor colorWithCalibratedRed:1 green:1 blue:1 alpha:0.05]; break;
-        case 2: col = [NSColor colorWithCalibratedRed:1 green:0.5 blue:0.5 alpha:0.05]; break;
+    switch([edges result]->clasifySize(hlResult)) {
+        case 0: col = [NSColor colorWithCalibratedRed:0.5 green:0.5 blue:1 alpha:0.5]; break;
+        case 1: col = [NSColor colorWithCalibratedRed:1 green:1 blue:1 alpha:0.5]; break;
+        case 2: col = [NSColor colorWithCalibratedRed:1 green:0.5 blue:0.5 alpha:0.5]; break;
     }
     }
     
     
     
 //   	[_field draw:edges offset:resOffset resultColor:col];
-   	[_field draw:edges offset:-1 resultColor:col];
+   	[_field draw:edges offset:hlResult resultColor:col];
     
  //   + (NSBezierPath *)bezierPathWithRect:(NSRect)aRec
 }
