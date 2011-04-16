@@ -43,12 +43,30 @@
     r = [self bounds];
     r = [self bounds];
     [self adjustScroll:r];
+    [[self window] setAcceptsMouseMovedEvents:YES];
+//    - (void)setAcceptsMouseMovedEvents:(BOOL)acceptMouseMovedEvents
     
-    
+}
+
+- (BOOL)acceptsMouseMovedEvent {
+	return YES;
+}
+
+-(BOOL)acceptsFirstResponder { return YES; }
+
+-(BOOL)becomeFirstResponder { return YES; } 
+
+- (void)mouseMoved:(NSEvent *)theEvent {
+    NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+  //  NSRect r;
+    NSLog(@"mouse move(%d, %d)", (int)p.x, (int)p.y);
+
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
 
+
+    
 //	NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:self];
 //	[ctrl showDesignerAtX:p.x y:p.y];
 }
@@ -61,6 +79,12 @@
     NSPrintInfo *pi = [[NSPrintOperation currentOperation] printInfo];
     NSSize paperSize = [pi paperSize];
 
+    CGFloat marginX = 30;
+    CGFloat marginY = 30;
+    
+    paperSize.width -= 2*marginX;
+    paperSize.height -= 2*marginY;
+    
     int fieldsPerRow = fieldsInRow;
     CGFloat singleFieldSize = paperSize.width / fieldsPerRow;
     int n = [edges getResultCount];
@@ -97,25 +121,23 @@
     return rv;
 }
 
-- (void)drawRect:(NSRect)dirtyRect {
-	
-    if (! [NSGraphicsContext currentContextDrawingToScreen] ) { 
+
+- (void)drawToPrinter:(NSRect)dirtyRect  {
         NSPrintInfo *pi = [[NSPrintOperation currentOperation] printInfo];
         NSSize paperSize = [pi paperSize];
         
         CGFloat marginX = 30;
         CGFloat marginY = 30;
-      //  int fieldsPerRow = 6;
         
         paperSize.width -= 2*marginX;
         paperSize.height -= 2*marginY;
         
         CGFloat singleFieldSize = paperSize.width / fieldsInRow;
         int n = [edges getResultCount];
-       // int rows = ((n - 1)/fieldsInRow) + 1;
+        
         int rowsPerPage = paperSize.height / singleFieldSize;
         int fieldsPerPage = rowsPerPage * fieldsInRow;
-       // int pages = (n - 1)/fieldsPerPage + 1;
+        
         
         if (page == 0) {
             page++;
@@ -138,33 +160,36 @@
         f.bgcolor = [NSColor colorWithDeviceRed: 0 green: 0 blue: 0 alpha: 1];
         f.lineColor = [NSColor blackColor];
         f.maxLineWidth = f.minLineWidth = 0.4;
-
+        
         NSColor *colors[3];
         colors[0] = [NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0.15];
         colors[1] = [NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0.15];
         colors[2] = [NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0.15];    
-
+        
         int x, y, k;
         k = from;
-
+        
         for (y = 0; k < to && y < rowsPerPage; y++) {
             for (x = 0; k < to && x < fieldsInRow; x++) {
-                
                 
                 NSColor *col;
                 col = colors[[edges result]->clasifySize(k)];
                 
                 [f setX:x*singleFieldSize+marginX y:y*singleFieldSize+marginY];
                 [f draw:edges offset:k resultColor:col];      
-
+                
                 k ++;
                 
             }
         }
-        
-        
-        
         page++;
+}
+
+- (void)drawRect:(NSRect)dirtyRect {
+	
+    if (! [NSGraphicsContext currentContextDrawingToScreen] ) { 
+        [self drawToPrinter:dirtyRect];
+        
         return;
     }
     
@@ -231,14 +256,14 @@
             for(x = 0; !last && k < n && x < W; x ++, k++) {
                 xx = x*S; yy = y*S;
                 
-                if (yy + S < vr.origin.y) {
+                if (yy + S + 5< vr.origin.y) {
                     
                     int a;
                     a = 0;
                     continue;
                 }
                 
-                if (yy > vr.origin.y + vr.size.height) {
+                if (yy - 5 > vr.origin.y + vr.size.height) {
                     continue;
                 }
 
