@@ -30,8 +30,13 @@ namespace al {
 	class Line {
 	public:
 		Line() {}
-		Line(const Point &p1, const Point &p2) : p1(p1), p2(p2) {}
+		
+        Line(const Point &p1, const Point &p2) : p1(p1), p2(p2) {}
+        
+        bool rmOverlap(Line &l);
+        
 		bool hasPoint(Point &p);
+        bool hasPoint2(Point &p);
 		int cutMe(Line *l, Line *out, Point *pout);
         
         bool cmp(Line *l) { return l->p1.cmp(&p1) && l->p2.cmp(&p2); }

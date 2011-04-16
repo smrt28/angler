@@ -40,7 +40,40 @@ namespace al {
 		p.y+SMALL >= MIN(p1.y, p2.y) && p.y-SMALL <= MAX(p1.y, p2.y);
 	
 	}
+    
+    bool Line::hasPoint2(Point &p) {
+        if (p.cmp(&p1) || p.cmp(&p2))
+            return false;
+        return hasPoint(p);
+    }
 	
+    bool Line::rmOverlap(Line &l) {
+        if (l.hasPoint2(p1)) {
+            if (l.hasPoint2(p2)) {
+                p1 = p2;
+                return true;
+            }
+            if (hasPoint2(l.p1)) {
+                p1 = l.p1;
+                return true;
+            }
+            if (hasPoint2(l.p2)) {
+                p1 = l.p2;
+                return true;
+            }
+        }
+        if (l.hasPoint2(p2)) {
+            if (hasPoint2(l.p1)) {
+                p2 = l.p1;
+                return true;
+            }
+            if (hasPoint2(l.p2)) {
+                p2 = l.p2;
+                return true;
+            }
+        }
+        return false;
+    }
 	
 	void Line::abc(Float *A, Float *B, Float *C) {
 		*A = p2.y - p1.y;

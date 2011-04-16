@@ -14,7 +14,11 @@
 @synthesize result;
 
 -(void)push:(al::Line)line {
-	lines.push_back(line);
+    for(int i = 0;i<lines.size();i++) {
+        line.rmOverlap(lines[i]);
+    }
+    lines.push_back(line);
+
     resultFor = -1;
 }
 
