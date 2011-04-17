@@ -15,7 +15,7 @@ namespace al {
 	
 	typedef double Float; 
 	
-	const Float SMALL = 0.00001;
+	const Float SMALL = 0.0001;
 	
 	class Point {
 	public:
@@ -24,6 +24,7 @@ namespace al {
 		Float x;
 		Float y;
 		bool cmp(Point *);
+        bool cmp(Point &p) { return cmp(&p); }
 		bool inLineWith(Point &p1, Point &p2);
 	};
 	

@@ -7,4 +7,4 @@
 #endif
 
 #define DESIGNER_SIZE 17
-#define FREE_VERSION
+//#define FREE_VERSION

@@ -17,6 +17,9 @@
     for(int i = 0;i<lines.size();i++) {
         line.rmOverlap(lines[i]);
     }
+    if (line.p1.cmp(line.p2))
+        return;
+    
     lines.push_back(line);
 
     resultFor = -1;

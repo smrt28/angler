@@ -10,9 +10,25 @@
 #include "AAtoms.h"
 
 namespace al {
-	
 
-#define dcmp(x, y) ((x)+SMALL > y && (x)-SMALL < y)
+    namespace {
+        bool dcmp(al::Float x, al::Float y) {
+            al::Float small = SMALL;
+            bool a = ((x)+small > y);
+            bool b = ((x)-small < y);
+ 
+            if ((x)+small > y && (x)-small < y) 
+            {
+                return true;
+            } else {
+                return false;
+            }
+
+        }
+    
+    }
+
+//#define dcmp(x, y) ((x)+SMALL > y && (x)-SMALL < y)
 	
 	bool Point::cmp(Point *p) {
 		if (dcmp(p->x, x) && dcmp(p->y, y)) return true;
@@ -41,13 +57,23 @@ namespace al {
 	
 	}
     
-    bool Line::hasPoint2(Point &p) {
-        if (p.cmp(&p1) || p.cmp(&p2))
+    bool Line::hasPoint2(Point &p) {        
+        if (p.cmp(&p1) && p.cmp(&p2))
             return false;
         return hasPoint(p);
     }
 	
     bool Line::rmOverlap(Line &l) {
+        
+        if (!p1.inLineWith(l.p1, l.p2) || !p2.inLineWith(l.p1, l.p2)) {
+            return false;
+        }
+        
+        if (hasPoint(l.p1) && hasPoint(l.p2)) {
+            p1 = p2;
+            return true;
+        }
+        
         if (l.hasPoint2(p1)) {
             if (l.hasPoint2(p2)) {
                 p1 = p2;
