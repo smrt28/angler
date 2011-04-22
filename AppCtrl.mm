@@ -93,7 +93,11 @@
 
 -(void)show {
     [resultViewWindow orderFront:self];
+    [resultViewWindow setIsVisible:YES];
+    
+    [panel orderFront:self];
     [panel setIsVisible:YES];
+    
 }
 
 - (void)windowWillClose:(NSNotification *)notification {
@@ -135,14 +139,7 @@
     if (flag)
         return NO;
     [appCtrl show];
-    //[window orderFront:self];
     return YES;
-}
-
-
-
-- (void)awakeFromNib {
- //   [window setDelegate:self];
 }
 
 

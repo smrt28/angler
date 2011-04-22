@@ -10,6 +10,7 @@
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		5E01BF1313217A8C00C88DED /* ResultView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5E01BF1213217A8C00C88DED /* ResultView.mm */; };
 		5E1C7CA4134A46A500F96598 /* BuyMe.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E1C7CA3134A46A500F96598 /* BuyMe.m */; };
+		5E2EDBEE135E27D30093605A /* angler.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5E2EDBED135E27D30093605A /* angler.icns */; };
 		5E606539132AA968005F6900 /* ALEdges.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5E606538132AA968005F6900 /* ALEdges.mm */; };
 		5E721883131984BA006A2DAE /* A34.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5E721882131984BA006A2DAE /* A34.mm */; };
 		5E72188B13198664006A2DAE /* 34g.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E72188A13198664006A2DAE /* 34g.c */; };
@@ -37,6 +38,7 @@
 		5E01BF1213217A8C00C88DED /* ResultView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ResultView.mm; sourceTree = "<group>"; };
 		5E1C7CA2134A46A500F96598 /* BuyMe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyMe.h; sourceTree = "<group>"; };
 		5E1C7CA3134A46A500F96598 /* BuyMe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyMe.m; sourceTree = "<group>"; };
+		5E2EDBED135E27D30093605A /* angler.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = angler.icns; sourceTree = "<group>"; };
 		5E606525132AA8C1005F6900 /* EdgesHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EdgesHolder.h; sourceTree = "<group>"; };
 		5E606537132AA968005F6900 /* ALEdges.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALEdges.h; sourceTree = "<group>"; };
 		5E606538132AA968005F6900 /* ALEdges.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ALEdges.mm; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 		29B97314FDCFA39411CA2CEA /* Angler */ = {
 			isa = PBXGroup;
 			children = (
+				5E2EDBED135E27D30093605A /* angler.icns */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -233,6 +236,7 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
 				5E8F68E413191BCC005EC426 /* notes.txt in Resources */,
+				5E2EDBEE135E27D30093605A /* angler.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +296,7 @@
 				GCC_PREFIX_HEADER = Angler_Prefix.pch;
 				INFOPLIST_FILE = "Angler-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Angler;
 			};
 			name = Debug;
@@ -306,6 +311,7 @@
 				GCC_PREFIX_HEADER = Angler_Prefix.pch;
 				INFOPLIST_FILE = "Angler-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Angler;
 			};
 			name = Release;
