@@ -26,8 +26,6 @@
         field.bgcolor = [NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 0.8 alpha: 1];
         [field setMarginX:3];
         [field setMarginY:3];
-        
-        //[self adjustScroll:frame];
     }
     return self;
 }
@@ -44,17 +42,11 @@
     r = [self bounds];
     [self adjustScroll:r];
     [[self window] setAcceptsMouseMovedEvents:YES];
-//    - (void)setAcceptsMouseMovedEvents:(BOOL)acceptMouseMovedEvents
-    
 }
 
 - (BOOL)acceptsMouseMovedEvent {
 	return YES;
 }
-
--(BOOL)acceptsFirstResponder { return YES; }
-
--(BOOL)becomeFirstResponder { return YES; } 
 
 - (void)mouseMoved:(NSEvent *)theEvent {
 
