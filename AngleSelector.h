@@ -14,6 +14,8 @@
 	int edges;
     NSColor *color;
     NSColor *colorSel;
+    NSColor *colorTxt;
+    NSColor *colorTxtSel;
     id appCtrl;
     SEL sel;
     BOOL isSelected;

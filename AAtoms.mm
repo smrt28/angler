@@ -14,8 +14,6 @@ namespace al {
     namespace {
         bool dcmp(al::Float x, al::Float y) {
             al::Float small = SMALL;
-            bool a = ((x)+small > y);
-            bool b = ((x)-small < y);
  
             if ((x)+small > y && (x)-small < y) 
             {

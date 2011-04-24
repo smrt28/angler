@@ -12,7 +12,14 @@
 @implementation BuyMe
 
 -(void)setMsgId:(int)mid {
+    
+    if (msgId != mid) {
+        [attributedTitle release];
+        attributedTitle = 0;
+    }
+    
     msgId = mid;
+    
     blinking = NO;
     if (msgId == 0) {
 #ifndef FREE_VERSION        
@@ -52,6 +59,7 @@
 
 - (void)dealloc
 {
+    [attributedTitle release];
     [blink release];
     [super dealloc];
 }
@@ -96,10 +104,12 @@
         switch(msgId) {
 #ifdef FREE_VERSION
             case 0:
-                return [[[NSAttributedString alloc] initWithString: @"Buy to stop the blinking!" attributes: attributes] autorelease];
+                attributedTitle = [[[NSAttributedString alloc] initWithString: @"Buy to stop the blinking!" attributes: attributes] retain];
+                break;
 #endif
             case 1:
-                return [[[NSAttributedString alloc] initWithString: @"The image is too complicated!" attributes: attributes] autorelease];
+                attributedTitle = [[[NSAttributedString alloc] initWithString: @"The image is too complicated!" attributes: attributes] retain];
+                break;
         }
         
 	}

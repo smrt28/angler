@@ -237,7 +237,6 @@ namespace al {
 		Spot *fspot = 0;
 		Spot *spot;
 		Point *points = result.getPoints();
-		bool first = true;
 		for(i=0;;i++) {
 			spot = stack[(i+1) % sz];
 			if (!stack[i % sz]->inLineWith(spot, stack[(i+2) % sz])) {

@@ -92,7 +92,6 @@
     int fieldsPerRow = fieldsInRow;
     CGFloat singleFieldSize = paperSize.width / fieldsPerRow;
     int n = [edges getResultCount];
-    int rows = ((n - 1)/fieldsPerRow) + 1;
     int rowsPerPage = paperSize.height / singleFieldSize;
     int fieldsPerPage = rowsPerPage * fieldsPerRow;
     int pages = (n - 1)/fieldsPerPage + 1;

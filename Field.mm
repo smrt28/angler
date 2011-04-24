@@ -343,7 +343,10 @@
 		
         [rcolor set];
 		[path fill];
-		
+        /*
+        [path setLineWidth: 4];
+        [path stroke];
+		*/
 	}
 
 }
