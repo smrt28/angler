@@ -1,4 +1,4 @@
-angler
+Angler
 ======
 
 This is my firts project with Objective-C and Cocoa on OSX.
@@ -11,7 +11,9 @@ n-angles.
 
 Unfortunately, the TV show was terminated before I finished the app.
 
-=====
+
+The messy code
+==============
 
 I have to sorry for the code. I learned Cocoa and Obj-C on it. So, the design
 and code quality was secondary.
