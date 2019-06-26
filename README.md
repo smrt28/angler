@@ -5,7 +5,7 @@ This is my first project in Objective-C and Cocoa on OSX.
 
 It was mentioned to win a stupid TV game. The busty girl was waving the money, requesting people guess, how many 4-angles are on the picture.
 
-This app is a tool which allows you to draw the shape and found all then-angles.
+This app is a tool which allows you to draw the lines and found all then-angles.
 
 Unfortunately, the TV show was terminated before I finished the app.
 
